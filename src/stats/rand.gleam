@@ -21,9 +21,21 @@ import gleam/float
 import gleam/int
 import gleam/pair
 import gleam/float
-import stats/math.{cos, log, pi}
+import stats/math
 import stats/generators.{mask_32}
 import gleam/io
+
+external fn cos(Float) -> Float =
+  "math" "cos"
+
+external fn sin(Float) -> Float =
+  "math" "sin"
+
+external fn log(Float) -> Float =
+  "math" "log"
+
+external fn pi() -> Float =
+  "math" "pi"
 
 // Use Box-Muller transform to sample from the normal distribution,
 // given standard uniform distributed random numbers.
@@ -46,8 +58,8 @@ fn box_muller(u1: Float, u2: Float) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gstats/generator
-///     import gstats/rand
+///     import stats/generator
+///     import stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -90,8 +102,8 @@ pub fn take_randints(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gstats/generator
-///     import gstats/rand
+///     import stats/generator
+///     import stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -144,8 +156,8 @@ pub fn next_uniform(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gstats/generator
-///     import gstats/rand
+///     import stats/generator
+///     import stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -201,8 +213,8 @@ pub fn next_normal(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gstats/generator
-///     import gstats/rand
+///     import stats/generator
+///     import stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -256,8 +268,8 @@ pub fn next_randint(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gstats/generator
-///     import gstats/rand
+///     import stats/generator
+///     import stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -309,8 +321,8 @@ pub fn next_bern(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gstats/generator
-///     import gstats/rand
+///     import stats/generator
+///     import stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -365,8 +377,8 @@ pub fn next_binom(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gstats/generator
-///     import gstats/rand
+///     import stats/generator
+///     import stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -420,8 +432,8 @@ pub fn next_negbinom(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gstats/generator
-///     import gstats/rand
+///     import stats/generator
+///     import stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -469,8 +481,8 @@ pub fn next_geom(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gstats/generator
-///     import gstats/rand
+///     import stats/generator
+///     import stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5

@@ -220,19 +220,11 @@
   
   <li><a href="#allclose">allclose</a></li>
   
-  <li><a href="#cos">cos</a></li>
-  
   <li><a href="#isclose">isclose</a></li>
-  
-  <li><a href="#log">log</a></li>
   
   <li><a href="#mean">mean</a></li>
   
   <li><a href="#median">median</a></li>
-  
-  <li><a href="#pi">pi</a></li>
-  
-  <li><a href="#sin">sin</a></li>
   
   <li><a href="#std">std</a></li>
   
@@ -254,9 +246,19 @@
 <p>A module containing several helpful mathematical functions.</p>
 <hr />
 <ul>
-<li><strong>Computing summary statistics</strong>
+<li><strong>Calculating summary statistics</strong>
 <ul>
-<li><a href="#next_uniform"><code>next_uniform</code></a></li>
+<li><a href="#mean"><code>mean</code></a></li>
+<li><a href="#median"><code>median</code></a></li>
+<li><a href="#var"><code>var</code></a></li>
+<li><a href="#std"><code>std</code></a></li>
+</ul>
+</li>
+<li><strong>Miscellaneous functions</strong>
+<ul>
+<li><a href="#sum"><code>sum</code></a></li>
+<li><a href="#isclose"><code>isclose</code></a></li>
+<li><a href="#allclose"><code>allclose</code></a></li>
 </ul>
 </li>
 </ul>
@@ -325,20 +327,6 @@ reference value.</p>
   
   <div class="member">
     <div class="member-name">
-      <h2 id="cos">
-        <a href="#cos">
-          cos
-        </a>
-      </h2>
-      
-      
-    </div>
-    <pre><code class="hljs gleam">pub external fn cos(Float) -&gt; Float</code></pre>
-    <div class="rendered-markdown"></div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
       <h2 id="isclose">
         <a href="#isclose">
           isclose
@@ -385,20 +373,6 @@ absolute(a - b) &lt;= (atol + rtol * absolute(b))</p>
      </a>
  </div>
 </div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="log">
-        <a href="#log">
-          log
-        </a>
-      </h2>
-      
-      
-    </div>
-    <pre><code class="hljs gleam">pub external fn log(Float) -&gt; Float</code></pre>
-    <div class="rendered-markdown"></div>
   </div>
   
   <div class="member">
@@ -476,34 +450,6 @@ absolute(a - b) &lt;= (atol + rtol * absolute(b))</p>
      </a>
  </div>
 </div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="pi">
-        <a href="#pi">
-          pi
-        </a>
-      </h2>
-      
-      
-    </div>
-    <pre><code class="hljs gleam">pub external fn pi() -&gt; Float</code></pre>
-    <div class="rendered-markdown"></div>
-  </div>
-  
-  <div class="member">
-    <div class="member-name">
-      <h2 id="sin">
-        <a href="#sin">
-          sin
-        </a>
-      </h2>
-      
-      
-    </div>
-    <pre><code class="hljs gleam">pub external fn sin(Float) -&gt; Float</code></pre>
-    <div class="rendered-markdown"></div>
   </div>
   
   <div class="member">

@@ -94,7 +94,7 @@ fn upper_bitmask(mt: MersenneTwister) -> Int {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gstats/generators
+///     import stats/generators
 ///
 ///     pub fn example () {
 ///         let seed: Int = 5

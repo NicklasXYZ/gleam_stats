@@ -2,25 +2,20 @@
 ////
 //// ---
 ////
-//// * **Computing summary statistics**
-////   * [`next_uniform`](#next_uniform)
+//// * **Calculating summary statistics**
+////   * [`mean`](#mean)
+////   * [`median`](#median)
+////   * [`var`](#var)
+////   * [`std`](#std)
+//// * **Miscellaneous functions**
+////   * [`sum`](#sum)
+////   * [`isclose`](#isclose)
+////   * [`allclose`](#allclose)
 
 import gleam/list
 import gleam/int
 import gleam/float
 import gleam/io
-
-pub external fn cos(Float) -> Float =
-  "math" "cos"
-
-pub external fn sin(Float) -> Float =
-  "math" "sin"
-
-pub external fn log(Float) -> Float =
-  "math" "log"
-
-pub external fn pi() -> Float =
-  "math" "pi"
 
 /// <div style="text-align: right;">
 ///     <a href="https://github.com/nicklasxyz/stats/issues">
@@ -33,7 +28,7 @@ pub external fn pi() -> Float =
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gstats/math
+///     import stats/math
 ///
 ///     pub fn example () {
 ///         let arr: List(Float) = [1., 2., 3.]
@@ -64,7 +59,7 @@ pub fn sum(arr: List(Float)) -> Float {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gstats/math
+///     import stats/math
 ///
 ///     pub fn example () {
 ///         let arr: List(Float) = [1., 2., 3.]
@@ -96,7 +91,7 @@ pub fn mean(arr: List(Float)) -> Float {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gstats/math
+///     import stats/math
 ///
 ///     pub fn example () {
 ///         let arr0: List(Float) = [1., 2., 3.]
@@ -149,7 +144,7 @@ pub fn median(arr: List(Float)) -> Float {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gstats/math
+///     import stats/math
 ///
 ///     pub fn example () {
 ///         let arr: List(Float) = [1., 2., 3.]
@@ -186,7 +181,7 @@ pub fn var(arr: List(Float), ddof: Int) -> Float {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gstats/math
+///     import stats/math
 ///
 ///     pub fn example () {
 ///         let arr: List(Float) = [1., 2., 3.]
@@ -226,7 +221,7 @@ pub fn std(arr: List(Float), ddof: Int) -> Float {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gstats/math
+///     import stats/math
 ///     import gleam/should
 ///
 ///     pub fn example () {
@@ -270,7 +265,7 @@ pub fn isclose(a: Float, b: Float, rtol: Float, atol: Float) -> Bool {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gstats/math
+///     import stats/math
 ///     import gleam/should
 ///
 ///     pub fn example () {
