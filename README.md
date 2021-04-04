@@ -1,6 +1,6 @@
 # stats
 
-A Gleam project for generating and working with random numbers.
+A Gleam project for generating and working with random numbers. Documentation is available on [Github Pages](https://nicklasxyz.github.io/stats/) 
 
 ## Quick start
 
