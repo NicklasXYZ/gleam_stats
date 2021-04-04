@@ -1,0 +1,15 @@
+{application, stats,
+ [{description, "A Gleam project for generating and working with random numbers."},
+  {vsn, "1.0.0"},
+  {registered, []},
+  {applications,
+   [kernel,
+    stdlib,
+    gleam_stdlib
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {include_files, ["gleam.toml", "gen"]},
+  {links, []}
+]}.
