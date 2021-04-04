@@ -22,8 +22,15 @@ import gleam/int
 import gleam/pair
 import gleam/float
 import stats/math
-import stats/generators.{mask_32}
 import gleam/io
+
+fn mask_32() -> Int {
+  float.round(float.power(2., 32.)) - 1
+}
+
+fn mask_64() -> Int {
+  float.round(float.power(2., 64.)) - 1
+}
 
 external fn cos(Float) -> Float =
   "math" "cos"
@@ -96,7 +103,7 @@ pub fn take_randints(
 /// </div>
 ///
 /// Generate 'm' random numbers in the interval '[min, max)' from a 
-/// continous uniform distribution ('max' excluded).
+/// continuous uniform distribution ('max' excluded).
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -262,7 +269,7 @@ pub fn next_randint(
 /// </div>
 ///
 /// Generate 'm' random numbers from a bernoulli distribution with parameter
-/// 0 ≤ 'p' ≤.
+/// 0 ≤ 'p' ≤ 1.
 ///
 /// <details>
 ///     <summary>Example:</summary>

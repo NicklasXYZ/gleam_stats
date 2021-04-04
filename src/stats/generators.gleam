@@ -11,11 +11,11 @@ import gleam/iterator.{Iterator, Next}
 import gleam/pair
 import gleam/float
 
-pub fn mask_32() -> Int {
+fn mask_32() -> Int {
   float.round(float.power(2., 32.)) - 1
 }
 
-pub fn mask_64() -> Int {
+fn mask_64() -> Int {
   float.round(float.power(2., 64.)) - 1
 }
 
