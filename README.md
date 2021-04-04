@@ -19,7 +19,7 @@ This package can be installed by adding `stats` to your `rebar.config` dependenc
 ```erlang
 {deps, [
      {stats, "", 
-        {git, "git://github.com/nickasxyz/stats.git",
+        {git, "git://github.com/nicklasxyz/stats.git",
             {branch, "main"}
         }
     },
