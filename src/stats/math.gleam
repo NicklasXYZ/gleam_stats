@@ -271,8 +271,8 @@ pub fn isclose(a: Float, b: Float, rtol: Float, atol: Float) -> Bool {
 ///     pub fn example () {
 ///         let val: Float = 99.
 ///         let ref_val: Float = 100.
-///         // We set 'atol' and 'rtol' such that the values are equivalent if
-///         // 'val' is within 1 percent of 'ref_val' +/- 0.1
+///         // We set 'atol' and 'rtol' such that the values are equivalent
+///         // if 'val' is within 1 percent of 'ref_val' +/- 0.1
 ///         let rtol: Float = 0.01
 ///         let atol: Float = 0.10
 ///         math.isclose(val, ref_val, rtol, atol)
@@ -294,4 +294,182 @@ pub fn allclose(
 ) -> List(Bool) {
   arr
   |> list.map(fn(x: Float) -> Bool { isclose(x, b, rtol, atol) })
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Returns the indices of the maximum values (if there are multiple). 
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import stats/math
+///     import gleam/should
+///
+///     pub fn example () {
+///       [4., 4., 3., 2., 1.]
+///        |> math.argmin()
+///        |> should.equal([1, 2])
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn argmax(x: List(Float)) -> List(Int) {
+  todo
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Returns the indices of the minimum values (if there are multiple). 
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import stats/math
+///     import gleam/should
+///
+///     pub fn example () {
+///       [4., 3., 2., 1., 1.]
+///        |> math.argmin()
+///        |> should.equal([3, 4])
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn argmin(x: List(Float)) -> List(Int) {
+  todo
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Calculcate the harmonic mean of the elements in a given list.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import stats/math
+///     import gleam/should
+///
+///     pub fn example () {
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn hmean(x: List(Float)) -> Float {
+  todo
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Calculcate the geometric mean of the elements in a given list.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import stats/math
+///     import gleam/should
+///
+///     pub fn example () {
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn gmean(x: List(Float)) -> Float {
+  todo
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Calculcate the weighted mean of the elements in a given list.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import stats/math
+///     import gleam/should
+///
+///     pub fn example () {
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn wmean(x: List(Float), w: List(Float)) -> Float {
+  todo
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Calculcate the mode (the most frequently occurring number) in
+/// a given list.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import stats/math
+///     import gleam/should
+///
+///     pub fn example () {
+///       [4., 1., 3., 1., 2.]
+///        |> math.mode()
+///        |> should.equal(1.)
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn mode(x: List(Float)) -> Float {
+  todo
 }
