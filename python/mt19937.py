@@ -77,7 +77,7 @@ def get_values(seed: int, skip_values: int) -> None:
 
 
 if __name__ == "__main__":
-    # # Generate random numbers...
+    # Generate random numbers...
     get_values(5, 1000)
     get_values(50, 1000)
     get_values(500, 1000)
