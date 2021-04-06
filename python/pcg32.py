@@ -1,3 +1,7 @@
+from typing import (
+    List,
+)
+
 MASK32 = 2 ** 32 - 1
 MASK64 = 2 ** 64 - 1
 
@@ -20,7 +24,7 @@ class PermutedCongruentialGenerator:
         rotation = (old_state >> 59) & MASK32
         return ((xorshifted >> rotation) | (xorshifted << ((-rotation) & 31))) & MASK32
 
-    def take_randints(self, m: int) -> int:
+    def take_randints(self, m: int) -> List[int]:
         list_ = []
         for _ in range(m):
             list_.append(

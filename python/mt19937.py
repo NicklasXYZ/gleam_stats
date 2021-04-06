@@ -1,3 +1,7 @@
+from typing import (
+    List,
+)
+
 class MersenneTwister:
     """MT19937 reference implementation"""
 
@@ -43,7 +47,7 @@ class MersenneTwister:
         self.index += 1
         return y & 0xffffffff
 
-    def take_randints(self, m: int) -> int:
+    def take_randints(self, m: int) -> List[int]:
         list_ = []
         for _ in range(m):
             list_.append(
