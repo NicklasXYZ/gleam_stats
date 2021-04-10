@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>stats&#x2f;math - stats</title>
-    <link rel="stylesheet" href="..&#x2f;../index.css?v=0.14.4" type="text/css" />
+    <link rel="stylesheet" href="..&#x2f;../index.css?v=0.14.3" type="text/css" />
     <!-- The docs_config.js file is provided by HexDocs and shared
          between multiple versions of the same package. -->
     <script src="..&#x2f;../docs_config.js"></script>
@@ -140,13 +140,13 @@
       <h2>
         <a href="..&#x2f;../">stats</a>
         <span id="project-version">
-          <span> - v1.0.0 </span>
+          <span> - v0.1.0 </span>
         </span>
         <script>
           "use strict";
 
           if ("undefined" !== typeof versionNodes) {
-            const currentVersion = "v1.0.0";
+            const currentVersion = "v0.1.0";
             if (! versionNodes.find(element => element.version === currentVersion)) {
               versionNodes.unshift({ version: currentVersion, url: "#" });
             }
@@ -209,6 +209,14 @@
 
         
 
+<h2>Types</h2>
+<ul>
+  
+  <li><a href="#Bin">Bin</a></li>
+  
+  <li><a href="#Range">Range</a></li>
+  
+</ul>
 
 
 
@@ -220,15 +228,45 @@
   
   <li><a href="#allclose">allclose</a></li>
   
+  <li><a href="#amax">amax</a></li>
+  
+  <li><a href="#amin">amin</a></li>
+  
+  <li><a href="#argmax">argmax</a></li>
+  
+  <li><a href="#argmin">argmin</a></li>
+  
+  <li><a href="#correlation">correlation</a></li>
+  
+  <li><a href="#freedman_diaconis_rule">freedman_diaconis_rule</a></li>
+  
+  <li><a href="#gmean">gmean</a></li>
+  
+  <li><a href="#histogram">histogram</a></li>
+  
+  <li><a href="#hmean">hmean</a></li>
+  
+  <li><a href="#iqr">iqr</a></li>
+  
   <li><a href="#isclose">isclose</a></li>
+  
+  <li><a href="#kurtosis">kurtosis</a></li>
   
   <li><a href="#mean">mean</a></li>
   
   <li><a href="#median">median</a></li>
   
+  <li><a href="#moment">moment</a></li>
+  
+  <li><a href="#percentile">percentile</a></li>
+  
+  <li><a href="#skewness">skewness</a></li>
+  
   <li><a href="#std">std</a></li>
   
   <li><a href="#sum">sum</a></li>
+  
+  <li><a href="#trim">trim</a></li>
   
   <li><a href="#var">var</a></li>
   
@@ -246,25 +284,168 @@
 <p>A module containing several helpful mathematical functions.</p>
 <hr />
 <ul>
-<li><strong>Calculating summary statistics</strong>
+<li><strong>Statistics</strong>
 <ul>
 <li><a href="#mean"><code>mean</code></a></li>
 <li><a href="#median"><code>median</code></a></li>
+<li><a href="#hmean"><code>hmean</code></a></li>
+<li><a href="#gmean"><code>gmean</code></a></li>
 <li><a href="#var"><code>var</code></a></li>
 <li><a href="#std"><code>std</code></a></li>
+<li><a href="#moment"><code>moment</code></a></li>
+<li><a href="#skewness"><code>skewness</code></a></li>
+<li><a href="#kurtosis"><code>kurtosis</code></a></li>
+<li><a href="#percentile"><code>percentile</code></a></li>
+<li><a href="#iqr"><code>iqr</code></a></li>
+<li><a href="#freedman_diaconis_rule"><code>freedman_diaconis_rule</code></a></li>
+<li><a href="#histogram"><code>histogram</code></a></li>
+</ul>
+</li>
+<li><strong>Types</strong>
+<ul>
+<li><a href="#Range"><code>Range</code></a></li>
+<li><a href="#Bin"><code>Bin</code></a></li>
 </ul>
 </li>
 <li><strong>Miscellaneous functions</strong>
 <ul>
 <li><a href="#sum"><code>sum</code></a></li>
+<li><a href="#trim"><code>trim</code></a></li>
 <li><a href="#isclose"><code>isclose</code></a></li>
 <li><a href="#allclose"><code>allclose</code></a></li>
+<li><a href="#amax"><code>amax</code></a></li>
+<li><a href="#amin"><code>amin</code></a></li>
+<li><a href="#argmax"><code>argmax</code></a></li>
+<li><a href="#argmin"><code>argmin</code></a></li>
 </ul>
 </li>
 </ul>
 
 
 
+<section class="module-members">
+  <h1 id="module-types" class="module-member-kind">
+    <a href="#module-types">Types</a>
+    <svg class="icon icon-gleam-chasse-2"><use xlink:href="#icon-gleam-chasse-2"></use></svg>
+  </h1>
+
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="Bin">
+        <a href="#Bin">
+          Bin
+        </a>
+      </h2>
+      
+      
+    </div>
+    <div class="custom-type-constructors">
+      <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>A type used to represent the bins in a histogram. The type is an alias 
+of a tuple containing a min/max range and a count of the values in 
+that range.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam/pair
+ import stats/math
+
+ pub fn example () {
+   // Create a bin
+   let bin: math.Bin = tuple(math.Range(0., 1.), 999)
+   // Retrieve min and max values
+   let math.Range(min, max) = pair.first(bin)
+   min
+   |&gt; should.equal(0.)
+   max
+   |&gt; should.equal(1.)
+   // Retrieve count
+   let count = pair.second(bin)
+   count
+   |&gt; should.equal(999)
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+      <pre><code class="hljs gleam">pub type Bin =
+  tuple(Range, Int)</code></pre>
+      
+      
+    </div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="Range">
+        <a href="#Range">
+          Range
+        </a>
+      </h2>
+      
+      
+    </div>
+    <div class="custom-type-constructors">
+      <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>A type used to represent a min/max interval. The <code>Range</code> type is among
+others used to represent the bin boundaries in a histogram.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import stats/math
+ import gleam/should
+
+ pub fn example () {
+   // Create a range
+   let range = math.Range(0., 1.)
+   // Retrieve min and max values
+   let math.Range(min, max) = range
+   min
+   |&gt; should.equal(0.)
+   max
+   |&gt; should.equal(1.)
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+      <pre><code class="hljs gleam">pub type Range {
+  Range(min: Float, max: Float)
+}</code></pre>
+      
+      <h3>
+        Constructors
+      </h3>
+      <ul class="constructor-list">
+        
+        <li class="constructor-item">
+          <svg class="icon icon-star"><use xlink:href="#icon-star"></use></svg>
+          <pre class="constructor-name"><code class="hljs gleam">Range(min: Float, max: Float)</code></pre>
+          
+        </li>
+        
+      </ul>
+      
+    </div>
+  </div>
+  
+</section>
 
 
 
@@ -288,32 +469,490 @@
       
     </div>
     <pre><code class="hljs gleam">pub fn allclose(
-  arr: List(Float),
-  b: Float,
+  xarr: List(Float),
+  yarr: List(Float),
   rtol: Float,
   atol: Float,
-) -&gt; List(Bool)</code></pre>
+) -&gt; Result(List(Bool), Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
 <p>Determine if a list of given values are close to or equivalent to a 
-reference value.</p>
+another list of reference values.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
+
+ pub fn example () {
+   let val: Float = 99.
+   let ref_val: Float = 100.
+   let xarr: List(Float) = list.repeat(val, 42)
+   let yarr: List(Float) = list.repeat(ref_val, 42)
+   // We set 'atol' and 'rtol' such that the values are equivalent
+   // if 'val' is within 1 percent of 'ref_val' +/- 0.1
+   let rtol: Float = 0.01
+   let atol: Float = 0.10
+   math.allclose(xarr, yarr, rtol, atol)
+   |&gt; fn(zarr: Result(List(Bool), Nil)) -&gt; Result(Bool, Nil) {
+     case zarr {
+       Ok(arr) -&gt;
+         arr
+         |&gt; list.all(fn(a: Bool) -&gt; Bool { a })
+         |&gt; Ok()
+       _ -&gt; Error(Nil)
+     }
+   }
+   |&gt; should.equal(Ok(True))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="amax">
+        <a href="#amax">
+          amax
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn amax(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Returns the maximum value of a list. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.amax()
+   |&gt; should.equal(Error(Nil))
+ 
+   [4., 4., 3., 2., 1.]
+   |&gt; math.amax()
+   |&gt; should.equal(Ok(4.))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="amin">
+        <a href="#amin">
+          amin
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn amin(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Returns the minimum value of a list. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.amin()
+   |&gt; should.equal(Error(Nil))
+ 
+   [4., 4., 3., 2., 1.]
+   |&gt; math.amin()
+   |&gt; should.equal(Ok(1.))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="argmax">
+        <a href="#argmax">
+          argmax
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn argmax(arr: List(Float)) -&gt; Result(List(Int), Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Returns the indices of the maximum values in a list. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.argmax()
+   |&gt; should.equal(Error(Nil))
+ 
+   [4., 4., 3., 2., 1.]
+   |&gt; math.argmax()
+   |&gt; should.equal(Ok([0, 1]))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="argmin">
+        <a href="#argmin">
+          argmin
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn argmin(arr: List(Float)) -&gt; Result(List(Int), Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Returns the indices of the minimum values in a list. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.argmin()
+   |&gt; should.equal(Error(Nil))
+ 
+   [4., 4., 3., 2., 1.]
+   |&gt; math.argmin()
+   |&gt; should.equal(Ok([4]))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="correlation">
+        <a href="#correlation">
+          correlation
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn correlation(
+  xarr: List(Float),
+  yarr: List(Float),
+) -&gt; Result(Float, Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Calculate the Pearson correlation coefficient to determine the linear 
+relationship between the elements in two lists of equal length. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
+
+ pub fn example () {
+   math.correlation([], [])
+   |&gt; should.equal(Error(Nil))
+ 
+   // Perfect positive correlation
+   let xarr0: List(Float) =
+     list.range(0, 100)
+     |&gt; list.map(fn(x: Int) -&gt; Float { int.to_float(x) })
+   let yarr0: List(Float) =
+     list.range(0, 100)
+     |&gt; list.map(fn(x: Int) -&gt; Float { int.to_float(x) })
+   math.correlation(xarr0, yarr0)
+   |&gt; should.equal(Ok(1.))
+ 
+   // Perfect negative correlation
+   let xarr0: List(Float) =
+     list.range(0, 100)
+     |&gt; list.map(fn(x: Int) -&gt; Float { -1. *. int.to_float(x) })
+   let yarr0: List(Float) =
+     list.range(0, 100)
+     |&gt; list.map(fn(x: Int) -&gt; Float { int.to_float(x) })
+   math.correlation(xarr0, yarr0)
+   |&gt; should.equal(Ok(-1.))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="freedman_diaconis_rule">
+        <a href="#freedman_diaconis_rule">
+          freedman_diaconis_rule
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn freedman_diaconis_rule(
+  arr: List(Float),
+) -&gt; Result(Float, Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Use Freedman-Diaconis’s Rule to determine the bin widths of a
+histogram.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.freedman_diaconis_rule()
+   |&gt; should.equal(Error(Nil))
+ 
+   // Calculate histogram bin widths
+   list.range(0, 1000)
+   |&gt; list.map(fn(x: Int) -&gt; Float { int.to_float(x) })
+   |&gt; math.freedman_diaconis_rule()
+   |&gt; should.equal(Ok(10.))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="gmean">
+        <a href="#gmean">
+          gmean
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn gmean(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Calculcate the geometric mean of the elements in a list.
+The geometric mean is only defined for positive numbers.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.gmean()
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 3., 9.]
+   |&gt; math.gmean()
+   |&gt; should.equal(Ok(3.))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="histogram">
+        <a href="#histogram">
+          histogram
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn histogram(
+  arr: List(Float),
+  width: Float,
+) -&gt; Result(List(tuple(Range, Int)), Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Create a histogram of the elements in a list.</p>
 <details>
      <summary>Example:</summary>
 <pre><code> import stats/math
  import gleam/should
 
  pub fn example () {
-     let val: Float = 99.
-     let ref_val: Float = 100.
-     // We set 'atol' and 'rtol' such that the values are equivalent if
-     // 'val' is within 1 percent of 'ref_val' +/- 0.1
-     let rtol: Float = 0.01
-     let atol: Float = 0.10
-     math.isclose(val, ref_val, rtol, atol)
-     |&gt; should.be_true()
+   list.range(0, 100)
+   |&gt; list.map(fn(x: Int) -&gt; Float { int.to_float(x) })
+   // Below 25. is the bin width
+   // The Freedman-Diaconis’s Rule can be used to determine a decent value
+   |&gt; math.histogram(25.)
+   |&gt; should.equal(Ok([
+     tuple(math.Range(0., 25.), 25),
+     tuple(math.Range(25., 50.), 25),
+     tuple(math.Range(50., 75.), 25),
+     tuple(math.Range(75., 100.), 25),
+   ]))
+
+   []
+   |&gt; math.histogram(1.)
+   |&gt; should.equal(Error(Nil))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="hmean">
+        <a href="#hmean">
+          hmean
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn hmean(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Calculcate the harmonic mean of the elements in a list.
+Harmonic mean is only defined for positive numbers.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.hmean()
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 3., 6.]
+   |&gt; math.hmean()
+   |&gt; should.equal(Ok(2.))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="iqr">
+        <a href="#iqr">
+          iqr
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn iqr(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Calculate the interquartile range (IQR) of the elements in a list.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.iqr()
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 2., 3., 4., 5.]
+   |&gt; math.iqr()
+   |&gt; should.equal(Ok(3.))
  }
 </code></pre>
 </details>
@@ -352,18 +991,73 @@ of the two given values are determined based on the equation:
 absolute(a - b) &lt;= (atol + rtol * absolute(b))</p>
 <details>
      <summary>Example:</summary>
-<pre><code> import stats/math
- import gleam/should
+<pre><code> import gleam/should
+ import stats/math
 
  pub fn example () {
-     let val: Float = 99.
-     let ref_val: Float = 100.
-     // We set 'atol' and 'rtol' such that the values are equivalent
-     // if 'val' is within 1 percent of 'ref_val' +/- 0.1
-     let rtol: Float = 0.01
-     let atol: Float = 0.10
-     math.isclose(val, ref_val, rtol, atol)
-     |&gt; should.be_true()
+   let val: Float = 99.
+   let ref_val: Float = 100.
+   // We set 'atol' and 'rtol' such that the values are equivalent
+   // if 'val' is within 1 percent of 'ref_val' +/- 0.1
+   let rtol: Float = 0.01
+   let atol: Float = 0.10
+   math.isclose(val, ref_val, rtol, atol)
+   |&gt; should.be_true()
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="kurtosis">
+        <a href="#kurtosis">
+          kurtosis
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn kurtosis(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Calculcate the sample kurtosis of a list of elements using the 
+definition of Fisher. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.skewness()
+   |&gt; should.equal(Error(Nil))
+ 
+   // No tail 
+   // -&gt; Fisher's definition gives kurtosis -3 
+   [1., 1., 1., 1.]
+   |&gt; math.kurtosis()
+   |&gt; should.equal(Ok(-3.))
+ 
+   // Distribution with a tail 
+   // -&gt; Higher kurtosis 
+   [1., 1., 1., 2.]
+   |&gt; math.kurtosis()
+   |&gt; fn(x: Result(Float, Nil)) -&gt; Bool {
+     case x {
+       Ok(x) -&gt; x &gt;. -3.
+     }
+   }
+   |&gt; should.be_true()
  }
 </code></pre>
 </details>
@@ -385,21 +1079,26 @@ absolute(a - b) &lt;= (atol + rtol * absolute(b))</p>
       
       
     </div>
-    <pre><code class="hljs gleam">pub fn mean(arr: List(Float)) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn mean(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>Calculcate the arithmetic mean of the elements in a given list.</p>
+<p>Calculcate the arithmetic mean of the elements in a list.</p>
 <details>
      <summary>Example:</summary>
-<pre><code> import stats/math
+<pre><code> import gleam/should
+ import stats/math
 
  pub fn example () {
-     let arr: List(Float) = [1., 2., 3.]
-     let result: Float = math.mean(arr)
-     // Result is 2.
+   []
+   |&gt; math.mean()
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 2., 3.]
+   |&gt; math.mean()
+   |&gt; should.equal(Ok(2.))
  }
 </code></pre>
 </details>
@@ -421,26 +1120,179 @@ absolute(a - b) &lt;= (atol + rtol * absolute(b))</p>
       
       
     </div>
-    <pre><code class="hljs gleam">pub fn median(arr: List(Float)) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn median(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>Calculcate the median of the elements in a given list.</p>
+<p>Calculcate the median of the elements in a list.</p>
 <details>
      <summary>Example:</summary>
-<pre><code> import stats/math
+<pre><code> import gleam/should
+ import stats/math
 
  pub fn example () {
-     let arr0: List(Float) = [1., 2., 3.]
-     let result0: Float = math.median(arr0)
-     // Result is 2.
+   []
+   |&gt; math.median()
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 2., 3.]
+   |&gt; math.median()
+   |&gt; should.equal(Ok(2.))
+ 
+   [1., 2., 3., 4.]
+   |&gt; math.median()
+   |&gt; should.equal(Ok(2.5))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="moment">
+        <a href="#moment">
+          moment
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn moment(arr: List(Float), n: Int) -&gt; Result(Float, Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Calculcate the n’th moment about the mean of a list of elements.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
 
-     let arr1: List(Float) = [1., 2., 3., 4.]
-     let result1: Float = math.median(arr1)
-     // Result is 2.5
+ pub fn example () {
+   []
+   |&gt; math.moment(0)
+   |&gt; should.equal(Error(Nil))
+ 
+   // 0th moment about the mean is 1. per definition
+   [0., 1., 2., 3., 4.]
+   |&gt; math.moment(0)
+   |&gt; should.equal(Ok(1.))
+ 
+   // 1st moment about the mean is 0. per definition
+   [0., 1., 2., 3., 4.]
+   |&gt; math.moment(1)
+   |&gt; should.equal(Ok(0.))
+ 
+   [0., 1., 2., 3., 4.]
+   |&gt; math.moment(2)
+   |&gt; should.equal(Ok(2.))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="percentile">
+        <a href="#percentile">
+          percentile
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn percentile(arr: List(Float), n: Int) -&gt; Result(Float, Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Calculate the n’th percentile of the elements in a list using 
+linear interpolation between closest ranks.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
 
+ pub fn example () {
+   []
+   |&gt; math.percentile(40)
+   |&gt; should.equal(Error(Nil))
+ 
+   // Calculate 40th percentile 
+   [15., 20., 35., 40., 50.]
+   |&gt; math.percentile(40)
+   |&gt; should.equal(Ok(29.))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="skewness">
+        <a href="#skewness">
+          skewness
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn skewness(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Calculcate the sample skewness of a list of elements using the 
+Fisher-Pearson coefficient of skewness. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.skewness()
+   |&gt; should.equal(Error(Nil))
+ 
+   // No skewness 
+   // -&gt; Zero skewness
+   [1., 2., 3., 4.]
+   |&gt; math.skewness()
+   |&gt; should.equal(Ok(0.))
+ 
+   // Right-skewed distribution 
+   // -&gt; Positive skewness
+   [1., 1., 1., 2.]
+   |&gt; math.skewness()
+   |&gt; fn(x: Result(Float, Nil)) -&gt; Bool {
+     case x {
+       Ok(x) -&gt; x &gt;. 0.
+     }
+   }
+   |&gt; should.be_true()
  }
 </code></pre>
 </details>
@@ -462,22 +1314,29 @@ absolute(a - b) &lt;= (atol + rtol * absolute(b))</p>
       
       
     </div>
-    <pre><code class="hljs gleam">pub fn std(arr: List(Float), ddof: Int) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn std(arr: List(Float), ddof: Int) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>Calculcate the sample standard deviation of the elements in a given list.</p>
+<p>Calculcate the sample standard deviation of the elements in a list.</p>
 <details>
      <summary>Example:</summary>
-<pre><code> import stats/math
+<pre><code> import gleam/should
+ import stats/math
 
  pub fn example () {
-     let arr: List(Float) = [1., 2., 3.]
-     let ddof: Int = 1
-     let result: Float = math.std(arr, ddof)
-     // Result is 1.
+   // Degrees of freedom
+   let ddof: Int = 1
+ 
+   []
+   |&gt; math.std(ddof)
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 2., 3.]
+   |&gt; math.std(ddof)
+   |&gt; should.equal(Ok(1.))
  }
 </code></pre>
 </details>
@@ -505,15 +1364,67 @@ absolute(a - b) &lt;= (atol + rtol * absolute(b))</p>
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>Calculcate the sum of the elements in a given list.</p>
+<p>Calculcate the sum of the elements in a list.</p>
 <details>
      <summary>Example:</summary>
-<pre><code> import stats/math
+<pre><code> import gleam/should
+ import stats/math
 
  pub fn example () {
-     let arr: List(Float) = [1., 2., 3.]
-     let result: Float = math.sum(arr)
-     // Result is 6.
+   []
+   |&gt; math.sum()
+   |&gt; should.equal(0.)
+ 
+   [1., 2., 3.]
+   |&gt; math.sum()
+   |&gt; should.equal(6.)
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="trim">
+        <a href="#trim">
+          trim
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn trim(
+  arr: List(Float),
+  min: Int,
+  max: Int,
+) -&gt; Result(List(Float), Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Trim a list to a certain size given a max and min index. Min and max index 
+are inclusive. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.trim(0, 0)
+   |&gt; should.equal(Error(Nil))
+ 
+   // Trim list to only middle part of list
+   [1., 2., 3., 4., 5., 6.]
+   |&gt; math.trim(1, 4)
+   |&gt; should.equal(Ok([2., 3., 4., 5.]))
  }
 </code></pre>
 </details>
@@ -535,22 +1446,29 @@ absolute(a - b) &lt;= (atol + rtol * absolute(b))</p>
       
       
     </div>
-    <pre><code class="hljs gleam">pub fn var(arr: List(Float), ddof: Int) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn var(arr: List(Float), ddof: Int) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>Calculcate the sample variance of the elements in a given list.</p>
+<p>Calculcate the sample variance of the elements in a list.</p>
 <details>
      <summary>Example:</summary>
-<pre><code> import stats/math
+<pre><code> import gleam/should
+ import stats/math
 
  pub fn example () {
-     let arr: List(Float) = [1., 2., 3.]
-     let ddof: Int = 1
-     let result: Float = math.var(arr, ddof)
-     // Result is 1.
+   // Degrees of freedom
+   let ddof: Int = 1
+ 
+   []
+   |&gt; math.var(ddof)
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 2., 3.]
+   |&gt; math.var(ddof)
+   |&gt; should.equal(Ok(1.))
  }
 </code></pre>
 </details>
@@ -615,8 +1533,8 @@ absolute(a - b) &lt;= (atol + rtol * absolute(b))</p>
 
     <script src="https://unpkg.com/@highlightjs/cdn-assets@10.5.0/languages/elixir.min.js"></script>
 
-    <script src="..&#x2f;../highlightjs-gleam.js?v=0.14.4"></script>
+    <script src="..&#x2f;../highlightjs-gleam.js?v=0.14.3"></script>
 
-    <script src="..&#x2f;../gleam.js?v=0.14.4"></script>
+    <script src="..&#x2f;../gleam.js?v=0.14.3"></script>
   </body>
 </html>

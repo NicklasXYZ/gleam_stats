@@ -5,6 +5,7 @@ import gleam/list
 import gleam/iterator.{Iterator}
 import gleam/float
 import gleam/int
+import gleam/result
 import stats/generators
 import stats/rand
 import stats/math
@@ -35,13 +36,14 @@ pub fn next_uniform_test() {
   // is close to the analytically calculated mean
   pair.first(out)
   |> math.mean()
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the uniform random numbers
   // is close to the analytically calculated variance
   pair.first(out)
   |> math.var(1)
-  |> io.debug()
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
@@ -60,14 +62,14 @@ pub fn next_normal_test() {
   // is close to the analytically calculated mean
   pair.first(out)
   |> math.mean()
-  |> io.debug()
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, mean, rtol, atol) }
-  |> io.debug()
   |> should.be_true()
   // Make sure the variance of the uniform random numbers
   // is close to the analytically calculated variance
   pair.first(out)
   |> math.var(1)
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
@@ -85,10 +87,7 @@ pub fn next_randint_test() {
     generators.seed_mt19937(5)
     |> rand.next_randint(float.round(min), float.round(max), 5_000)
   pair.first(out)
-  |> list.map(fn(x: Int) -> Float {
-    io.debug(x)
-    int.to_float(x)
-  })
+  |> list.map(fn(x: Int) -> Float { int.to_float(x) })
   // Make sure the discrete uniform random numbers are within the given
   // min and max bounds
   pair.first(out)
@@ -105,6 +104,7 @@ pub fn next_randint_test() {
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
   |> math.mean()
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the discrete uniform random numbers
@@ -112,6 +112,7 @@ pub fn next_randint_test() {
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
   |> math.var(1)
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
@@ -145,6 +146,7 @@ pub fn next_bern_test() {
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
   |> math.mean()
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the bernoulli random numbers
@@ -152,6 +154,7 @@ pub fn next_bern_test() {
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
   |> math.var(1)
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
@@ -175,6 +178,7 @@ pub fn next_binom_test() {
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
   |> math.mean()
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the binomial random numbers
@@ -182,6 +186,7 @@ pub fn next_binom_test() {
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
   |> math.var(1)
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
@@ -205,6 +210,7 @@ pub fn next_negbinom_test() {
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
   |> math.mean()
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the binomial random numbers
@@ -212,6 +218,7 @@ pub fn next_negbinom_test() {
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
   |> math.var(1)
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
@@ -233,6 +240,7 @@ pub fn next_geom_test() {
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
   |> math.mean()
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the binomial random numbers
@@ -240,6 +248,7 @@ pub fn next_geom_test() {
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
   |> math.var(1)
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
@@ -260,12 +269,14 @@ pub fn next_exp_test() {
   // is close to the analytically calculated mean
   pair.first(out)
   |> math.mean()
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the exponential random numbers
   // is close to the analytically calculated variance
   pair.first(out)
   |> math.var(1)
+  |> result.unwrap(-9999.)
   |> fn(x) { math.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
