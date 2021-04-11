@@ -94,8 +94,8 @@ fn upper_bitmask(mt: MersenneTwister) -> Int {
 ///     import stats/generators
 ///
 ///     pub fn example () {
-///         let seed: Int = 5
-///         let stream: Iterator(Int) = generators.seed_mt19937(seed)
+///       let seed: Int = 5
+///       let stream: Iterator(Int) = generators.seed_mt19937(seed)
 ///     }
 /// </details>
 ///
@@ -327,9 +327,9 @@ fn pcg32_next_state(
 ///     import stats/generators
 ///
 ///     pub fn example () {
-///         let seed: Int = 5
-///         let seed_sequence: Int = 5
-///         let stream: Iterator(Int) = generators.seed_pcg32(seed, seed_sequence)
+///       let seed: Int = 5
+///       let seed_sequence: Int = 5
+///       let stream: Iterator(Int) = generators.seed_pcg32(seed, seed_sequence)
 ///     }
 /// </details>
 ///
