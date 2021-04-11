@@ -8,8 +8,8 @@ MASK64 = 2 ** 64 - 1
 class PermutedCongruentialGenerator:
     """PCG32 reference implementation"""
 
-    def __init__(self, state = 0x853c49e6748fea9b, inc = 0xda3e39cb94b95bdb) -> None:
-        self.state = [state & MASK64, inc & MASK64]
+    def __init__(self, state = 0x853c49e6748fea9b, increment = 0xda3e39cb94b95bdb) -> None:
+        self.state = [state & MASK64, increment & MASK64]
     
     def seed_pcg32(self, seed: int, seq: int):
         self.state[::] = [0, ((seq & MASK64) << 1) & MASK64 | 1]
@@ -18,8 +18,8 @@ class PermutedCongruentialGenerator:
         self.take_randint()
 
     def take_randint(self):
-        old_state, inc = self.state
-        self.state[0] = (old_state * 6364136223846793005 + inc) & MASK64
+        old_state, increment = self.state
+        self.state[0] = (old_state * 6364136223846793005 + increment) & MASK64
         xorshifted = (((old_state >> 18) ^ old_state) >> 27) & MASK32
         rotation = (old_state >> 59) & MASK32
         return ((xorshifted >> rotation) | (xorshifted << ((-rotation) & 31))) & MASK32

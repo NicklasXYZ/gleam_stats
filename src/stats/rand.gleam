@@ -2,7 +2,7 @@
 ////
 //// ---
 ////
-//// * **Retrieving numbers from the base-generator**
+//// * **Retrieving numbers from the base-iterator**
 ////   * [`take_randints`](#take_randints)
 //// * **Generating random numbers from common distributions**
 ////   * [`next_uniform`](#next_uniform)
