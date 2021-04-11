@@ -4,6 +4,7 @@
 ////
 //// * **Creating a random number base-generator**
 ////   * [`seed_mt19937`](#seed_mt19937)
+////   * [`seed_pcg32`](#seed_pcg32)
 
 import gleam/bitwise
 import gleam/list
@@ -60,6 +61,32 @@ const mt19937 = MersenneTwister(
 
 type StateMT =
   tuple(Int, List(Int))
+
+// A type used to encapsulate all parameters used by the Permuted 
+// Congruential Generator (PCG32).
+type PermutedCongruentialGenerator {
+  PermutedCongruentialGenerator(
+    int_1: Int,
+    int_18: Int,
+    int_27: Int,
+    int_59: Int,
+    int_31: Int,
+    multiplier: Int,
+  )
+}
+
+// A constant containing the defualt PCG32 parameters
+const pcg32 = PermutedCongruentialGenerator(
+  int_1: 1,
+  int_18: 18,
+  int_27: 27,
+  int_59: 59,
+  int_31: 31,
+  multiplier: 6364136223846793005,
+)
+
+type StatePCG =
+  tuple(Int, Int)
 
 // MT19937 helper function
 fn lowest_bits(x: Int, mt: MersenneTwister) -> Int {
@@ -228,32 +255,6 @@ fn mask_32() -> Int {
 fn mask_64() -> Int {
   float.round(float.power(2., 64.)) - 1
 }
-
-// A type used to encapsulate all parameters used by the Permuted 
-// Congruential Generator (PCG32).
-type PermutedCongruentialGenerator {
-  PermutedCongruentialGenerator(
-    int_1: Int,
-    int_18: Int,
-    int_27: Int,
-    int_59: Int,
-    int_31: Int,
-    multiplier: Int,
-  )
-}
-
-// A constant containing the defualt PCG32 parameters
-const pcg32 = PermutedCongruentialGenerator(
-  int_1: 1,
-  int_18: 18,
-  int_27: 27,
-  int_59: 59,
-  int_31: 31,
-  multiplier: 6364136223846793005,
-)
-
-type StatePCG =
-  tuple(Int, Int)
 
 fn pcg32_next_rn(state: StatePCG, pcg: PermutedCongruentialGenerator) -> Int {
   let old_state: Int = pair.first(state)

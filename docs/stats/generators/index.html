@@ -239,6 +239,7 @@
 <li><strong>Creating a random number base-generator</strong>
 <ul>
 <li><a href="#seed_mt19937"><code>seed_mt19937</code></a></li>
+<li><a href="#seed_pcg32"><code>seed_pcg32</code></a></li>
 </ul>
 </li>
 </ul>
@@ -268,7 +269,32 @@
       
     </div>
     <pre><code class="hljs gleam">pub fn seed_mt19937(seed: Int) -&gt; Iterator(Int)</code></pre>
-    <div class="rendered-markdown"></div>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Use the MT19937 Pseudo-Random Number Generator (PRNG) algorithm to create
+a base-iterator that yields pseudo-random numbers. This base-iterator can
+then be used with other methods to generate random numbers from common
+distributions. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/iterator.{Iterator}
+ import stats/generators
+
+ pub fn example () {
+   let seed: Int = 5
+   let stream: Iterator(Int) = generators.seed_mt19937(seed)
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
   </div>
   
   <div class="member">
