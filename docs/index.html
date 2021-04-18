@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>stats</title>
+    <title>gleam_stats</title>
     <link rel="stylesheet" href="./index.css?v=0.14.3" type="text/css" />
     <!-- The docs_config.js file is provided by HexDocs and shared
          between multiple versions of the same package. -->
@@ -138,7 +138,7 @@
       </button>
 
       <h2>
-        <a href="./">stats</a>
+        <a href="./">gleam_stats</a>
         <span id="project-version">
           <span> - v0.1.0 </span>
         </span>
@@ -192,18 +192,24 @@
         
 
         
+        <h2>Links</h2>
+        <ul>
+        
+          <li><a href="https:&#x2f;&#x2f;github.com&#x2f;nicklasxyz&#x2f;gleam_stats">GitHub</a></li>
+        
+        </ul>
         
 
         <h2>Modules</h2>
         <ul>
         
-          <li><a href="./stats&#x2f;">stats</a></li>
+          <li><a href="./gleam_stats&#x2f;">gleam_stats</a></li>
         
-          <li><a href="./stats&#x2f;generators&#x2f;">stats&#x2f;generators</a></li>
+          <li><a href="./gleam_stats&#x2f;generators&#x2f;">gleam_stats&#x2f;generators</a></li>
         
-          <li><a href="./stats&#x2f;math&#x2f;">stats&#x2f;math</a></li>
+          <li><a href="./gleam_stats&#x2f;math&#x2f;">gleam_stats&#x2f;math</a></li>
         
-          <li><a href="./stats&#x2f;rand&#x2f;">stats&#x2f;rand</a></li>
+          <li><a href="./gleam_stats&#x2f;rand&#x2f;">gleam_stats&#x2f;rand</a></li>
         
         </ul>
 
@@ -212,8 +218,9 @@
 
       <main class="content">
         
-<h1>stats</h1>
-<p>A Gleam project for generating and working with random numbers, distributions and statistics. The repository is available on <a href="https://github.com/nicklasxyz/stats">Github</a> while the documentation is hosted on <a href="https://nicklasxyz.github.io/stats/">Github Pages</a>. </p>
+<h1>gleam_stats</h1>
+<p>A Gleam project for generating and working with random numbers, distributions and statistics. The repository is available on <a href="https://github.com/nicklasxyz/gleam_stats">Github</a> while the documentation is hosted on <a href="https://nicklasxyz.github.io/gleam_stats/">Github Pages</a>.</p>
+<!-- and [HexDocs](https://hexdocs.pm/gleam_stats/). -->
 <h2>Quick start</h2>
 <pre><code class="language-sh"># Run the eunit tests
 rebar3 eunit
@@ -222,13 +229,11 @@ rebar3 eunit
 rebar3 shell
 </code></pre>
 <h2>Installation</h2>
-<p>This package can be installed by adding <code>stats</code> to your <code>rebar.config</code> dependencies:</p>
+<!-- If [available in Hex](https://rebar3.org/docs/configuration/dependencies/#declaring-dependencies)
+this package can be installed by adding `gleam_stats` to your `rebar.config` dependencies: -->
 <pre><code class="language-erlang">{deps, [
-     {stats, &quot;&quot;, 
-        {git, &quot;git://github.com/nicklasxyz/stats.git&quot;,
-            {branch, &quot;main&quot;}
-        }
-    },
+    %% git dependencies
+    {gleam_stats, &quot;&quot;, {git, &quot;git://github.com/nicklasxyz/gleam_stats.git&quot;, {branch, &quot;main&quot;}}}
 ]}.
 </code></pre>
 

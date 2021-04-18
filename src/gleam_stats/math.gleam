@@ -36,7 +36,7 @@ import gleam/io
 import gleam/pair
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -47,7 +47,7 @@ import gleam/pair
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -76,7 +76,7 @@ pub fn sum(arr: List(Float)) -> Float {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -87,7 +87,7 @@ pub fn sum(arr: List(Float)) -> Float {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -118,7 +118,7 @@ pub fn mean(arr: List(Float)) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -129,7 +129,7 @@ pub fn mean(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -182,19 +182,19 @@ pub fn median(arr: List(Float)) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
 ///
 /// Calculcate the harmonic mean of the elements in a list.
-/// Harmonic mean is only defined for positive numbers.
+/// Note that the harmonic mean is only defined for positive numbers.
 ///
 /// <details>
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -238,19 +238,19 @@ pub fn hmean(arr: List(Float)) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
 ///
 /// Calculcate the geometric mean of the elements in a list.
-/// The geometric mean is only defined for positive numbers.
+/// Note that the geometric mean is only defined for positive numbers.
 ///
 /// <details>
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -298,7 +298,7 @@ pub fn gmean(arr: List(Float)) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -309,7 +309,7 @@ pub fn gmean(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       // Degrees of freedom
@@ -351,7 +351,7 @@ pub fn var(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -362,7 +362,7 @@ pub fn var(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       // Degrees of freedom
@@ -399,7 +399,7 @@ pub fn std(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -410,7 +410,7 @@ pub fn std(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -471,7 +471,7 @@ pub fn moment(arr: List(Float), n: Int) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -483,7 +483,7 @@ pub fn moment(arr: List(Float), n: Int) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -532,7 +532,7 @@ pub fn skewness(arr: List(Float)) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -544,7 +544,7 @@ pub fn skewness(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -593,7 +593,7 @@ pub fn kurtosis(arr: List(Float)) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -605,7 +605,7 @@ pub fn kurtosis(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -644,7 +644,7 @@ pub fn percentile(arr: List(Float), n: Int) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -655,7 +655,7 @@ pub fn percentile(arr: List(Float), n: Int) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -709,7 +709,7 @@ pub fn iqr(arr: List(Float)) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -721,7 +721,7 @@ pub fn iqr(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -773,7 +773,7 @@ pub fn freedman_diaconis_rule(arr: List(Float)) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -784,7 +784,7 @@ pub fn freedman_diaconis_rule(arr: List(Float)) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import stats/math
+///     import gleam_stats/math
 ///     import gleam/should
 ///
 ///     pub fn example () {
@@ -810,7 +810,7 @@ pub type Range {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -824,7 +824,7 @@ pub type Range {
 ///
 ///     import gleam/should
 ///     import gleam/pair
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       // Create a bin
@@ -852,7 +852,7 @@ pub type Bin =
   tuple(Range, Int)
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -862,7 +862,7 @@ pub type Bin =
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import stats/math
+///     import gleam_stats/math
 ///     import gleam/should
 ///
 ///     pub fn example () {
@@ -948,7 +948,7 @@ fn bin_elements(bins: List(Bin), arr: List(Float)) -> List(Bin) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -960,7 +960,7 @@ fn bin_elements(bins: List(Bin), arr: List(Float)) -> List(Bin) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       math.correlation([], [])
@@ -1032,19 +1032,19 @@ pub fn correlation(xarr: List(Float), yarr: List(Float)) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
 ///
-/// Trim a list to a certain size given a max and min index. Min and max index 
+/// Trim a list to a certain size given min/max indices. The min/max indices 
 /// are inclusive. 
 ///
 /// <details>
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -1080,21 +1080,24 @@ pub fn trim(arr: List(Float), min: Int, max: Int) -> Result(List(Float), Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
 ///
 /// Determine if a given value is close to or equivalent to a reference value 
 /// based on supplied relative and absolute tolerance values. The equivalance
-/// of the two given values are determined based on the equation:
-/// absolute(a - b) <= (atol + rtol * absolute(b))
+/// of the two given values are then determined based on the equation:
+///
+/// <center>
+///     absolute(a - b) <= (atol + rtol * absolute(b))
+/// </center>
 ///
 /// <details>
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       let val: Float = 99.
@@ -1124,19 +1127,19 @@ pub fn isclose(a: Float, b: Float, rtol: Float, atol: Float) -> Bool {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
 ///
-/// Determine if a list of given values are close to or equivalent to a 
+/// Determine if a list of values are close to or equivalent to a 
 /// another list of reference values.
 ///
 /// <details>
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       let val: Float = 99.
@@ -1187,7 +1190,7 @@ pub fn allclose(
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -1198,7 +1201,7 @@ pub fn allclose(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -1239,7 +1242,7 @@ pub fn amax(arr: List(Float)) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -1250,7 +1253,7 @@ pub fn amax(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -1291,7 +1294,7 @@ pub fn amin(arr: List(Float)) -> Result(Float, Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -1302,7 +1305,7 @@ pub fn amin(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -1350,7 +1353,7 @@ pub fn argmax(arr: List(Float)) -> Result(List(Int), Nil) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -1361,7 +1364,7 @@ pub fn argmax(arr: List(Float)) -> Result(List(Int), Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///       []
@@ -1411,7 +1414,7 @@ pub fn argmin(arr: List(Float)) -> Result(List(Int), Nil) {
   }
 }
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -1421,7 +1424,7 @@ pub fn argmin(arr: List(Float)) -> Result(List(Int), Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/should
-///     import stats/math
+///     import gleam_stats/math
 ///
 ///     pub fn example () {
 ///     }

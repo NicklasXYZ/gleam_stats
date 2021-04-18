@@ -2,7 +2,7 @@
 [{<<"gleam_bitwise">>,{pkg,<<"gleam_bitwise">>,<<"1.0.1">>},0},
  {<<"gleam_stdlib">>,
   {git,"git://github.com/gleam-lang/stdlib.git",
-       {ref,"8d83506941b16722aed6eab102565bfd163ba053"}},
+       {ref,"593eeae98d21da64d0e6a956413d3874fe762369"}},
   0}]}.
 [
 {pkg_hash,[

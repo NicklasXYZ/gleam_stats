@@ -1,3 +1,6 @@
-name = "stats"
+name = "gleam_stats"
 
-# repository = { type = "github", user = "my-user", repo = "stats" }
+[docs]
+links = [
+  { title = 'GitHub', href = 'https://github.com/nicklasxyz/gleam_stats' }
+]

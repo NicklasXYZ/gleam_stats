@@ -4,7 +4,7 @@ import gleam/should
 import gleam/int
 import gleam/list
 import gleam/pair
-import stats/math
+import gleam_stats/math
 
 pub fn example_sum_test() {
   []

@@ -1,9 +1,9 @@
 import gleam/should
 import gleam/pair
 import gleam/list
-import stats/generators
-import stats/rand
-import stats/math
+import gleam_stats/generators
+import gleam_stats/rand
+import gleam_stats/math
 
 pub fn seed_mt19937_test() {
   // Test that the raw output from the pseudo-random generator is

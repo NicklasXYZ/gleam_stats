@@ -21,7 +21,7 @@ import gleam/float
 import gleam/int
 import gleam/pair
 import gleam/float
-import stats/math
+import gleam_stats/math
 import gleam/io
 
 fn mask_32() -> Int {
@@ -53,7 +53,7 @@ fn box_muller(u1: Float, u2: Float) {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -65,8 +65,8 @@ fn box_muller(u1: Float, u2: Float) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import stats/generator
-///     import stats/rand
+///     import gleam_stats/generator
+///     import gleam_stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -97,7 +97,7 @@ pub fn take_randints(
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -109,8 +109,8 @@ pub fn take_randints(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import stats/generator
-///     import stats/rand
+///     import gleam_stats/generator
+///     import gleam_stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -151,7 +151,7 @@ pub fn next_uniform(
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -163,8 +163,8 @@ pub fn next_uniform(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import stats/generator
-///     import stats/rand
+///     import gleam_stats/generator
+///     import gleam_stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -208,7 +208,7 @@ pub fn next_normal(
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -220,8 +220,8 @@ pub fn next_normal(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import stats/generator
-///     import stats/rand
+///     import gleam_stats/generator
+///     import gleam_stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -263,7 +263,7 @@ pub fn next_randint(
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -275,8 +275,8 @@ pub fn next_randint(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import stats/generator
-///     import stats/rand
+///     import gleam_stats/generator
+///     import gleam_stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -316,7 +316,7 @@ pub fn next_bern(
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -328,8 +328,8 @@ pub fn next_bern(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import stats/generator
-///     import stats/rand
+///     import gleam_stats/generator
+///     import gleam_stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -372,7 +372,7 @@ pub fn next_binom(
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -384,8 +384,8 @@ pub fn next_binom(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import stats/generator
-///     import stats/rand
+///     import gleam_stats/generator
+///     import gleam_stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -427,7 +427,7 @@ pub fn next_negbinom(
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -439,8 +439,8 @@ pub fn next_negbinom(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import stats/generator
-///     import stats/rand
+///     import gleam_stats/generator
+///     import gleam_stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5
@@ -476,7 +476,7 @@ pub fn next_geom(
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
@@ -488,8 +488,8 @@ pub fn next_geom(
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import stats/generator
-///     import stats/rand
+///     import gleam_stats/generator
+///     import gleam_stats/rand
 ///
 ///     pub fn example() {
 ///       let seed: Int = 5

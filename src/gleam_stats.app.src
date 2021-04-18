@@ -1,0 +1,11 @@
+{application,gleam_stats,
+             [{description,"A Gleam project for generating and working with random numbers, distributions and statistics."},
+              {vsn,"0.1.0"},
+              {registered,[]},
+              {applications,[kernel,stdlib,gleam_stdlib]},
+              {env,[]},
+              {modules,[]},
+              {licenses,["MIT"]},
+              {links, [{"GitHub", "https://github.com/NicklasXYZ/gleam_stats"}]},
+              {include_files, ["gleam.toml", "gen"]}]}.
+

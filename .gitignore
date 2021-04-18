@@ -12,7 +12,7 @@
 .rebar3
 _*
 _build
-# docs
+docs
 ebin
 erl_crash.dump
 gen

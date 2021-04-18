@@ -104,21 +104,22 @@ fn upper_bitmask(mt: MersenneTwister) -> Int {
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
 ///
-/// Use the MT19937 Pseudo-Random Number Generator (PRNG) algorithm to create
-/// a base-iterator that yields pseudo-random numbers. This base-iterator can
-/// then be used with other methods to generate random numbers from common
-/// distributions. 
+/// Use the Mersenne Twister (MT19937) Pseudo-Random Number Generator (PRNG) 
+/// algorithm to create a base-iterator that yields pseudo-random numbers. This 
+/// base-iterator can then be used with other methods to generate random numbers
+/// from common distributions. MT19937 is a generator of 32-bit random numbers 
+/// and uses a 32-bit integer seed.
 ///
 /// <details>
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import stats/generators
+///     import gleam_stats/generators
 ///
 ///     pub fn example () {
 ///       let seed: Int = 5
@@ -258,7 +259,6 @@ fn mask_64() -> Int {
 
 fn pcg32_next_rn(state: StatePCG, pcg: PermutedCongruentialGenerator) -> Int {
   let old_state: Int = pair.first(state)
-  let increment: Int = pair.second(state)
   let xorshifted: Int =
     bitwise.and(
       bitwise.shift_right(
@@ -311,21 +311,22 @@ fn pcg32_next_state(
 }
 
 /// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/stats/issues">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
 ///
-/// Use the PCG32 Pseudo-Random Number Generator (PRNG) algorithm to create
-/// a base-iterator that yields pseudo-random numbers. This base-iterator can
-/// then be used with other methods to generate random numbers from common
-/// distributions. 
+/// Use the Permuted Congruential Generator (PCG32) Pseudo-Random Number Generator
+/// (PRNG) algorithm to create a base-iterator that yields pseudo-random numbers. 
+/// This base-iterator can then be used with other methods to generate random numbers
+/// from common distributions. PCG32 is a generator of 32-bit random numbers 
+/// and uses two 64-bit integer seeds (internal initial state and sequence number).
 ///
 /// <details>
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import stats/generators
+///     import gleam_stats/generators
 ///
 ///     pub fn example () {
 ///       let seed: Int = 5

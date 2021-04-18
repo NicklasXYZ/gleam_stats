@@ -6,9 +6,9 @@ import gleam/iterator.{Iterator}
 import gleam/float
 import gleam/int
 import gleam/result
-import stats/generators
-import stats/rand
-import stats/math
+import gleam_stats/generators
+import gleam_stats/rand
+import gleam_stats/math
 
 pub fn next_uniform_test() {
   // MEAN     : (min + max) / 2

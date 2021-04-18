@@ -2,9 +2,9 @@ import gleam/should
 import gleam/list
 import gleam/float
 import gleam/int
-import stats/generators
-import stats/rand
-import stats/math
+import gleam_stats/generators
+import gleam_stats/rand
+import gleam_stats/math
 import gleam/io
 
 pub fn sum_test() {
