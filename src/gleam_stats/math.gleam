@@ -12,6 +12,7 @@
 ////   * [`moment`](#moment)
 ////   * [`skewness`](#skewness)
 ////   * [`kurtosis`](#kurtosis)
+////   * [`zscore`](#zscore)
 ////   * [`percentile`](#percentile)
 ////   * [`iqr`](#iqr)
 ////   * [`freedman_diaconis_rule`](#freedman_diaconis_rule)

@@ -5,6 +5,7 @@
 //// * **Creating a random number base-generator**
 ////   * [`seed_mt19937`](#seed_mt19937)
 ////   * [`seed_pcg32`](#seed_pcg32)
+////   * [`seed_lcg32`](#seed_lcg32)
 
 import gleam/bitwise
 import gleam/list
