@@ -2,10 +2,11 @@ import gleam/should
 import gleam/list
 import gleam/float
 import gleam/int
+import gleam/io
+import gleam/pair
 import gleam_stats/generators
 import gleam_stats/rand
 import gleam_stats/math
-import gleam/io
 
 pub fn sum_test() {
   []
@@ -215,6 +216,46 @@ pub fn kurtosis_test() {
     }
   }
   |> should.be_true()
+}
+
+pub fn zscore_test() {
+  []
+  // Use degrees of freedom = 1
+  |> math.zscore(1)
+  |> should.equal(Error(Nil))
+
+  let n: Int = 10
+  let xarr: List(Float) = [
+    -1.48630108, -1.15601195, -0.82572282, -0.49543369, -0.16514456, 0.16514456,
+    0.49543369, 0.82572282, 1.15601195, 1.48630108,
+  ]
+
+  // Set relative and absolute tolerance
+  // Within 1 percent of the reference value +/- 0.1
+  let rtol0: Float = 0.01
+  let atol0: Float = 0.10
+
+  list.range(1, n + 1)
+  |> list.map(fn(x: Int) -> Float { int.to_float(x) })
+  // Use degrees of freedom = 1
+  |> math.zscore(1)
+  |> fn(yarr: Result(List(Float), Nil)) -> Result(Bool, Nil) {
+    case yarr {
+      Ok(yarr) ->
+        yarr
+        |> math.allclose(xarr, rtol0, atol0)
+        |> fn(zarr: Result(List(Bool), Nil)) -> Result(Bool, Nil) {
+          case zarr {
+            Ok(zarr) ->
+              zarr
+              |> list.all(fn(a: Bool) -> Bool { a })
+              |> Ok()
+            _ -> Error(Nil)
+          }
+        }
+    }
+  }
+  |> should.equal(Ok(True))
 }
 
 pub fn percentile_test() {

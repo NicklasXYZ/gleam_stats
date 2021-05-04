@@ -224,6 +224,8 @@
 <h2>Functions</h2>
 <ul>
   
+  <li><a href="#seed_lcg32">seed_lcg32</a></li>
+  
   <li><a href="#seed_mt19937">seed_mt19937</a></li>
   
   <li><a href="#seed_pcg32">seed_pcg32</a></li>
@@ -263,6 +265,46 @@
     <a href="#module-functions">Functions</a>
     <svg class="icon icon-gleam-chasse"><use xlink:href="#icon-gleam-chasse"></use></svg>
   </h1>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="seed_lcg32">
+        <a href="#seed_lcg32">
+          seed_lcg32
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn seed_lcg32(seed: Int) -&gt; Iterator(Int)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Use the Linear Congruential Generator (LCG32) Pseudo-Random Number Generator
+(PRNG) algorithm to create a base-iterator that yields pseudo-random numbers. 
+This base-iterator can then be used with other methods to generate random numbers
+from common distributions. LCG32 is a generator of 32-bit random numbers 
+and uses a 32-bit integer seed.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/iterator.{Iterator}
+ import gleam_stats/generators
+
+ pub fn example () {
+   let seed: Int = 5
+   let stream: Iterator(Int) = generators.seed_lcg32(seed)
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
   
   <div class="member">
     <div class="member-name">

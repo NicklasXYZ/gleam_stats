@@ -88,6 +88,18 @@ const pcg32 = PermutedCongruentialGenerator(
 type StatePCG =
   tuple(Int, Int)
 
+// A type used to encapsulate all parameters used by the Permuted 
+// Congruential Generator (PCG32).
+type LinearCongruentialGenerator {
+  LinearCongruentialGenerator(a: Int, c: Int)
+}
+
+// A constant containing the defualt PCG32 parameters
+const lcg32 = LinearCongruentialGenerator(a: 1664525, c: 1013904223)
+
+type StateLCG =
+  Int
+
 // MT19937 helper function
 fn lowest_bits(x: Int, mt: MersenneTwister) -> Int {
   bitwise.and(x, bitwise.shift_left(1, mt.w) - 1)
@@ -348,5 +360,56 @@ pub fn seed_pcg32(seed: Int, seq: Int) -> Iterator(Int) {
     let next_rn: Int = pcg32_next_rn(state, pcg)
     let next_state: StatePCG = pcg32_next_state(state, pcg)
     Next(element: next_rn, accumulator: next_state)
+  })
+}
+
+fn lcg32_init(seed: Int, lcg: LinearCongruentialGenerator) -> StateLCG {
+  // Keep PRNG state as a single int
+  bitwise.and(lcg.a * seed + lcg.c, mask_32())
+}
+
+fn lcg32_next_state(
+  state: StateLCG,
+  lcg: LinearCongruentialGenerator,
+) -> StateLCG {
+  bitwise.and(lcg.a * state + lcg.c, mask_32())
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Use the Linear Congruential Generator (LCG32) Pseudo-Random Number Generator
+/// (PRNG) algorithm to create a base-iterator that yields pseudo-random numbers. 
+/// This base-iterator can then be used with other methods to generate random numbers
+/// from common distributions. LCG32 is a generator of 32-bit random numbers 
+/// and uses a 32-bit integer seed.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleam/iterator.{Iterator}
+///     import gleam_stats/generators
+///
+///     pub fn example () {
+///       let seed: Int = 5
+///       let stream: Iterator(Int) = generators.seed_lcg32(seed)
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn seed_lcg32(seed: Int) -> Iterator(Int) {
+  let lcg: LinearCongruentialGenerator = lcg32
+  lcg32_init(seed, lcg)
+  |> iterator.unfold(fn(state: StateLCG) -> Step(Int, StateLCG) {
+    let next_state: StateLCG = lcg32_next_state(state, lcg)
+    Next(element: next_state, accumulator: next_state)
   })
 }

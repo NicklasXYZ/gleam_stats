@@ -74,3 +74,39 @@ fn check_pcg_randints(tuples: List(tuple(Int, Int)), seed: Int, seq: Int) {
     |> should.equal([value])
   })
 }
+
+pub fn seed_lcg32_test() {
+  // Test that the raw output from the pseudo-random generator is
+  // the same as the python reference implementation
+  // seed: 5. The 1000 value should be 371509416
+  // seed: 5. The 2000 value should be 514604208
+  // seed: 5. The 3000 value should be 2513530296
+  [tuple(1000, 371509416), tuple(2000, 514604208), tuple(3000, 2513530296)]
+  |> check_lcg_randints(5)
+
+  // seed: 50. The 1000 value should be 2910717329
+  // seed: 50. The 2000 value should be 2107902521
+  // seed: 50. The 3000 value should be 2032832481
+  [tuple(1000, 2910717329), tuple(2000, 2107902521), tuple(3000, 2032832481)]
+  |> check_lcg_randints(50)
+
+  // seed: 500. The 1000 value should be 2532992683
+  // seed: 500. The 2000 value should be 861016467
+  // seed: 500. The 3000 value should be 1520821627
+  [tuple(1000, 2532992683), tuple(2000, 861016467), tuple(3000, 1520821627)]
+  |> check_lcg_randints(500)
+}
+
+fn check_lcg_randints(tuples: List(tuple(Int, Int)), seed: Int) {
+  tuples
+  |> list.map(fn(x: tuple(Int, Int)) {
+    let number = pair.first(x)
+    let value = pair.second(x)
+    let out =
+      generators.seed_lcg32(seed)
+      |> rand.take_randints(number)
+    pair.first(out)
+    |> list.drop(number - 1)
+    |> should.equal([value])
+  })
+}

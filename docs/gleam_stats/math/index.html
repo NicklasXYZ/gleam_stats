@@ -276,6 +276,8 @@
   
   <li><a href="#var">var</a></li>
   
+  <li><a href="#zscore">zscore</a></li>
+  
 </ul>
 
 
@@ -1477,6 +1479,53 @@ are inclusive. </p>
    [1., 2., 3.]
    |&gt; math.var(ddof)
    |&gt; should.equal(Ok(1.))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="zscore">
+        <a href="#zscore">
+          zscore
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn zscore(
+  arr: List(Float),
+  ddof: Int,
+) -&gt; Result(List(Float), Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Calculate the z-score of each value in the list relative to the sample 
+mean and standard deviation.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   // Use degrees of freedom = 1
+   |&gt; math.zscore(1)
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 2., 3.]
+   // Use degrees of freedom = 1
+   |&gt; math.zscore(1)
+   |&gt; should.equal(Ok([-1., 0., 1.]))
  }
 </code></pre>
 </details>

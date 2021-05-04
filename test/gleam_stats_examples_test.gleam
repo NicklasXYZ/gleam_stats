@@ -152,6 +152,18 @@ pub fn example_kurtosis_test() {
   |> should.be_true()
 }
 
+pub fn example_zscore_test() {
+  []
+  // Use degrees of freedom = 1
+  |> math.zscore(1)
+  |> should.equal(Error(Nil))
+
+  [1., 2., 3.]
+  // Use degrees of freedom = 1
+  |> math.zscore(1)
+  |> should.equal(Ok([-1., 0., 1.]))
+}
+
 pub fn example_percentile_test() {
   []
   |> math.percentile(40)

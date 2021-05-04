@@ -598,6 +598,57 @@ pub fn kurtosis(arr: List(Float)) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
+/// Calculate the z-score of each value in the list relative to the sample 
+/// mean and standard deviation.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleam/should
+///     import gleam_stats/math
+///
+///     pub fn example () {
+///       []
+///       // Use degrees of freedom = 1
+///       |> math.zscore(1)
+///       |> should.equal(Error(Nil))
+///     
+///       [1., 2., 3.]
+///       // Use degrees of freedom = 1
+///       |> math.zscore(1)
+///       |> should.equal(Ok([-1., 0., 1.]))
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn zscore(arr: List(Float), ddof: Int) -> Result(List(Float), Nil) {
+  case arr {
+    [] -> Error(Nil)
+    _ -> {
+      let mean: Result(Float, Nil) = mean(arr)
+      let stdev: Result(Float, Nil) = std(arr, ddof)
+      case mean, stdev {
+        Ok(mean), Ok(stdev) ->
+          arr
+          |> list.map(fn(a: Float) -> Float { { a -. mean } /. stdev })
+          |> Ok()
+        _, _ -> Error(Nil)
+      }
+    }
+  }
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
 /// Calculate the n'th percentile of the elements in a list using 
 /// linear interpolation between closest ranks.
 ///
@@ -1390,7 +1441,6 @@ pub fn argmin(arr: List(Float)) -> Result(List(Int), Nil) {
       let min: Result(Float, Nil) =
         arr
         |> amin()
-        |> io.debug()
       case min {
         Ok(min) ->
           arr
@@ -1400,14 +1450,12 @@ pub fn argmin(arr: List(Float)) -> Result(List(Int), Nil) {
               _ -> -1
             }
           })
-          |> io.debug()
           |> list.filter(fn(index: Int) -> Bool {
             case index {
               -1 -> False
               _ -> True
             }
           })
-          |> io.debug()
           |> Ok()
       }
     }
