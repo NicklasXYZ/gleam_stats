@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>gleam_stats&#x2f;math - gleam_stats</title>
-    <link rel="stylesheet" href="..&#x2f;../index.css?v=0.14.3" type="text/css" />
+    <link rel="stylesheet" href="..&#x2f;../index.css?v=0.15.0" type="text/css" />
     <!-- The docs_config.js file is provided by HexDocs and shared
          between multiple versions of the same package. -->
     <script src="..&#x2f;../docs_config.js"></script>
@@ -232,6 +232,10 @@
 <h2>Functions</h2>
 <ul>
   
+  <li><a href="#acos">acos</a></li>
+  
+  <li><a href="#acosh">acosh</a></li>
+  
   <li><a href="#allclose">allclose</a></li>
   
   <li><a href="#amax">amax</a></li>
@@ -242,7 +246,25 @@
   
   <li><a href="#argmin">argmin</a></li>
   
+  <li><a href="#asin">asin</a></li>
+  
+  <li><a href="#atan">atan</a></li>
+  
+  <li><a href="#atan2">atan2</a></li>
+  
+  <li><a href="#atanh">atanh</a></li>
+  
+  <li><a href="#ceil">ceil</a></li>
+  
   <li><a href="#correlation">correlation</a></li>
+  
+  <li><a href="#cos">cos</a></li>
+  
+  <li><a href="#cosh">cosh</a></li>
+  
+  <li><a href="#exp">exp</a></li>
+  
+  <li><a href="#floor">floor</a></li>
   
   <li><a href="#freedman_diaconis_rule">freedman_diaconis_rule</a></li>
   
@@ -258,6 +280,12 @@
   
   <li><a href="#kurtosis">kurtosis</a></li>
   
+  <li><a href="#log">log</a></li>
+  
+  <li><a href="#log10">log10</a></li>
+  
+  <li><a href="#log2">log2</a></li>
+  
   <li><a href="#mean">mean</a></li>
   
   <li><a href="#median">median</a></li>
@@ -266,11 +294,23 @@
   
   <li><a href="#percentile">percentile</a></li>
   
+  <li><a href="#pi">pi</a></li>
+  
+  <li><a href="#pow">pow</a></li>
+  
+  <li><a href="#sin">sin</a></li>
+  
+  <li><a href="#sinh">sinh</a></li>
+  
   <li><a href="#skewness">skewness</a></li>
   
   <li><a href="#std">std</a></li>
   
   <li><a href="#sum">sum</a></li>
+  
+  <li><a href="#tanh">tanh</a></li>
+  
+  <li><a href="#tau">tau</a></li>
   
   <li><a href="#trim">trim</a></li>
   
@@ -289,9 +329,15 @@
   <a href="#module-name">gleam_stats&#x2f;math</a>
   <svg class="icon icon-gleam-chasse"><use xlink:href="#icon-gleam-chasse"></use></svg>
 </h1>
-<p>A module containing several helpful mathematical functions.</p>
+<p>A module containing several helpful mathematical and utility functions.</p>
 <hr />
 <ul>
+<li><strong>Types</strong>
+<ul>
+<li><a href="#Range"><code>Range</code></a></li>
+<li><a href="#Bin"><code>Bin</code></a></li>
+</ul>
+</li>
 <li><strong>Statistics</strong>
 <ul>
 <li><a href="#mean"><code>mean</code></a></li>
@@ -310,12 +356,6 @@
 <li><a href="#histogram"><code>histogram</code></a></li>
 </ul>
 </li>
-<li><strong>Types</strong>
-<ul>
-<li><a href="#Range"><code>Range</code></a></li>
-<li><a href="#Bin"><code>Bin</code></a></li>
-</ul>
-</li>
 <li><strong>Miscellaneous functions</strong>
 <ul>
 <li><a href="#sum"><code>sum</code></a></li>
@@ -326,6 +366,35 @@
 <li><a href="#amin"><code>amin</code></a></li>
 <li><a href="#argmax"><code>argmax</code></a></li>
 <li><a href="#argmin"><code>argmin</code></a></li>
+</ul>
+</li>
+<li><strong>Mathematical functions</strong>
+<ul>
+<li><a href="#tanh"><code>tanh</code></a></li>
+<li><a href="#sin"><code>sin</code></a></li>
+<li><a href="#acos"><code>acos</code></a></li>
+<li><a href="#acosh"><code>acosh</code></a></li>
+<li><a href="#asin"><code>asin</code></a></li>
+<li><a href="#atan"><code>atan</code></a></li>
+<li><a href="#atan2"><code>atan2</code></a></li>
+<li><a href="#atanh"><code>atanh</code></a></li>
+<li><a href="#cos"><code>cos</code></a></li>
+<li><a href="#cosh"><code>cosh</code></a></li>
+<li><a href="#exp"><code>exp</code></a></li>
+<li><a href="#ceil"><code>ceil</code></a></li>
+<li><a href="#floor"><code>floor</code></a></li>
+<li><a href="#pow"><code>pow</code></a></li>
+<li><a href="#log"><code>log</code></a></li>
+<li><a href="#log10"><code>log10</code></a></li>
+<li><a href="#log2"><code>log2</code></a></li>
+<li><a href="#sinh"><code>sinh</code></a></li>
+<li><a href="#tanh"><code>tanh</code></a></li>
+</ul>
+</li>
+<li><strong>Mathematical constants</strong>
+<ul>
+<li><a href="#pi"><code>pi</code></a></li>
+<li><a href="#tau"><code>tau</code></a></li>
 </ul>
 </li>
 </ul>
@@ -387,7 +456,7 @@ that range.</p>
  </div>
 </div>
       <pre><code class="hljs gleam">pub type Bin =
-  tuple(Range, Int)</code></pre>
+  #(Range, Int)</code></pre>
       
       
     </div>
@@ -466,6 +535,56 @@ others used to represent the bin boundaries in a histogram.</p>
     <a href="#module-functions">Functions</a>
     <svg class="icon icon-gleam-chasse"><use xlink:href="#icon-gleam-chasse"></use></svg>
   </h1>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="acos">
+        <a href="#acos">
+          acos
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn acos(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The inverse cosine function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="acosh">
+        <a href="#acosh">
+          acosh
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn acosh(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The inverse hyperbolic cosine function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
   
   <div class="member">
     <div class="member-name">
@@ -692,6 +811,131 @@ another list of reference values.</p>
   
   <div class="member">
     <div class="member-name">
+      <h2 id="asin">
+        <a href="#asin">
+          asin
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn asin(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The inverse sine function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="atan">
+        <a href="#atan">
+          atan
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn atan(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The inverse tangent function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="atan2">
+        <a href="#atan2">
+          atan2
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn atan2(Float, Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The inverse 2-argument tangent function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="atanh">
+        <a href="#atanh">
+          atanh
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn atanh(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The inverse hyperbolic tangent function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="ceil">
+        <a href="#ceil">
+          ceil
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn ceil(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The ceiling function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
       <h2 id="correlation">
         <a href="#correlation">
           correlation
@@ -742,6 +986,106 @@ relationship between the elements in two lists of equal length. </p>
  }
 </code></pre>
 </details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="cos">
+        <a href="#cos">
+          cos
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn cos(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The cosine function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="cosh">
+        <a href="#cosh">
+          cosh
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn cosh(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The hyperbolic cosine function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="exp">
+        <a href="#exp">
+          exp
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn exp(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The exponential function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="floor">
+        <a href="#floor">
+          floor
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn floor(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The floor function. Wrapped from the Erlang math library.</p>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -851,7 +1195,7 @@ Note that the geometric mean is only defined for positive numbers.</p>
     <pre><code class="hljs gleam">pub fn histogram(
   arr: List(Float),
   width: Float,
-) -&gt; Result(List(tuple(Range, Int)), Nil)</code></pre>
+) -&gt; Result(List(#(Range, Int)), Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
@@ -1082,6 +1426,81 @@ definition of Fisher. </p>
   
   <div class="member">
     <div class="member-name">
+      <h2 id="log">
+        <a href="#log">
+          log
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn log(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The natural logarithm function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="log10">
+        <a href="#log10">
+          log10
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn log10(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The base-10 logarithm function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="log2">
+        <a href="#log2">
+          log2
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn log2(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The base-2 logarithm function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
       <h2 id="mean">
         <a href="#mean">
           mean
@@ -1262,6 +1681,125 @@ linear interpolation between closest ranks.</p>
   
   <div class="member">
     <div class="member-name">
+      <h2 id="pi">
+        <a href="#pi">
+          pi
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn pi() -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The mathematical constant pi. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="pow">
+        <a href="#pow">
+          pow
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn pow(Float, Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The exponentiation function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="sin">
+        <a href="#sin">
+          sin
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn sin(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+<div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The sine function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="sinh">
+        <a href="#sinh">
+          sinh
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn sinh(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The hyperbolic sine function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
       <h2 id="skewness">
         <a href="#skewness">
           skewness
@@ -1392,6 +1930,56 @@ Fisher-Pearson coefficient of skewness. </p>
  }
 </code></pre>
 </details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="tanh">
+        <a href="#tanh">
+          tanh
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub external fn tanh(Float) -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The hyperbolic tangent function. Wrapped from the Erlang math library.</p>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="tau">
+        <a href="#tau">
+          tau
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn tau() -&gt; Float</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>The mathematical constant tau.</p>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -1591,8 +2179,8 @@ mean and standard deviation.</p>
 
     <script src="https://unpkg.com/@highlightjs/cdn-assets@10.5.0/languages/elixir.min.js"></script>
 
-    <script src="..&#x2f;../highlightjs-gleam.js?v=0.14.3"></script>
+    <script src="..&#x2f;../highlightjs-gleam.js?v=0.15.0"></script>
 
-    <script src="..&#x2f;../gleam.js?v=0.14.3"></script>
+    <script src="..&#x2f;../gleam.js?v=0.15.0"></script>
   </body>
 </html>

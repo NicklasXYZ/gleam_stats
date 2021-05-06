@@ -1,7 +1,10 @@
-//// A module containing several helpful mathematical functions.
+//// A module containing several helpful mathematical and utility functions.
 ////
 //// ---
 ////
+//// * **Types**
+////   * [`Range`](#Range)
+////   * [`Bin`](#Bin)
 //// * **Statistics**
 ////   * [`mean`](#mean)
 ////   * [`median`](#median)
@@ -17,9 +20,6 @@
 ////   * [`iqr`](#iqr)
 ////   * [`freedman_diaconis_rule`](#freedman_diaconis_rule)
 ////   * [`histogram`](#histogram)
-//// * **Types**
-////   * [`Range`](#Range)
-////   * [`Bin`](#Bin)
 //// * **Miscellaneous functions**
 ////   * [`sum`](#sum)
 ////   * [`trim`](#trim)
@@ -29,6 +29,29 @@
 ////   * [`amin`](#amin)
 ////   * [`argmax`](#argmax)
 ////   * [`argmin`](#argmin)
+//// * **Mathematical functions**
+////   * [`tanh`](#tanh)
+////   * [`sin`](#sin)
+////   * [`acos`](#acos)
+////   * [`acosh`](#acosh)
+////   * [`asin`](#asin)
+////   * [`atan`](#atan)
+////   * [`atan2`](#atan2)
+////   * [`atanh`](#atanh)
+////   * [`cos`](#cos)
+////   * [`cosh`](#cosh)
+////   * [`exp`](#exp)
+////   * [`ceil`](#ceil)
+////   * [`floor`](#floor)
+////   * [`pow`](#pow)
+////   * [`log`](#log)
+////   * [`log10`](#log10)
+////   * [`log2`](#log2)
+////   * [`sinh`](#sinh)
+////   * [`tanh`](#tanh)
+//// * **Mathematical constants**
+////   * [`pi`](#pi)
+////   * [`tau`](#tau)
 
 import gleam/list
 import gleam/int
@@ -735,7 +758,7 @@ pub fn iqr(arr: List(Float)) -> Result(Float, Nil) {
         True -> {
           // x contains the n smallest values
           // y contains the n largest values
-          let tuple(x, y) =
+          let #(x, y) =
             arr
             |> list.split(length / 2)
           case median(y), median(x) {
@@ -744,11 +767,11 @@ pub fn iqr(arr: List(Float)) -> Result(Float, Nil) {
         }
         False -> {
           // x contains the n smallest values
-          let tuple(x, _z) =
+          let #(x, _z) =
             arr
             |> list.split({ length - 1 } / 2)
           // y contains the n largest values
-          let tuple(_z, y) =
+          let #(_z, y) =
             arr
             |> list.split({ length + 1 } / 2)
           case median(y), median(x) {
@@ -901,7 +924,7 @@ pub type Range {
 /// </div>
 ///
 pub type Bin =
-  tuple(Range, Int)
+  #(Range, Int)
 
 /// <div style="text-align: right;">
 ///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
@@ -966,7 +989,7 @@ fn create_bins(arr: List(Float), width: Float) -> List(Bin) {
         |> float.ceiling()
       list.range(0, float.round(inc))
       |> list.map(fn(x) -> Bin {
-        tuple(Range(width *. int.to_float(x), width *. int.to_float(x + 1)), 0)
+        #(Range(width *. int.to_float(x), width *. int.to_float(x + 1)), 0)
       })
     }
   }
@@ -1061,7 +1084,7 @@ pub fn correlation(xarr: List(Float), yarr: List(Float)) -> Result(Float, Nil) {
         Ok(xmean), Ok(ymean) -> {
           let a: Float =
             list.zip(xarr, yarr)
-            |> list.map(fn(z: tuple(Float, Float)) -> Float {
+            |> list.map(fn(z: #(Float, Float)) -> Float {
               { pair.first(z) -. xmean } *. { pair.second(z) -. ymean }
             })
             |> sum()
@@ -1233,7 +1256,7 @@ pub fn allclose(
   case xlen == ylen {
     True ->
       list.zip(xarr, yarr)
-      |> list.map(fn(z: tuple(Float, Float)) -> Bool {
+      |> list.map(fn(z: #(Float, Float)) -> Bool {
         isclose(pair.first(z), pair.second(z), rtol, atol)
       })
       |> Ok()
@@ -1462,13 +1485,17 @@ pub fn argmin(arr: List(Float)) -> Result(List(Int), Nil) {
     }
   }
 }
+
+// pub fn describe(arr: List(Float)) -> Result(List(tuple(String, Float)), Nil) {
+//   todo
+// }
 /// <div style="text-align: right;">
 ///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
 ///         <small>Spot a typo? Open an issue!</small>
 ///     </a>
 /// </div>
 ///
-///
+/// 
 /// <details>
 ///     <summary>Example:</summary>
 ///
@@ -1485,6 +1512,344 @@ pub fn argmin(arr: List(Float)) -> Result(List(Int), Nil) {
 ///     </a>
 /// </div>
 ///
-// pub fn describe(arr: List(Float)) -> Result(List(tuple(String, Float)), Nil) {
-//   todo
-// }
+///
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The sine function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn sin(Float) -> Float =
+  "math" "sin"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The mathematical constant pi. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn pi() -> Float =
+  "math" "pi"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The mathematical constant tau.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn tau() -> Float {
+  2. *. pi()
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The inverse cosine function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn acos(Float) -> Float =
+  "math" "acos"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The inverse hyperbolic cosine function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn acosh(Float) -> Float =
+  "math" "acosh"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The inverse sine function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn asin(Float) -> Float =
+  "math" "asin"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The inverse tangent function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn atan(Float) -> Float =
+  "math" "atan"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The inverse 2-argument tangent function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn atan2(Float, Float) -> Float =
+  "math" "atan2"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The inverse hyperbolic tangent function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn atanh(Float) -> Float =
+  "math" "atanh"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The cosine function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn cos(Float) -> Float =
+  "math" "cos"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The hyperbolic cosine function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn cosh(Float) -> Float =
+  "math" "cosh"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The exponential function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn exp(Float) -> Float =
+  "math" "exp"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The ceiling function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn ceil(Float) -> Float =
+  "math" "ceil"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The floor function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn floor(Float) -> Float =
+  "math" "floor"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The exponentiation function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn pow(Float, Float) -> Float =
+  "math" "pow"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The natural logarithm function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn log(Float) -> Float =
+  "math" "log"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The base-10 logarithm function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn log10(Float) -> Float =
+  "math" "log10"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The base-2 logarithm function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn log2(Float) -> Float =
+  "math" "log2"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The hyperbolic sine function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn sinh(Float) -> Float =
+  "math" "sinh"
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The hyperbolic tangent function. Wrapped from the Erlang math library.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub external fn tanh(Float) -> Float =
+  "math" "tanh"

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>gleam_stats&#x2f;rand - gleam_stats</title>
-    <link rel="stylesheet" href="..&#x2f;../index.css?v=0.14.3" type="text/css" />
+    <link rel="stylesheet" href="..&#x2f;../index.css?v=0.15.0" type="text/css" />
     <!-- The docs_config.js file is provided by HexDocs and shared
          between multiple versions of the same package. -->
     <script src="..&#x2f;../docs_config.js"></script>
@@ -303,7 +303,7 @@
   stream: Iterator(Int),
   p: Float,
   m: Int,
-) -&gt; tuple(List(Int), Iterator(Int))</code></pre>
+) -&gt; #(List(Int), Iterator(Int))</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
@@ -351,7 +351,7 @@
   p: Float,
   n: Int,
   m: Int,
-) -&gt; tuple(List(Int), Iterator(Int))</code></pre>
+) -&gt; #(List(Int), Iterator(Int))</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
@@ -399,7 +399,7 @@
   stream: Iterator(Int),
   lambda: Float,
   m: Int,
-) -&gt; tuple(List(Float), Iterator(Int))</code></pre>
+) -&gt; #(List(Float), Iterator(Int))</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
@@ -446,7 +446,7 @@
   stream: Iterator(Int),
   p: Float,
   m: Int,
-) -&gt; tuple(List(Int), Iterator(Int))</code></pre>
+) -&gt; #(List(Int), Iterator(Int))</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
@@ -494,7 +494,7 @@
   p: Float,
   n: Int,
   m: Int,
-) -&gt; tuple(List(Int), Iterator(Int))</code></pre>
+) -&gt; #(List(Int), Iterator(Int))</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
@@ -543,7 +543,7 @@ parameters 0 ≤ ‘p’ ≤ 1 and ‘n’ in {0, 1, 2,…}.</p>
   mean: Float,
   sigma: Float,
   m: Int,
-) -&gt; tuple(List(Float), Iterator(Int))</code></pre>
+) -&gt; #(List(Float), Iterator(Int))</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
@@ -592,7 +592,7 @@ standard deviation.</p>
   min: Int,
   max: Int,
   m: Int,
-) -&gt; tuple(List(Int), Iterator(Int))</code></pre>
+) -&gt; #(List(Int), Iterator(Int))</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
@@ -641,7 +641,7 @@ uniform distribution (‘max’ included).</p>
   min: Float,
   max: Float,
   m: Int,
-) -&gt; tuple(List(Float), Iterator(Int))</code></pre>
+) -&gt; #(List(Float), Iterator(Int))</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
@@ -688,7 +688,7 @@ continuous uniform distribution (‘max’ excluded).</p>
     <pre><code class="hljs gleam">pub fn take_randints(
   stream: Iterator(Int),
   m: Int,
-) -&gt; tuple(List(Int), Iterator(Int))</code></pre>
+) -&gt; #(List(Int), Iterator(Int))</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
@@ -773,8 +773,8 @@ numbers produced by a base-iterator.</p>
 
     <script src="https://unpkg.com/@highlightjs/cdn-assets@10.5.0/languages/elixir.min.js"></script>
 
-    <script src="..&#x2f;../highlightjs-gleam.js?v=0.14.3"></script>
+    <script src="..&#x2f;../highlightjs-gleam.js?v=0.15.0"></script>
 
-    <script src="..&#x2f;../gleam.js?v=0.14.3"></script>
+    <script src="..&#x2f;../gleam.js?v=0.15.0"></script>
   </body>
 </html>

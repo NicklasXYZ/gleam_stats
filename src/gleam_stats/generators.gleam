@@ -1,8 +1,13 @@
-//// A module for generating random numbers.
+//// A module for generating random numbers. Several different Pseudo-Random Number
+//// Generator (PRNG) algorithms are implemented by this module. Each function listed
+//// in the following creates a base-iterator that yields pseudo-random integer numbers. 
+//// A base-iterator created by one of the functions can then used with other functions
+//// to generate random numbers from common distributions. See the 'gleam_stats/rand'
+//// module for this functionality. 
 ////
 //// ---
 ////
-//// * **Creating a random number base-generator**
+//// * **Creating a random number base-iterator**
 ////   * [`seed_mt19937`](#seed_mt19937)
 ////   * [`seed_pcg32`](#seed_pcg32)
 ////   * [`seed_lcg32`](#seed_lcg32)
@@ -13,6 +18,24 @@ import gleam/iterator.{Iterator, Next, Step}
 import gleam/pair
 import gleam/float
 import gleam/io
+
+// Gleam does not have unsigned integers (integers are arbitrary sized)
+// so use explicit bit masks during bitwise operations.
+// fn mask_32() -> Int {
+//   float.round(float.power(2., 32.)) - 1
+// }
+// Explicitly set this value so we do not repeatedly re-compute it!
+pub const mask_32: Int = 4294967295
+
+// Gleam does not have unsigned integers (integers are arbitrary sized)
+// so use explicit bit masks during bitwise operations.
+// TODO: Pre-compute values.
+// fn mask_64() -> Int {
+//   float.round(float.power(2., 64.)) - 1
+//   // 18446744073709551615
+// }
+// Explicitly set this value so we do not repeatedly re-compute it!
+pub const mask_64: Int = 18446744073709551615
 
 // A type used to encapsulate all parameters used by the Mersenne Twister
 // (MT19937) Pseudo-Random Number Generator (PRNG) algorithm.
@@ -61,7 +84,7 @@ const mt19937 = MersenneTwister(
 )
 
 type StateMT =
-  tuple(Int, List(Int))
+  #(Int, List(Int))
 
 // A type used to encapsulate all parameters used by the Permuted 
 // Congruential Generator (PCG32).
@@ -87,15 +110,16 @@ const pcg32 = PermutedCongruentialGenerator(
 )
 
 type StatePCG =
-  tuple(Int, Int)
+  #(Int, Int)
 
-// A type used to encapsulate all parameters used by the Permuted 
-// Congruential Generator (PCG32).
+// A type used to encapsulate all parameters used by the Linear 
+// Congruential Generator (LCG32).
 type LinearCongruentialGenerator {
   LinearCongruentialGenerator(a: Int, c: Int)
 }
 
-// A constant containing the defualt PCG32 parameters
+// A constant containing the defualt LCG32 parameters taken from "Numerical Recipes"
+// by William H. Press, Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery.
 const lcg32 = LinearCongruentialGenerator(a: 1664525, c: 1013904223)
 
 type StateLCG =
@@ -122,11 +146,9 @@ fn upper_bitmask(mt: MersenneTwister) -> Int {
 ///     </a>
 /// </div>
 ///
-/// Use the Mersenne Twister (MT19937) Pseudo-Random Number Generator (PRNG) 
-/// algorithm to create a base-iterator that yields pseudo-random numbers. This 
-/// base-iterator can then be used with other methods to generate random numbers
-/// from common distributions. MT19937 is a generator of 32-bit random numbers 
-/// and uses a 32-bit integer seed.
+/// Create a base-iterator that uses the Mersenne Twister (MT19937) algorithm to
+/// generate random numbers. The MT19937 algorithm is a generator of 32-bit random
+/// numbers and uses a 32-bit integer seed. 
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -231,18 +253,18 @@ fn mt19937_next_state(state: StateMT, mt: MersenneTwister) -> Step(Int, StateMT)
   let index: Int = pair.first(state)
   let arr: List(Int) = pair.second(state)
   case list.at(arr, index) {
-    Ok(x) -> Next(element: shout(x, mt), accumulator: tuple(index + 1, arr))
+    Ok(x) -> Next(element: shout(x, mt), accumulator: #(index + 1, arr))
   }
 }
 
 // Create an iterator that yields pseudo-random numbers
 fn mt19937_rng(arr: List(Int), mt: MersenneTwister) -> Iterator(Int) {
   iterator.unfold(
-    tuple(mt.n, arr),
+    #(mt.n, arr),
     fn(state: StateMT) {
       case pair.first(state) == mt.n {
         True ->
-          tuple(
+          #(
             0,
             pair.second(state)
             |> twist(mt),
@@ -256,20 +278,6 @@ fn mt19937_rng(arr: List(Int), mt: MersenneTwister) -> Iterator(Int) {
   )
 }
 
-// PCG32 helper function
-// Gleam does not have unsigned integers (integers are arbitrary sized)
-// so use explicit bit masks during bitwise operations.
-fn mask_32() -> Int {
-  float.round(float.power(2., 32.)) - 1
-}
-
-// PCG32 helper function
-// Gleam does not have unsigned integers (integers are arbitrary sized)
-// so use explicit bit masks during bitwise operations.
-fn mask_64() -> Int {
-  float.round(float.power(2., 64.)) - 1
-}
-
 fn pcg32_next_rn(state: StatePCG, pcg: PermutedCongruentialGenerator) -> Int {
   let old_state: Int = pair.first(state)
   let xorshifted: Int =
@@ -281,16 +289,16 @@ fn pcg32_next_rn(state: StatePCG, pcg: PermutedCongruentialGenerator) -> Int {
         ),
         pcg.int_27,
       ),
-      mask_32(),
+      mask_32,
     )
   let rotation: Int =
-    bitwise.and(bitwise.shift_right(old_state, pcg.int_59), mask_32())
+    bitwise.and(bitwise.shift_right(old_state, pcg.int_59), mask_32)
   bitwise.and(
     bitwise.or(
       bitwise.shift_right(xorshifted, rotation),
       bitwise.shift_left(xorshifted, bitwise.and(-1 * rotation, pcg.int_31)),
     ),
-    mask_32(),
+    mask_32,
   )
 }
 
@@ -300,17 +308,17 @@ fn pcg32_init(
   pcg: PermutedCongruentialGenerator,
 ) -> StatePCG {
   // Keep PRNG state as a (state, increment) tuple
-  tuple(
+  #(
     0,
     bitwise.or(
-      bitwise.shift_left(bitwise.and(seq, mask_64()), pcg32.int_1),
+      bitwise.shift_left(bitwise.and(seq, mask_64), pcg32.int_1),
       pcg.int_1,
     ),
   )
   |> pcg32_next_state(pcg)
   |> fn(state: StatePCG) -> StatePCG {
-    let tuple(s, i) = state
-    tuple(bitwise.and(s + bitwise.and(seed, mask_64()), mask_64()), i)
+    let #(s, i) = state
+    #(bitwise.and(s + bitwise.and(seed, mask_64), mask_64), i)
   }
   |> pcg32_next_state(pcg)
 }
@@ -319,8 +327,8 @@ fn pcg32_next_state(
   state: StatePCG,
   pcg: PermutedCongruentialGenerator,
 ) -> StatePCG {
-  let tuple(s, i) = state
-  tuple(bitwise.and(s * pcg.multiplier + i, mask_64()), i)
+  let #(s, i) = state
+  #(bitwise.and(s * pcg.multiplier + i, mask_64), i)
 }
 
 /// <div style="text-align: right;">
@@ -329,11 +337,10 @@ fn pcg32_next_state(
 ///     </a>
 /// </div>
 ///
-/// Use the Permuted Congruential Generator (PCG32) Pseudo-Random Number Generator
-/// (PRNG) algorithm to create a base-iterator that yields pseudo-random numbers. 
-/// This base-iterator can then be used with other methods to generate random numbers
-/// from common distributions. PCG32 is a generator of 32-bit random numbers 
-/// and uses two 64-bit integer seeds (internal initial state and sequence number).
+/// Create a base-iterator that uses the Permuted Congruential Generator (PCG32)
+/// algorithm to generate random numbers. The PCG32 algorithm is a generator of
+/// 32-bit random numbers and uses two 64-bit integer seeds (internal initial
+/// state and sequence/stream number).
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -366,14 +373,14 @@ pub fn seed_pcg32(seed: Int, seq: Int) -> Iterator(Int) {
 
 fn lcg32_init(seed: Int, lcg: LinearCongruentialGenerator) -> StateLCG {
   // Keep PRNG state as a single int
-  bitwise.and(lcg.a * seed + lcg.c, mask_32())
+  bitwise.and(lcg.a * seed + lcg.c, mask_32)
 }
 
 fn lcg32_next_state(
   state: StateLCG,
   lcg: LinearCongruentialGenerator,
 ) -> StateLCG {
-  bitwise.and(lcg.a * state + lcg.c, mask_32())
+  bitwise.and(lcg.a * state + lcg.c, mask_32)
 }
 
 /// <div style="text-align: right;">
@@ -382,11 +389,9 @@ fn lcg32_next_state(
 ///     </a>
 /// </div>
 ///
-/// Use the Linear Congruential Generator (LCG32) Pseudo-Random Number Generator
-/// (PRNG) algorithm to create a base-iterator that yields pseudo-random numbers. 
-/// This base-iterator can then be used with other methods to generate random numbers
-/// from common distributions. LCG32 is a generator of 32-bit random numbers 
-/// and uses a 32-bit integer seed.
+/// Create a base-iterator that uses the Linear Congruential Generator (LCG32)
+/// algorithm to generate random numbers. The LCG32 algorithm is a generator of
+/// 32-bit random numbers and uses a 32-bit integer seed.
 ///
 /// <details>
 ///     <summary>Example:</summary>

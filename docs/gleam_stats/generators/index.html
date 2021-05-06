@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>gleam_stats&#x2f;generators - gleam_stats</title>
-    <link rel="stylesheet" href="..&#x2f;../index.css?v=0.14.3" type="text/css" />
+    <link rel="stylesheet" href="..&#x2f;../index.css?v=0.15.0" type="text/css" />
     <!-- The docs_config.js file is provided by HexDocs and shared
          between multiple versions of the same package. -->
     <script src="..&#x2f;../docs_config.js"></script>
@@ -218,6 +218,14 @@
 
 
 
+<h2>Constants</h2>
+<ul>
+  
+  <li><a href="#mask_32">mask_32</a></li>
+  
+  <li><a href="#mask_64">mask_64</a></li>
+  
+</ul>
 
 
 
@@ -241,10 +249,15 @@
   <a href="#module-name">gleam_stats&#x2f;generators</a>
   <svg class="icon icon-gleam-chasse"><use xlink:href="#icon-gleam-chasse"></use></svg>
 </h1>
-<p>A module for generating random numbers.</p>
+<p>A module for generating random numbers. Several different Pseudo-Random Number
+Generator (PRNG) algorithms are implemented by this module. Each function listed
+in the following creates a base-iterator that yields pseudo-random integer numbers. 
+A base-iterator created by one of the functions can then used with other functions
+to generate random numbers from common distributions. See the ‘gleam_stats/rand’
+module for this functionality. </p>
 <hr />
 <ul>
-<li><strong>Creating a random number base-generator</strong>
+<li><strong>Creating a random number base-iterator</strong>
 <ul>
 <li><a href="#seed_mt19937"><code>seed_mt19937</code></a></li>
 <li><a href="#seed_pcg32"><code>seed_pcg32</code></a></li>
@@ -258,6 +271,42 @@
 
 
 
+<section class="module-members">
+  <h1 id="module-constants" class="module-member-kind">
+    <a href="#module-constants">Constants</a>
+    <svg class="icon icon-gleam-chasse"><use xlink:href="#icon-gleam-chasse"></use></svg>
+  </h1>
+
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="mask_32">
+        <a href="#mask_32">
+          mask_32
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub const mask_32: Int = 4294967295</code></pre>
+    <div class="rendered-markdown"></div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="mask_64">
+        <a href="#mask_64">
+          mask_64
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub const mask_64: Int = 18446744073709551615</code></pre>
+    <div class="rendered-markdown"></div>
+  </div>
+  
+</section>
 
 
 
@@ -283,11 +332,9 @@
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>Use the Linear Congruential Generator (LCG32) Pseudo-Random Number Generator
-(PRNG) algorithm to create a base-iterator that yields pseudo-random numbers. 
-This base-iterator can then be used with other methods to generate random numbers
-from common distributions. LCG32 is a generator of 32-bit random numbers 
-and uses a 32-bit integer seed.</p>
+<p>Create a base-iterator that uses the Linear Congruential Generator (LCG32)
+algorithm to generate random numbers. The LCG32 algorithm is a generator of
+32-bit random numbers and uses a 32-bit integer seed.</p>
 <details>
      <summary>Example:</summary>
 <pre><code> import gleam/iterator.{Iterator}
@@ -323,11 +370,9 @@ and uses a 32-bit integer seed.</p>
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>Use the Mersenne Twister (MT19937) Pseudo-Random Number Generator (PRNG) 
-algorithm to create a base-iterator that yields pseudo-random numbers. This 
-base-iterator can then be used with other methods to generate random numbers
-from common distributions. MT19937 is a generator of 32-bit random numbers 
-and uses a 32-bit integer seed.</p>
+<p>Create a base-iterator that uses the Mersenne Twister (MT19937) algorithm to
+generate random numbers. The MT19937 algorithm is a generator of 32-bit random
+numbers and uses a 32-bit integer seed. </p>
 <details>
      <summary>Example:</summary>
 <pre><code> import gleam/iterator.{Iterator}
@@ -363,11 +408,10 @@ and uses a 32-bit integer seed.</p>
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>Use the Permuted Congruential Generator (PCG32) Pseudo-Random Number Generator
-(PRNG) algorithm to create a base-iterator that yields pseudo-random numbers. 
-This base-iterator can then be used with other methods to generate random numbers
-from common distributions. PCG32 is a generator of 32-bit random numbers 
-and uses two 64-bit integer seeds (internal initial state and sequence number).</p>
+<p>Create a base-iterator that uses the Permuted Congruential Generator (PCG32)
+algorithm to generate random numbers. The PCG32 algorithm is a generator of
+32-bit random numbers and uses two 64-bit integer seeds (internal initial
+state and sequence/stream number).</p>
 <details>
      <summary>Example:</summary>
 <pre><code> import gleam/iterator.{Iterator}
@@ -441,8 +485,8 @@ and uses two 64-bit integer seeds (internal initial state and sequence number).<
 
     <script src="https://unpkg.com/@highlightjs/cdn-assets@10.5.0/languages/elixir.min.js"></script>
 
-    <script src="..&#x2f;../highlightjs-gleam.js?v=0.14.3"></script>
+    <script src="..&#x2f;../highlightjs-gleam.js?v=0.15.0"></script>
 
-    <script src="..&#x2f;../gleam.js?v=0.14.3"></script>
+    <script src="..&#x2f;../gleam.js?v=0.15.0"></script>
   </body>
 </html>

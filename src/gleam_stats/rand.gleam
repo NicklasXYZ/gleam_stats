@@ -21,28 +21,9 @@ import gleam/float
 import gleam/int
 import gleam/pair
 import gleam/float
-import gleam_stats/math
 import gleam/io
-
-fn mask_32() -> Int {
-  float.round(float.power(2., 32.)) - 1
-}
-
-fn mask_64() -> Int {
-  float.round(float.power(2., 64.)) - 1
-}
-
-external fn cos(Float) -> Float =
-  "math" "cos"
-
-external fn sin(Float) -> Float =
-  "math" "sin"
-
-external fn log(Float) -> Float =
-  "math" "log"
-
-external fn pi() -> Float =
-  "math" "pi"
+import gleam_stats/math.{cos, log, pi}
+import gleam_stats/generators.{mask_32}
 
 // Use Box-Muller transform to sample from the normal distribution,
 // given standard uniform distributed random numbers.
@@ -87,13 +68,13 @@ fn box_muller(u1: Float, u2: Float) {
 pub fn take_randints(
   stream: Iterator(Int),
   m: Int,
-) -> tuple(List(Int), Iterator(Int)) {
+) -> #(List(Int), Iterator(Int)) {
   // Take out 'm' integers from the stream of pseudo-random numbers.
   let numbers: List(Int) =
     stream
     |> iterator.take(m)
     |> iterator.to_list
-  tuple(numbers, iterator.drop(stream, m))
+  #(numbers, iterator.drop(stream, m))
 }
 
 /// <div style="text-align: right;">
@@ -135,19 +116,19 @@ pub fn next_uniform(
   min: Float,
   max: Float,
   m: Int,
-) -> tuple(List(Float), Iterator(Int)) {
+) -> #(List(Float), Iterator(Int)) {
   // Take out 'm' integers from the stream of pseudo-random numbers.
-  let out: tuple(List(Int), Iterator(Int)) = take_randints(stream, m)
+  let out: #(List(Int), Iterator(Int)) = take_randints(stream, m)
   // Transform the 'm' integers to continuous uniform random numbers in an interval.
   let numbers: List(Float) =
     pair.first(out)
     |> list.map(fn(x) {
-      max *. { int.to_float(x) /. int.to_float(mask_32()) } +. min
+      max *. { int.to_float(x) /. int.to_float(mask_32) } +. min
     })
   // Then return a tuple consisting of a list of continuous uniform random numbers
   // and the stream of pseudo-random numbers where the 'm' integers have been dropped
   // from the stream.
-  tuple(numbers, pair.second(out))
+  #(numbers, pair.second(out))
 }
 
 /// <div style="text-align: right;">
@@ -189,11 +170,10 @@ pub fn next_normal(
   mean: Float,
   sigma: Float,
   m: Int,
-) -> tuple(List(Float), Iterator(Int)) {
+) -> #(List(Float), Iterator(Int)) {
   // Take out 'm' integers from the stream of pseudo-random numbers and generate 
   // uniform random numbers.
-  let out: tuple(List(Float), Iterator(Int)) =
-    next_uniform(stream, 0., 1., 2 * m)
+  let out: #(List(Float), Iterator(Int)) = next_uniform(stream, 0., 1., 2 * m)
   // Transform the 'm' continuous uniform random numbers to normal distributed
   // random numbers
   let numbers: List(Float) =
@@ -204,7 +184,7 @@ pub fn next_normal(
         [u1, u2] -> sigma *. box_muller(u1, u2) +. mean
       }
     })
-  tuple(numbers, pair.second(out))
+  #(numbers, pair.second(out))
 }
 
 /// <div style="text-align: right;">
@@ -246,12 +226,12 @@ pub fn next_randint(
   min: Int,
   max: Int,
   m: Int,
-) -> tuple(List(Int), Iterator(Int)) {
+) -> #(List(Int), Iterator(Int)) {
   // Pre-compute constant
   let c = int.to_float(max) -. int.to_float(min) +. 1.
   // Take out 'm' integers from the stream of pseudo-random numbers and generate 
   // uniform random numbers.
-  let out: tuple(List(Float), Iterator(Int)) = next_uniform(stream, 0., 1., m)
+  let out: #(List(Float), Iterator(Int)) = next_uniform(stream, 0., 1., m)
   // Transform the'm' continouous uniform random numbers to discrete uniform 
   // random numbers
   let numbers: List(Int) =
@@ -259,7 +239,7 @@ pub fn next_randint(
     |> list.map(fn(x: Float) -> Int {
       float.round(int.to_float(min) +. float.floor(c *. x))
     })
-  tuple(numbers, pair.second(out))
+  #(numbers, pair.second(out))
 }
 
 /// <div style="text-align: right;">
@@ -299,10 +279,10 @@ pub fn next_bern(
   stream: Iterator(Int),
   p: Float,
   m: Int,
-) -> tuple(List(Int), Iterator(Int)) {
+) -> #(List(Int), Iterator(Int)) {
   // Take out 'm' integers from the stream of pseudo-random numbers and generate 
   // uniform random numbers.
-  let out: tuple(List(Float), Iterator(Int)) = next_uniform(stream, 0., 1., m)
+  let out: #(List(Float), Iterator(Int)) = next_uniform(stream, 0., 1., m)
   // Transform the 'm' continuous uniform random numbers to bernoulli random numbers
   let numbers: List(Int) =
     pair.first(out)
@@ -312,7 +292,7 @@ pub fn next_bern(
         False -> 0
       }
     })
-  tuple(numbers, pair.second(out))
+  #(numbers, pair.second(out))
 }
 
 /// <div style="text-align: right;">
@@ -354,21 +334,20 @@ pub fn next_binom(
   p: Float,
   n: Int,
   m: Int,
-) -> tuple(List(Int), Iterator(Int)) {
+) -> #(List(Int), Iterator(Int)) {
   // Take out 'm' integers from the stream of pseudo-random numbers and generate 
   // bernoulli random numbers.
-  let out: tuple(List(Int), Iterator(Int)) = next_bern(stream, p, n * m)
+  let out: #(List(Int), Iterator(Int)) = next_bern(stream, p, n * m)
   // Transform each batch of 'm' bernoulli distributed random numbers to a binomial
   // distributed random number
   let numbers: List(Int) =
     pair.first(out)
     |> list.window(n)
-    |> io.debug()
     |> list.map(fn(x: List(Int)) -> Int {
       x
       |> list.fold(0, fn(a: Int, b: Int) -> Int { a + b })
     })
-  tuple(numbers, pair.second(out))
+  #(numbers, pair.second(out))
 }
 
 /// <div style="text-align: right;">
@@ -410,10 +389,10 @@ pub fn next_negbinom(
   p: Float,
   n: Int,
   m: Int,
-) -> tuple(List(Int), Iterator(Int)) {
+) -> #(List(Int), Iterator(Int)) {
   // Take out 'm' integers from the stream of pseudo-random numbers and generate 
   // geometric distributed random numbers.
-  let out: tuple(List(Int), Iterator(Int)) = next_geom(stream, p, n * m)
+  let out: #(List(Int), Iterator(Int)) = next_geom(stream, p, n * m)
   // Transform each batch of 'm' geometric distributed random numbers 
   // to a negative binomial distributed random number
   let numbers: List(Int) =
@@ -423,7 +402,7 @@ pub fn next_negbinom(
       x
       |> list.fold(0, fn(a: Int, b: Int) -> Int { a + b })
     })
-  tuple(numbers, pair.second(out))
+  #(numbers, pair.second(out))
 }
 
 /// <div style="text-align: right;">
@@ -463,16 +442,16 @@ pub fn next_geom(
   stream: Iterator(Int),
   p: Float,
   m: Int,
-) -> tuple(List(Int), Iterator(Int)) {
+) -> #(List(Int), Iterator(Int)) {
   // Take out 'm' integers from the stream of pseudo-random numbers and generate 
   // uniform random numbers.
-  let out: tuple(List(Float), Iterator(Int)) = next_uniform(stream, 0., 1., m)
+  let out: #(List(Float), Iterator(Int)) = next_uniform(stream, 0., 1., m)
   // Transform the 'm' continuous uniform random numbers to geometric distributed 
   // random numbers
   let numbers: List(Int) =
     pair.first(out)
     |> list.map(fn(x) { float.round(float.floor(log(x) /. log(1. -. p))) })
-  tuple(numbers, pair.second(out))
+  #(numbers, pair.second(out))
 }
 
 /// <div style="text-align: right;">
@@ -512,14 +491,14 @@ pub fn next_exp(
   stream: Iterator(Int),
   lambda: Float,
   m: Int,
-) -> tuple(List(Float), Iterator(Int)) {
+) -> #(List(Float), Iterator(Int)) {
   // Take out 'm' integers from the stream of pseudo-random numbers and generate 
   // uniform random numbers.
-  let out: tuple(List(Float), Iterator(Int)) = next_uniform(stream, 0., 1., m)
+  let out: #(List(Float), Iterator(Int)) = next_uniform(stream, 0., 1., m)
   // Transform the 'm' continuous uniform random numbers to exponential distributed
   // random numbers
   let numbers: List(Float) =
     pair.first(out)
     |> list.map(fn(x: Float) -> Float { 1. /. { -1. *. lambda } *. log(x) })
-  tuple(numbers, pair.second(out))
+  #(numbers, pair.second(out))
 }
