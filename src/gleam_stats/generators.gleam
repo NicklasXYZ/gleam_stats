@@ -25,7 +25,7 @@ import gleam/io
 //   float.round(float.power(2., 32.)) - 1
 // }
 // Explicitly set this value so we do not repeatedly re-compute it!
-pub const mask_32: Int = 4294967295
+const mask_32: Int = 4294967295
 
 // Gleam does not have unsigned integers (integers are arbitrary sized)
 // so use explicit bit masks during bitwise operations.
@@ -35,7 +35,7 @@ pub const mask_32: Int = 4294967295
 //   // 18446744073709551615
 // }
 // Explicitly set this value so we do not repeatedly re-compute it!
-pub const mask_64: Int = 18446744073709551615
+const mask_64: Int = 18446744073709551615
 
 // A type used to encapsulate all parameters used by the Mersenne Twister
 // (MT19937) Pseudo-Random Number Generator (PRNG) algorithm.

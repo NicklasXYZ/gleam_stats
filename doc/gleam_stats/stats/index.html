@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>gleam_stats&#x2f;math - gleam_stats</title>
+    <title>gleam_stats&#x2f;stats - gleam_stats</title>
     <link rel="stylesheet" href="..&#x2f;../index.css?v=0.15.0" type="text/css" />
     <!-- The docs_config.js file is provided by HexDocs and shared
          between multiple versions of the same package. -->
@@ -217,6 +217,14 @@
 
         
 
+<h2>Types</h2>
+<ul>
+  
+  <li><a href="#Bin">Bin</a></li>
+  
+  <li><a href="#Range">Range</a></li>
+  
+</ul>
 
 
 
@@ -226,45 +234,51 @@
 <h2>Functions</h2>
 <ul>
   
-  <li><a href="#acos">acos</a></li>
+  <li><a href="#allclose">allclose</a></li>
   
-  <li><a href="#acosh">acosh</a></li>
+  <li><a href="#amax">amax</a></li>
   
-  <li><a href="#asin">asin</a></li>
+  <li><a href="#amin">amin</a></li>
   
-  <li><a href="#atan">atan</a></li>
+  <li><a href="#argmax">argmax</a></li>
   
-  <li><a href="#atan2">atan2</a></li>
+  <li><a href="#argmin">argmin</a></li>
   
-  <li><a href="#atanh">atanh</a></li>
+  <li><a href="#correlation">correlation</a></li>
   
-  <li><a href="#ceil">ceil</a></li>
+  <li><a href="#freedman_diaconis_rule">freedman_diaconis_rule</a></li>
   
-  <li><a href="#cos">cos</a></li>
+  <li><a href="#gmean">gmean</a></li>
   
-  <li><a href="#cosh">cosh</a></li>
+  <li><a href="#histogram">histogram</a></li>
   
-  <li><a href="#exp">exp</a></li>
+  <li><a href="#hmean">hmean</a></li>
   
-  <li><a href="#floor">floor</a></li>
+  <li><a href="#iqr">iqr</a></li>
   
-  <li><a href="#log">log</a></li>
+  <li><a href="#isclose">isclose</a></li>
   
-  <li><a href="#log10">log10</a></li>
+  <li><a href="#kurtosis">kurtosis</a></li>
   
-  <li><a href="#log2">log2</a></li>
+  <li><a href="#mean">mean</a></li>
   
-  <li><a href="#pi">pi</a></li>
+  <li><a href="#median">median</a></li>
   
-  <li><a href="#pow">pow</a></li>
+  <li><a href="#moment">moment</a></li>
   
-  <li><a href="#sin">sin</a></li>
+  <li><a href="#percentile">percentile</a></li>
   
-  <li><a href="#sinh">sinh</a></li>
+  <li><a href="#skewness">skewness</a></li>
   
-  <li><a href="#tanh">tanh</a></li>
+  <li><a href="#std">std</a></li>
   
-  <li><a href="#tau">tau</a></li>
+  <li><a href="#sum">sum</a></li>
+  
+  <li><a href="#trim">trim</a></li>
+  
+  <li><a href="#var">var</a></li>
+  
+  <li><a href="#zscore">zscore</a></li>
   
 </ul>
 
@@ -274,45 +288,175 @@
       <main class="content">
         
 <h1 id="module-name" class="module-name">
-  <a href="#module-name">gleam_stats&#x2f;math</a>
+  <a href="#module-name">gleam_stats&#x2f;stats</a>
   <svg class="icon icon-gleam-chasse"><use xlink:href="#icon-gleam-chasse"></use></svg>
 </h1>
-<p>A module containing several mathematical functions.</p>
+<p>A module containing several helpful functions for computing and working with statistics.</p>
 <hr />
 <ul>
-<li><strong>Mathematical functions</strong>
+<li><strong>Types</strong>
 <ul>
-<li><a href="#tanh"><code>tanh</code></a></li>
-<li><a href="#sin"><code>sin</code></a></li>
-<li><a href="#acos"><code>acos</code></a></li>
-<li><a href="#acosh"><code>acosh</code></a></li>
-<li><a href="#asin"><code>asin</code></a></li>
-<li><a href="#atan"><code>atan</code></a></li>
-<li><a href="#atan2"><code>atan2</code></a></li>
-<li><a href="#atanh"><code>atanh</code></a></li>
-<li><a href="#cos"><code>cos</code></a></li>
-<li><a href="#cosh"><code>cosh</code></a></li>
-<li><a href="#exp"><code>exp</code></a></li>
-<li><a href="#ceil"><code>ceil</code></a></li>
-<li><a href="#floor"><code>floor</code></a></li>
-<li><a href="#pow"><code>pow</code></a></li>
-<li><a href="#log"><code>log</code></a></li>
-<li><a href="#log10"><code>log10</code></a></li>
-<li><a href="#log2"><code>log2</code></a></li>
-<li><a href="#sinh"><code>sinh</code></a></li>
-<li><a href="#tanh"><code>tanh</code></a></li>
+<li><a href="#Range"><code>Range</code></a></li>
+<li><a href="#Bin"><code>Bin</code></a></li>
 </ul>
 </li>
-<li><strong>Mathematical constants</strong>
+<li><strong>Statistical functions</strong>
 <ul>
-<li><a href="#pi"><code>pi</code></a></li>
-<li><a href="#tau"><code>tau</code></a></li>
+<li><a href="#mean"><code>mean</code></a></li>
+<li><a href="#median"><code>median</code></a></li>
+<li><a href="#hmean"><code>hmean</code></a></li>
+<li><a href="#gmean"><code>gmean</code></a></li>
+<li><a href="#var"><code>var</code></a></li>
+<li><a href="#std"><code>std</code></a></li>
+<li><a href="#moment"><code>moment</code></a></li>
+<li><a href="#skewness"><code>skewness</code></a></li>
+<li><a href="#kurtosis"><code>kurtosis</code></a></li>
+<li><a href="#zscore"><code>zscore</code></a></li>
+<li><a href="#percentile"><code>percentile</code></a></li>
+<li><a href="#iqr"><code>iqr</code></a></li>
+<li><a href="#freedman_diaconis_rule"><code>freedman_diaconis_rule</code></a></li>
+<li><a href="#histogram"><code>histogram</code></a></li>
+</ul>
+</li>
+<li><strong>Miscellaneous functions</strong>
+<ul>
+<li><a href="#sum"><code>sum</code></a></li>
+<li><a href="#trim"><code>trim</code></a></li>
+<li><a href="#isclose"><code>isclose</code></a></li>
+<li><a href="#allclose"><code>allclose</code></a></li>
+<li><a href="#amax"><code>amax</code></a></li>
+<li><a href="#amin"><code>amin</code></a></li>
+<li><a href="#argmax"><code>argmax</code></a></li>
+<li><a href="#argmin"><code>argmin</code></a></li>
 </ul>
 </li>
 </ul>
 
 
 
+<section class="module-members">
+  <h1 id="module-types" class="module-member-kind">
+    <a href="#module-types">Types</a>
+    <svg class="icon icon-gleam-chasse-2"><use xlink:href="#icon-gleam-chasse-2"></use></svg>
+  </h1>
+
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="Bin">
+        <a href="#Bin">
+          Bin
+        </a>
+      </h2>
+      
+      
+    </div>
+    <div class="custom-type-constructors">
+      <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>A type used to represent the bins in a histogram. The type is an alias 
+of a tuple containing a min/max range and a count of the values in 
+that range.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam/pair
+ import gleam_stats/math
+
+ pub fn example () {
+   // Create a bin
+   let bin: math.Bin = tuple(math.Range(0., 1.), 999)
+   // Retrieve min and max values
+   let math.Range(min, max) = pair.first(bin)
+   min
+   |&gt; should.equal(0.)
+   max
+   |&gt; should.equal(1.)
+   // Retrieve count
+   let count = pair.second(bin)
+   count
+   |&gt; should.equal(999)
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+      <pre><code class="hljs gleam">pub type Bin =
+  #(Range, Int)</code></pre>
+      
+      
+    </div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="Range">
+        <a href="#Range">
+          Range
+        </a>
+      </h2>
+      
+      
+    </div>
+    <div class="custom-type-constructors">
+      <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>A type used to represent a min/max interval. The <code>Range</code> type is among
+others used to represent the bin boundaries in a histogram.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam_stats/math
+ import gleam/should
+
+ pub fn example () {
+   // Create a range
+   let range = math.Range(0., 1.)
+   // Retrieve min and max values
+   let math.Range(min, max) = range
+   min
+   |&gt; should.equal(0.)
+   max
+   |&gt; should.equal(1.)
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+      <pre><code class="hljs gleam">pub type Range {
+  Range(min: Float, max: Float)
+}</code></pre>
+      
+      <h3>
+        Constructors
+      </h3>
+      <ul class="constructor-list">
+        
+        <li class="constructor-item">
+          <svg class="icon icon-star"><use xlink:href="#icon-star"></use></svg>
+          <pre class="constructor-name"><code class="hljs gleam">Range(min: Float, max: Float)</code></pre>
+          
+        </li>
+        
+      </ul>
+      
+    </div>
+  </div>
+  
+</section>
 
 
 
@@ -327,21 +471,55 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="acos">
-        <a href="#acos">
-          acos
+      <h2 id="allclose">
+        <a href="#allclose">
+          allclose
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn acos(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn allclose(
+  xarr: List(Float),
+  yarr: List(Float),
+  rtol: Float,
+  atol: Float,
+) -&gt; Result(List(Bool), Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The inverse cosine function. Wrapped from the Erlang math library.</p>
+<p>Determine if a list of values are close to or equivalent to a 
+another list of reference values.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   let val: Float = 99.
+   let ref_val: Float = 100.
+   let xarr: List(Float) = list.repeat(val, 42)
+   let yarr: List(Float) = list.repeat(ref_val, 42)
+   // We set 'atol' and 'rtol' such that the values are equivalent
+   // if 'val' is within 1 percent of 'ref_val' +/- 0.1
+   let rtol: Float = 0.01
+   let atol: Float = 0.10
+   math.allclose(xarr, yarr, rtol, atol)
+   |&gt; fn(zarr: Result(List(Bool), Nil)) -&gt; Result(Bool, Nil) {
+     case zarr {
+       Ok(arr) -&gt;
+         arr
+         |&gt; list.all(fn(a: Bool) -&gt; Bool { a })
+         |&gt; Ok()
+       _ -&gt; Error(Nil)
+     }
+   }
+   |&gt; should.equal(Ok(True))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -352,21 +530,37 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="acosh">
-        <a href="#acosh">
-          acosh
+      <h2 id="amax">
+        <a href="#amax">
+          amax
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn acosh(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn amax(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The inverse hyperbolic cosine function. Wrapped from the Erlang math library.</p>
+<p>Returns the maximum value of a list. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.amax()
+   |&gt; should.equal(Error(Nil))
+ 
+   [4., 4., 3., 2., 1.]
+   |&gt; math.amax()
+   |&gt; should.equal(Ok(4.))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -377,21 +571,37 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="asin">
-        <a href="#asin">
-          asin
+      <h2 id="amin">
+        <a href="#amin">
+          amin
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn asin(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn amin(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The inverse sine function. Wrapped from the Erlang math library.</p>
+<p>Returns the minimum value of a list. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.amin()
+   |&gt; should.equal(Error(Nil))
+ 
+   [4., 4., 3., 2., 1.]
+   |&gt; math.amin()
+   |&gt; should.equal(Ok(1.))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -402,21 +612,37 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="atan">
-        <a href="#atan">
-          atan
+      <h2 id="argmax">
+        <a href="#argmax">
+          argmax
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn atan(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn argmax(arr: List(Float)) -&gt; Result(List(Int), Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The inverse tangent function. Wrapped from the Erlang math library.</p>
+<p>Returns the indices of the maximum values in a list. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.argmax()
+   |&gt; should.equal(Error(Nil))
+ 
+   [4., 4., 3., 2., 1.]
+   |&gt; math.argmax()
+   |&gt; should.equal(Ok([0, 1]))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -427,21 +653,37 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="atan2">
-        <a href="#atan2">
-          atan2
+      <h2 id="argmin">
+        <a href="#argmin">
+          argmin
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn atan2(Float, Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn argmin(arr: List(Float)) -&gt; Result(List(Int), Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The inverse 2-argument tangent function. Wrapped from the Erlang math library.</p>
+<p>Returns the indices of the minimum values in a list. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.argmin()
+   |&gt; should.equal(Error(Nil))
+ 
+   [4., 4., 3., 2., 1.]
+   |&gt; math.argmin()
+   |&gt; should.equal(Ok([4]))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -452,21 +694,56 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="atanh">
-        <a href="#atanh">
-          atanh
+      <h2 id="correlation">
+        <a href="#correlation">
+          correlation
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn atanh(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn correlation(
+  xarr: List(Float),
+  yarr: List(Float),
+) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The inverse hyperbolic tangent function. Wrapped from the Erlang math library.</p>
+<p>Calculate the Pearson correlation coefficient to determine the linear 
+relationship between the elements in two lists of equal length. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   math.correlation([], [])
+   |&gt; should.equal(Error(Nil))
+ 
+   // Perfect positive correlation
+   let xarr0: List(Float) =
+     list.range(0, 100)
+     |&gt; list.map(fn(x: Int) -&gt; Float { int.to_float(x) })
+   let yarr0: List(Float) =
+     list.range(0, 100)
+     |&gt; list.map(fn(x: Int) -&gt; Float { int.to_float(x) })
+   math.correlation(xarr0, yarr0)
+   |&gt; should.equal(Ok(1.))
+ 
+   // Perfect negative correlation
+   let xarr0: List(Float) =
+     list.range(0, 100)
+     |&gt; list.map(fn(x: Int) -&gt; Float { -1. *. int.to_float(x) })
+   let yarr0: List(Float) =
+     list.range(0, 100)
+     |&gt; list.map(fn(x: Int) -&gt; Float { int.to_float(x) })
+   math.correlation(xarr0, yarr0)
+   |&gt; should.equal(Ok(-1.))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -477,21 +754,42 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="ceil">
-        <a href="#ceil">
-          ceil
+      <h2 id="freedman_diaconis_rule">
+        <a href="#freedman_diaconis_rule">
+          freedman_diaconis_rule
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn ceil(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn freedman_diaconis_rule(
+  arr: List(Float),
+) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The ceiling function. Wrapped from the Erlang math library.</p>
+<p>Use Freedman-Diaconis’s Rule to determine the bin widths of a
+histogram.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.freedman_diaconis_rule()
+   |&gt; should.equal(Error(Nil))
+ 
+   // Calculate histogram bin widths
+   list.range(0, 1000)
+   |&gt; list.map(fn(x: Int) -&gt; Float { int.to_float(x) })
+   |&gt; math.freedman_diaconis_rule()
+   |&gt; should.equal(Ok(10.))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -502,21 +800,38 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="cos">
-        <a href="#cos">
-          cos
+      <h2 id="gmean">
+        <a href="#gmean">
+          gmean
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn cos(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn gmean(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The cosine function. Wrapped from the Erlang math library.</p>
+<p>Calculcate the geometric mean of the elements in a list.
+Note that the geometric mean is only defined for positive numbers.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.gmean()
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 3., 9.]
+   |&gt; math.gmean()
+   |&gt; should.equal(Ok(3.))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -527,21 +842,48 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="cosh">
-        <a href="#cosh">
-          cosh
+      <h2 id="histogram">
+        <a href="#histogram">
+          histogram
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn cosh(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn histogram(
+  arr: List(Float),
+  width: Float,
+) -&gt; Result(List(#(Range, Int)), Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The hyperbolic cosine function. Wrapped from the Erlang math library.</p>
+<p>Create a histogram of the elements in a list.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam_stats/math
+ import gleam/should
+
+ pub fn example () {
+   list.range(0, 100)
+   |&gt; list.map(fn(x: Int) -&gt; Float { int.to_float(x) })
+   // Below 25. is the bin width
+   // The Freedman-Diaconis’s Rule can be used to determine a decent value
+   |&gt; math.histogram(25.)
+   |&gt; should.equal(Ok([
+     tuple(math.Range(0., 25.), 25),
+     tuple(math.Range(25., 50.), 25),
+     tuple(math.Range(50., 75.), 25),
+     tuple(math.Range(75., 100.), 25),
+   ]))
+
+   []
+   |&gt; math.histogram(1.)
+   |&gt; should.equal(Error(Nil))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -552,21 +894,38 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="exp">
-        <a href="#exp">
-          exp
+      <h2 id="hmean">
+        <a href="#hmean">
+          hmean
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn exp(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn hmean(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The exponential function. Wrapped from the Erlang math library.</p>
+<p>Calculcate the harmonic mean of the elements in a list.
+Note that the harmonic mean is only defined for positive numbers.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.hmean()
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 3., 6.]
+   |&gt; math.hmean()
+   |&gt; should.equal(Ok(2.))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -577,21 +936,37 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="floor">
-        <a href="#floor">
-          floor
+      <h2 id="iqr">
+        <a href="#iqr">
+          iqr
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn floor(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn iqr(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The floor function. Wrapped from the Erlang math library.</p>
+<p>Calculate the interquartile range (IQR) of the elements in a list.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.iqr()
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 2., 3., 4., 5.]
+   |&gt; math.iqr()
+   |&gt; should.equal(Ok(3.))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -602,21 +977,48 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="log">
-        <a href="#log">
-          log
+      <h2 id="isclose">
+        <a href="#isclose">
+          isclose
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn log(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn isclose(
+  a: Float,
+  b: Float,
+  rtol: Float,
+  atol: Float,
+) -&gt; Bool</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The natural logarithm function. Wrapped from the Erlang math library.</p>
+<p>Determine if a given value is close to or equivalent to a reference value 
+based on supplied relative and absolute tolerance values. The equivalance
+of the two given values are then determined based on the equation:</p>
+<center>
+     absolute(a - b) <= (atol + rtol * absolute(b))
+ </center>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   let val: Float = 99.
+   let ref_val: Float = 100.
+   // We set 'atol' and 'rtol' such that the values are equivalent
+   // if 'val' is within 1 percent of 'ref_val' +/- 0.1
+   let rtol: Float = 0.01
+   let atol: Float = 0.10
+   math.isclose(val, ref_val, rtol, atol)
+   |&gt; should.be_true()
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -627,21 +1029,51 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="log10">
-        <a href="#log10">
-          log10
+      <h2 id="kurtosis">
+        <a href="#kurtosis">
+          kurtosis
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn log10(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn kurtosis(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The base-10 logarithm function. Wrapped from the Erlang math library.</p>
+<p>Calculcate the sample kurtosis of a list of elements using the 
+definition of Fisher. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.skewness()
+   |&gt; should.equal(Error(Nil))
+ 
+   // No tail 
+   // -&gt; Fisher's definition gives kurtosis -3 
+   [1., 1., 1., 1.]
+   |&gt; math.kurtosis()
+   |&gt; should.equal(Ok(-3.))
+ 
+   // Distribution with a tail 
+   // -&gt; Higher kurtosis 
+   [1., 1., 1., 2.]
+   |&gt; math.kurtosis()
+   |&gt; fn(x: Result(Float, Nil)) -&gt; Bool {
+     case x {
+       Ok(x) -&gt; x &gt;. -3.
+     }
+   }
+   |&gt; should.be_true()
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -652,21 +1084,37 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="log2">
-        <a href="#log2">
-          log2
+      <h2 id="mean">
+        <a href="#mean">
+          mean
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn log2(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn mean(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The base-2 logarithm function. Wrapped from the Erlang math library.</p>
+<p>Calculcate the arithmetic mean of the elements in a list.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.mean()
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 2., 3.]
+   |&gt; math.mean()
+   |&gt; should.equal(Ok(2.))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -677,21 +1125,41 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="pi">
-        <a href="#pi">
-          pi
+      <h2 id="median">
+        <a href="#median">
+          median
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn pi() -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn median(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The mathematical constant pi. Wrapped from the Erlang math library.</p>
+<p>Calculcate the median of the elements in a list.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.median()
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 2., 3.]
+   |&gt; math.median()
+   |&gt; should.equal(Ok(2.))
+ 
+   [1., 2., 3., 4.]
+   |&gt; math.median()
+   |&gt; should.equal(Ok(2.5))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -702,21 +1170,47 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="pow">
-        <a href="#pow">
-          pow
+      <h2 id="moment">
+        <a href="#moment">
+          moment
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn pow(Float, Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn moment(arr: List(Float), n: Int) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The exponentiation function. Wrapped from the Erlang math library.</p>
+<p>Calculcate the n’th moment about the mean of a list of elements.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.moment(0)
+   |&gt; should.equal(Error(Nil))
+ 
+   // 0th moment about the mean is 1. per definition
+   [0., 1., 2., 3., 4.]
+   |&gt; math.moment(0)
+   |&gt; should.equal(Ok(1.))
+ 
+   // 1st moment about the mean is 0. per definition
+   [0., 1., 2., 3., 4.]
+   |&gt; math.moment(1)
+   |&gt; should.equal(Ok(0.))
+ 
+   [0., 1., 2., 3., 4.]
+   |&gt; math.moment(2)
+   |&gt; should.equal(Ok(2.))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -727,21 +1221,39 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="sin">
-        <a href="#sin">
-          sin
+      <h2 id="percentile">
+        <a href="#percentile">
+          percentile
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn sin(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn percentile(arr: List(Float), n: Int) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The sine function. Wrapped from the Erlang math library.</p>
+<p>Calculate the n’th percentile of the elements in a list using 
+linear interpolation between closest ranks.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.percentile(40)
+   |&gt; should.equal(Error(Nil))
+ 
+   // Calculate 40th percentile 
+   [15., 20., 35., 40., 50.]
+   |&gt; math.percentile(40)
+   |&gt; should.equal(Ok(29.))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -752,21 +1264,51 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="sinh">
-        <a href="#sinh">
-          sinh
+      <h2 id="skewness">
+        <a href="#skewness">
+          skewness
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn sinh(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn skewness(arr: List(Float)) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The hyperbolic sine function. Wrapped from the Erlang math library.</p>
+<p>Calculcate the sample skewness of a list of elements using the 
+Fisher-Pearson coefficient of skewness. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.skewness()
+   |&gt; should.equal(Error(Nil))
+ 
+   // No skewness 
+   // -&gt; Zero skewness
+   [1., 2., 3., 4.]
+   |&gt; math.skewness()
+   |&gt; should.equal(Ok(0.))
+ 
+   // Right-skewed distribution 
+   // -&gt; Positive skewness
+   [1., 1., 1., 2.]
+   |&gt; math.skewness()
+   |&gt; fn(x: Result(Float, Nil)) -&gt; Bool {
+     case x {
+       Ok(x) -&gt; x &gt;. 0.
+     }
+   }
+   |&gt; should.be_true()
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -777,21 +1319,40 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="tanh">
-        <a href="#tanh">
-          tanh
+      <h2 id="std">
+        <a href="#std">
+          std
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub external fn tanh(Float) -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn std(arr: List(Float), ddof: Int) -&gt; Result(Float, Nil)</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The hyperbolic tangent function. Wrapped from the Erlang math library.</p>
+<p>Calculcate the sample standard deviation of the elements in a list.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   // Degrees of freedom
+   let ddof: Int = 1
+ 
+   []
+   |&gt; math.std(ddof)
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 2., 3.]
+   |&gt; math.std(ddof)
+   |&gt; should.equal(Ok(1.))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>
@@ -802,21 +1363,175 @@
   
   <div class="member">
     <div class="member-name">
-      <h2 id="tau">
-        <a href="#tau">
-          tau
+      <h2 id="sum">
+        <a href="#sum">
+          sum
         </a>
       </h2>
       
       
     </div>
-    <pre><code class="hljs gleam">pub fn tau() -&gt; Float</code></pre>
+    <pre><code class="hljs gleam">pub fn sum(arr: List(Float)) -&gt; Float</code></pre>
     <div class="rendered-markdown"><div style="text-align: right;">
      <a href="https://github.com/nicklasxyz/gleam_stats/issues">
          <small>Spot a typo? Open an issue!</small>
      </a>
  </div>
-<p>The mathematical constant tau.</p>
+<p>Calculcate the sum of the elements in a list.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.sum()
+   |&gt; should.equal(0.)
+ 
+   [1., 2., 3.]
+   |&gt; math.sum()
+   |&gt; should.equal(6.)
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="trim">
+        <a href="#trim">
+          trim
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn trim(
+  arr: List(Float),
+  min: Int,
+  max: Int,
+) -&gt; Result(List(Float), Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Trim a list to a certain size given min/max indices. The min/max indices 
+are inclusive. </p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   |&gt; math.trim(0, 0)
+   |&gt; should.equal(Error(Nil))
+ 
+   // Trim list to only middle part of list
+   [1., 2., 3., 4., 5., 6.]
+   |&gt; math.trim(1, 4)
+   |&gt; should.equal(Ok([2., 3., 4., 5.]))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="var">
+        <a href="#var">
+          var
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn var(arr: List(Float), ddof: Int) -&gt; Result(Float, Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Calculcate the sample variance of the elements in a list.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   // Degrees of freedom
+   let ddof: Int = 1
+ 
+   []
+   |&gt; math.var(ddof)
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 2., 3.]
+   |&gt; math.var(ddof)
+   |&gt; should.equal(Ok(1.))
+ }
+</code></pre>
+</details>
+<div style="text-align: right;">
+     <a href="#">
+         <small>Back to top ↑</small>
+     </a>
+ </div>
+</div>
+  </div>
+  
+  <div class="member">
+    <div class="member-name">
+      <h2 id="zscore">
+        <a href="#zscore">
+          zscore
+        </a>
+      </h2>
+      
+      
+    </div>
+    <pre><code class="hljs gleam">pub fn zscore(
+  arr: List(Float),
+  ddof: Int,
+) -&gt; Result(List(Float), Nil)</code></pre>
+    <div class="rendered-markdown"><div style="text-align: right;">
+     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+         <small>Spot a typo? Open an issue!</small>
+     </a>
+ </div>
+<p>Calculate the z-score of each value in the list relative to the sample 
+mean and standard deviation.</p>
+<details>
+     <summary>Example:</summary>
+<pre><code> import gleam/should
+ import gleam_stats/math
+
+ pub fn example () {
+   []
+   // Use degrees of freedom = 1
+   |&gt; math.zscore(1)
+   |&gt; should.equal(Error(Nil))
+ 
+   [1., 2., 3.]
+   // Use degrees of freedom = 1
+   |&gt; math.zscore(1)
+   |&gt; should.equal(Ok([-1., 0., 1.]))
+ }
+</code></pre>
+</details>
 <div style="text-align: right;">
      <a href="#">
          <small>Back to top ↑</small>

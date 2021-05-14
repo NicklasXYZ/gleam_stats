@@ -23,7 +23,24 @@ import gleam/pair
 import gleam/float
 import gleam/io
 import gleam_stats/math.{cos, log, pi}
-import gleam_stats/generators.{mask_32}
+
+// Gleam does not have unsigned integers (integers are arbitrary sized)
+// so use explicit bit masks during bitwise operations.
+// fn mask_32() -> Int {
+//   float.round(float.power(2., 32.)) - 1
+// }
+// Explicitly set this value so we do not repeatedly re-compute it!
+const mask_32: Int = 4294967295
+
+// Gleam does not have unsigned integers (integers are arbitrary sized)
+// so use explicit bit masks during bitwise operations.
+// TODO: Pre-compute values.
+// fn mask_64() -> Int {
+//   float.round(float.power(2., 64.)) - 1
+//   // 18446744073709551615
+// }
+// Explicitly set this value so we do not repeatedly re-compute it!
+const mask_64: Int = 18446744073709551615
 
 // Use Box-Muller transform to sample from the normal distribution,
 // given standard uniform distributed random numbers.

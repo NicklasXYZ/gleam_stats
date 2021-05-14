@@ -6,17 +6,17 @@ import gleam/io
 import gleam/pair
 import gleam_stats/generators
 import gleam_stats/rand
-import gleam_stats/math
+import gleam_stats/stats
 
 pub fn sum_test() {
   []
-  |> math.sum()
+  |> stats.sum()
   |> should.equal(0.)
 
   let n: Int = 1000
   list.range(1, n + 1)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.sum()
+  |> stats.sum()
   // Check correspondance with the nth partial sum of natural nmubers
   // that can be calculated analytically
   |> should.equal(int.to_float(n) *. { int.to_float(n) +. 1. } /. 2.)
@@ -24,13 +24,13 @@ pub fn sum_test() {
 
 pub fn mean_test() {
   []
-  |> math.mean()
+  |> stats.mean()
   |> should.equal(Error(Nil))
 
   let n: Int = 1000
   list.range(1, n + 1)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.mean()
+  |> stats.mean()
   // Check correspondance with the nth partial sum of natural nmubers
   // that can be calculated analytically
   |> should.equal(Ok({ int.to_float(n) +. 1. } /. 2.))
@@ -38,22 +38,22 @@ pub fn mean_test() {
 
 pub fn hmean_test() {
   []
-  |> math.hmean()
+  |> stats.hmean()
   |> should.equal(Error(Nil))
 
   [0]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.hmean()
+  |> stats.hmean()
   |> should.equal(Ok(0.))
 
   [1]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.hmean()
+  |> stats.hmean()
   |> should.equal(Ok(1.))
 
   [1, 3, 6]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.hmean()
+  |> stats.hmean()
   |> should.equal(Ok(2.))
 
   // List input
@@ -61,28 +61,28 @@ pub fn hmean_test() {
   // - The harmonic mean is only defined for positive values >= 0
   [-1]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.hmean()
+  |> stats.hmean()
   |> should.equal(Error(Nil))
 }
 
 pub fn gmean_test() {
   []
-  |> math.gmean()
+  |> stats.gmean()
   |> should.equal(Error(Nil))
 
   [0]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.gmean()
+  |> stats.gmean()
   |> should.equal(Ok(0.))
 
   [1]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.gmean()
+  |> stats.gmean()
   |> should.equal(Ok(1.))
 
   [1, 3, 9]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.gmean()
+  |> stats.gmean()
   |> should.equal(Ok(3.))
 
   // List input
@@ -90,25 +90,25 @@ pub fn gmean_test() {
   // - The geometric mean is only defined for positive values >= 0 
   [-1]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.gmean()
+  |> stats.gmean()
   |> should.equal(Error(Nil))
 }
 
 pub fn var_test() {
   []
-  |> math.var(1)
+  |> stats.var(1)
   |> should.equal(Error(Nil))
 
   // No variance
   let n: Int = 1000
   list.repeat(1., n)
-  |> math.var(1)
+  |> stats.var(1)
   |> should.equal(Ok(0.))
 
   // Non-zero variance
   list.range(1, n + 1)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.var(1)
+  |> stats.var(1)
   |> fn(x: Result(Float, Nil)) -> Bool {
     case x {
       Ok(x) -> x >. 0.
@@ -120,41 +120,41 @@ pub fn var_test() {
 
 pub fn moment_test() {
   []
-  |> math.moment(0)
+  |> stats.moment(0)
   |> should.equal(Error(Nil))
 
   let n: Int = 1000
   list.range(1, n + 1)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.moment(0)
+  |> stats.moment(0)
   |> should.equal(Ok(1.))
 
   list.range(1, n + 1)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.moment(1)
+  |> stats.moment(1)
   |> should.equal(Ok(0.))
 
   [0, 1, 2, 3, 4]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.moment(2)
+  |> stats.moment(2)
   |> should.equal(Ok(2.))
 
   [0, -1, -2, -3, -4]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.moment(2)
+  |> stats.moment(2)
   |> should.equal(Ok(2.))
 }
 
 pub fn skewness_test() {
   []
-  |> math.skewness()
+  |> stats.skewness()
   |> should.equal(Error(Nil))
 
   // No skewness
   let n: Int = 1000
   list.range(1, n + 1)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.skewness()
+  |> stats.skewness()
   |> should.equal(Ok(0.))
 
   // Skew distribution
@@ -166,7 +166,7 @@ pub fn skewness_test() {
   |> list.append(b)
   |> list.append(c)
   |> list.append(d)
-  |> math.skewness()
+  |> stats.skewness()
   |> fn(x: Result(Float, Nil)) -> Bool {
     case x {
       Ok(x) -> x <. 1.1879 && x >. 1.1877
@@ -178,19 +178,19 @@ pub fn skewness_test() {
 
 pub fn kurtosis_test() {
   []
-  |> math.kurtosis()
+  |> stats.kurtosis()
   |> should.equal(Error(Nil))
 
   [1]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.kurtosis()
+  |> stats.kurtosis()
   |> should.equal(Ok(-3.))
 
   // No tail
   let n: Int = 1000
   list.range(1, n + 1)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.kurtosis()
+  |> stats.kurtosis()
   |> fn(x: Result(Float, Nil)) -> Bool {
     case x {
       Ok(x) -> x <. -1.2000 && x >. -1.2001
@@ -208,7 +208,7 @@ pub fn kurtosis_test() {
   |> list.append(b)
   |> list.append(c)
   |> list.append(d)
-  |> math.kurtosis()
+  |> stats.kurtosis()
   |> fn(x: Result(Float, Nil)) -> Bool {
     case x {
       Ok(x) -> x <. 0.4898 && x >. 0.4896
@@ -221,7 +221,7 @@ pub fn kurtosis_test() {
 pub fn zscore_test() {
   []
   // Use degrees of freedom = 1
-  |> math.zscore(1)
+  |> stats.zscore(1)
   |> should.equal(Error(Nil))
 
   let n: Int = 10
@@ -238,12 +238,12 @@ pub fn zscore_test() {
   list.range(1, n + 1)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
   // Use degrees of freedom = 1
-  |> math.zscore(1)
+  |> stats.zscore(1)
   |> fn(yarr: Result(List(Float), Nil)) -> Result(Bool, Nil) {
     case yarr {
       Ok(yarr) ->
         yarr
-        |> math.allclose(xarr, rtol0, atol0)
+        |> stats.allclose(xarr, rtol0, atol0)
         |> fn(zarr: Result(List(Bool), Nil)) -> Result(Bool, Nil) {
           case zarr {
             Ok(zarr) ->
@@ -260,81 +260,81 @@ pub fn zscore_test() {
 
 pub fn percentile_test() {
   []
-  |> math.percentile(40)
+  |> stats.percentile(40)
   |> should.equal(Error(Nil))
 
   [15, 20, 35, 40, 50]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.percentile(40)
+  |> stats.percentile(40)
   |> should.equal(Ok(29.))
 }
 
 pub fn iqr_test() {
   []
-  |> math.iqr()
+  |> stats.iqr()
   |> should.equal(Error(Nil))
 
   [1., 2., 3., 4., 5., 6.]
-  |> math.iqr()
+  |> stats.iqr()
   |> should.equal(Ok(3.))
 
   [1., 2., 3., 4., 5.]
-  |> math.iqr()
+  |> stats.iqr()
   |> should.equal(Ok(3.))
 }
 
 pub fn freedman_diaconis_rule_test() {
   []
-  |> math.freedman_diaconis_rule()
+  |> stats.freedman_diaconis_rule()
   |> should.equal(Error(Nil))
 
   list.range(0, 1000)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.freedman_diaconis_rule()
+  |> stats.freedman_diaconis_rule()
   |> should.equal(Ok(10.))
 }
 
 pub fn histogram_test() {
   []
-  |> math.histogram(1.)
+  |> stats.histogram(1.)
   |> should.equal(Error(Nil))
 
   list.range(0, 100)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.histogram(25.)
+  |> stats.histogram(25.)
   |> should.equal(Ok([
-    tuple(math.Range(0., 25.), 25),
-    tuple(math.Range(25., 50.), 25),
-    tuple(math.Range(50., 75.), 25),
-    tuple(math.Range(75., 100.), 25),
+    #(stats.Range(0., 25.), 25),
+    #(stats.Range(25., 50.), 25),
+    #(stats.Range(50., 75.), 25),
+    #(stats.Range(75., 100.), 25),
   ]))
 }
 
 pub fn trim_test() {
   []
-  |> math.trim(0, 0)
+  |> stats.trim(0, 0)
   |> should.equal(Error(Nil))
 
   [1, 2, 3, 4, 5, 6]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.trim(1, 4)
+  |> stats.trim(1, 4)
   |> should.equal(Ok([2., 3., 4., 5.]))
 
   [1, 2, 3, 4, 5, 6]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.trim(5, 5)
+  |> stats.trim(5, 5)
   |> should.equal(Ok([6.]))
 
   // - Negative min index 
   [1, 2, 3, 4, 5, 6]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.trim(-1, 5)
+  |> stats.trim(-1, 5)
   |> should.equal(Error(Nil))
 
   // - Too large max index 
   [1, 2, 3, 4, 5, 6]
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.trim(0, 6)
+  |> stats.trim(0, 6)
   |> should.equal(Error(Nil))
 }
 
@@ -346,21 +346,21 @@ pub fn isclose_test() {
   // Within 1 percent of the reference value +/- 0.1
   let rtol0: Float = 0.01
   let atol0: Float = 0.10
-  math.isclose(val, ref_val, rtol0, atol0)
+  stats.isclose(val, ref_val, rtol0, atol0)
   |> should.be_true()
 
   // Set relative and absolute tolerance
   // Within 0.1 percent of the reference value +/- 0.0
   let rtol1: Float = 0.001
   let atol1: Float = 0.0
-  math.isclose(val, ref_val, rtol1, atol1)
+  stats.isclose(val, ref_val, rtol1, atol1)
   |> should.be_false()
 
   // Set relative and absolute tolerance
   // Within 0.1 percent of the reference value +/- 1.0
   let rtol2: Float = 0.001
   let atol2: Float = 1.0
-  math.isclose(val, ref_val, rtol2, atol2)
+  stats.isclose(val, ref_val, rtol2, atol2)
   |> should.be_true()
 }
 
@@ -374,7 +374,7 @@ pub fn allclose_test() {
   let atol0: Float = 0.10
   let xarr: List(Float) = list.repeat(val, 42)
   let yarr: List(Float) = list.repeat(ref_val, 42)
-  math.allclose(xarr, yarr, rtol0, atol0)
+  stats.allclose(xarr, yarr, rtol0, atol0)
   |> fn(zarr: Result(List(Bool), Nil)) -> Result(Bool, Nil) {
     case zarr {
       Ok(arr) ->
@@ -389,7 +389,7 @@ pub fn allclose_test() {
   // Check that length mismatched lists are handled correctly
   let xarr: List(Float) = list.repeat(val, 41)
   let yarr: List(Float) = list.repeat(ref_val, 42)
-  math.allclose(xarr, yarr, rtol0, atol0)
+  stats.allclose(xarr, yarr, rtol0, atol0)
   |> should.equal(Error(Nil))
 
   // Set relative and absolute tolerance
@@ -398,7 +398,7 @@ pub fn allclose_test() {
   let atol1: Float = 0.0
   let xarr: List(Float) = list.repeat(val, 42)
   let yarr: List(Float) = list.repeat(ref_val, 42)
-  math.allclose(xarr, yarr, rtol1, atol1)
+  stats.allclose(xarr, yarr, rtol1, atol1)
   |> fn(zarr: Result(List(Bool), Nil)) -> Result(Bool, Nil) {
     case zarr {
       Ok(arr) ->
@@ -416,7 +416,7 @@ pub fn allclose_test() {
   let atol2: Float = 1.0
   let xarr: List(Float) = list.repeat(val, 42)
   let yarr: List(Float) = list.repeat(ref_val, 42)
-  math.allclose(xarr, yarr, rtol2, atol2)
+  stats.allclose(xarr, yarr, rtol2, atol2)
   |> fn(zarr: Result(List(Bool), Nil)) -> Result(Bool, Nil) {
     case zarr {
       Ok(arr) ->
@@ -431,33 +431,33 @@ pub fn allclose_test() {
 
 pub fn amax_test() {
   []
-  |> math.amax()
+  |> stats.amax()
   |> should.equal(Error(Nil))
 
   let min: Int = -100
   let max: Int = 100
   list.range(min, max + 1)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.amax()
+  |> stats.amax()
   |> should.equal(Ok(int.to_float(max)))
 }
 
 pub fn amin_test() {
   []
-  |> math.amax()
+  |> stats.amax()
   |> should.equal(Error(Nil))
 
   let min: Int = -100
   let max: Int = 100
   list.range(min, max + 1)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.amin()
+  |> stats.amin()
   |> should.equal(Ok(int.to_float(min)))
 }
 
 pub fn argmax_test() {
   []
-  |> math.argmax()
+  |> stats.argmax()
   |> should.equal(Error(Nil))
 
   let min: Int = -100
@@ -465,13 +465,13 @@ pub fn argmax_test() {
   let mid: Int = { max - min } / 2
   list.range(min, max + 1)
   |> list.map(fn(x: Int) -> Float { -1. *. float.power(int.to_float(x), 2.) })
-  |> math.argmax()
+  |> stats.argmax()
   |> should.equal(Ok([mid]))
 }
 
 pub fn argmin_test() {
   []
-  |> math.argmin()
+  |> stats.argmin()
   |> should.equal(Error(Nil))
 
   let min: Int = -100
@@ -479,6 +479,6 @@ pub fn argmin_test() {
   let mid: Int = { max - min } / 2
   list.range(min, max + 1)
   |> list.map(fn(x: Int) -> Float { float.power(int.to_float(x), 2.) })
-  |> math.argmin()
+  |> stats.argmin()
   |> should.equal(Ok([mid]))
 }

@@ -8,7 +8,7 @@ import gleam/int
 import gleam/result
 import gleam_stats/generators
 import gleam_stats/rand
-import gleam_stats/math
+import gleam_stats/stats
 
 pub fn next_uniform_test() {
   // MEAN     : (min + max) / 2
@@ -19,7 +19,7 @@ pub fn next_uniform_test() {
   let max: Float = 1.
   let mean: Float = { min +. max } /. 2.
   let variance: Float = float.power(max -. min, 2.) /. 12.
-  let out: tuple(List(Float), Iterator(Int)) =
+  let out: #(List(Float), Iterator(Int)) =
     generators.seed_mt19937(5)
     |> rand.next_uniform(min, max, 5_000)
   // Make sure the uniform random numbers are within the given
@@ -35,16 +35,16 @@ pub fn next_uniform_test() {
   // Make sure the mean of the uniform random numbers
   // is close to the analytically calculated mean
   pair.first(out)
-  |> math.mean()
+  |> stats.mean()
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, mean, rtol, atol) }
+  |> fn(x) { stats.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the uniform random numbers
   // is close to the analytically calculated variance
   pair.first(out)
-  |> math.var(1)
+  |> stats.var(1)
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, variance, rtol, atol) }
+  |> fn(x) { stats.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
 
@@ -55,22 +55,22 @@ pub fn next_normal_test() {
   let atol: Float = 0.05
   let mean: Float = 0.
   let variance: Float = 1.
-  let out: tuple(List(Float), Iterator(Int)) =
+  let out: #(List(Float), Iterator(Int)) =
     generators.seed_mt19937(5)
     |> rand.next_normal(mean, variance, 5_000)
   // Make sure the mean of the uniform random numbers
   // is close to the analytically calculated mean
   pair.first(out)
-  |> math.mean()
+  |> stats.mean()
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, mean, rtol, atol) }
+  |> fn(x) { stats.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the uniform random numbers
   // is close to the analytically calculated variance
   pair.first(out)
-  |> math.var(1)
+  |> stats.var(1)
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, variance, rtol, atol) }
+  |> fn(x) { stats.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
 
@@ -83,7 +83,7 @@ pub fn next_randint_test() {
   let max: Float = 10.
   let mean: Float = { min +. max } /. 2.
   let variance: Float = { float.power(max -. min +. 1., 2.) -. 1. } /. 12.
-  let out: tuple(List(Int), Iterator(Int)) =
+  let out: #(List(Int), Iterator(Int)) =
     generators.seed_mt19937(5)
     |> rand.next_randint(float.round(min), float.round(max), 5_000)
   pair.first(out)
@@ -103,17 +103,17 @@ pub fn next_randint_test() {
   // is close to the analytically calculated mean
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.mean()
+  |> stats.mean()
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, mean, rtol, atol) }
+  |> fn(x) { stats.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the discrete uniform random numbers
   // is close to the analytically calculated variance
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.var(1)
+  |> stats.var(1)
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, variance, rtol, atol) }
+  |> fn(x) { stats.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
 
@@ -128,7 +128,7 @@ pub fn next_bern_test() {
   let p: Float = 0.5
   let mean: Float = p
   let variance: Float = p *. { 1. -. p }
-  let out: tuple(List(Int), Iterator(Int)) =
+  let out: #(List(Int), Iterator(Int)) =
     generators.seed_mt19937(5)
     |> rand.next_bern(p, 5_000)
   // Make sure the bernoulli random numbers are 0 or 1
@@ -145,17 +145,17 @@ pub fn next_bern_test() {
   // is close to the analytically calculated mean
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.mean()
+  |> stats.mean()
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, mean, rtol, atol) }
+  |> fn(x) { stats.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the bernoulli random numbers
   // is close to the analytically calculated variance
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.var(1)
+  |> stats.var(1)
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, variance, rtol, atol) }
+  |> fn(x) { stats.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
 
@@ -170,24 +170,24 @@ pub fn next_binom_test() {
   let p: Float = 0.5
   let mean: Float = n *. p
   let variance: Float = n *. p *. { 1. -. p }
-  let out: tuple(List(Int), Iterator(Int)) =
+  let out: #(List(Int), Iterator(Int)) =
     generators.seed_mt19937(5)
     |> rand.next_binom(p, float.round(n), 5_000)
   // Make sure the mean of the binomial random numbers
   // is close to the analytically calculated mean
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.mean()
+  |> stats.mean()
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, mean, rtol, atol) }
+  |> fn(x) { stats.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the binomial random numbers
   // is close to the analytically calculated variance
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.var(1)
+  |> stats.var(1)
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, variance, rtol, atol) }
+  |> fn(x) { stats.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
 
@@ -202,24 +202,24 @@ pub fn next_negbinom_test() {
   let p: Float = 0.5
   let mean: Float = r *. p /. { 1. -. p }
   let variance = r *. p /. float.power(1. -. p, 2.)
-  let out: tuple(List(Int), Iterator(Int)) =
+  let out: #(List(Int), Iterator(Int)) =
     generators.seed_mt19937(5)
     |> rand.next_negbinom(p, float.round(r), 5_000)
   // Make sure the mean of the binomial random numbers
   // is close to the analytically calculated mean
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.mean()
+  |> stats.mean()
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, mean, rtol, atol) }
+  |> fn(x) { stats.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the binomial random numbers
   // is close to the analytically calculated variance
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.var(1)
+  |> stats.var(1)
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, variance, rtol, atol) }
+  |> fn(x) { stats.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
 
@@ -232,24 +232,24 @@ pub fn next_geom_test() {
   let p: Float = 0.5
   let mean: Float = { 1. -. p } /. p
   let variance = { 1. -. p } /. float.power(p, 2.)
-  let out: tuple(List(Int), Iterator(Int)) =
+  let out: #(List(Int), Iterator(Int)) =
     generators.seed_mt19937(5)
     |> rand.next_geom(p, 5_000)
   // Make sure the mean of the binomial random numbers
   // is close to the analytically calculated mean
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.mean()
+  |> stats.mean()
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, mean, rtol, atol) }
+  |> fn(x) { stats.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the binomial random numbers
   // is close to the analytically calculated variance
   pair.first(out)
   |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-  |> math.var(1)
+  |> stats.var(1)
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, variance, rtol, atol) }
+  |> fn(x) { stats.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
 
@@ -262,21 +262,21 @@ pub fn next_exp_test() {
   let lambda: Float = 0.5
   let mean: Float = 1. /. lambda
   let variance = 1. /. float.power(lambda, 2.)
-  let out: tuple(List(Float), Iterator(Int)) =
+  let out: #(List(Float), Iterator(Int)) =
     generators.seed_mt19937(5)
     |> rand.next_exp(lambda, 5_000)
   // Make sure the mean of the exponential random numbers
   // is close to the analytically calculated mean
   pair.first(out)
-  |> math.mean()
+  |> stats.mean()
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, mean, rtol, atol) }
+  |> fn(x) { stats.isclose(x, mean, rtol, atol) }
   |> should.be_true()
   // Make sure the variance of the exponential random numbers
   // is close to the analytically calculated variance
   pair.first(out)
-  |> math.var(1)
+  |> stats.var(1)
   |> result.unwrap(-9999.)
-  |> fn(x) { math.isclose(x, variance, rtol, atol) }
+  |> fn(x) { stats.isclose(x, variance, rtol, atol) }
   |> should.be_true()
 }
