@@ -24,7 +24,7 @@ this package can be installed by adding one of the following options to your `re
 {deps, [
     %% Hex dependencies
     %% - Current stable version:
-    {gleam_stdlib, "~> 0.15.0"}
+    {gleam_stats, "~> 0.1.0"}
 
     %% Git dependencies
     %% - Current development version:
