@@ -72,7 +72,7 @@ pub fn sum(arr: List(Float)) -> Float {
     [] -> 0.
     _ ->
       arr
-      |> list.fold(0., fn(a: Float, acc: Float) -> Float { a +. acc })
+      |> list.fold(0., fn(acc: Float, a: Float) -> Float { a +. acc })
   }
 }
 
@@ -278,7 +278,7 @@ pub fn gmean(arr: List(Float)) -> Result(Float, Nil) {
         arr
         |> list.try_fold(
           1.,
-          fn(a: Float, acc: Float) -> Result(Float, Nil) {
+          fn(acc: Float, a: Float) -> Result(Float, Nil) {
             case a >=. 0. {
               True -> Ok(acc *. a)
               False -> Error(Nil)
@@ -984,7 +984,7 @@ fn bin_elements(bins: List(Bin), arr: List(Float)) -> List(Bin) {
   arr
   |> list.fold(
     bins,
-    fn(key: Float, acc: List(Bin)) {
+    fn(acc: List(Bin), key: Float) {
       let bin: Result(Bin, Nil) =
         acc
         |> find_bin(key)
@@ -1281,7 +1281,7 @@ pub fn amax(arr: List(Float)) -> Result(Float, Nil) {
           arr
           |> list.fold(
             val0,
-            fn(a: Float, acc: Float) {
+            fn(acc: Float, a: Float) {
               case a >. acc {
                 True -> a
                 False -> acc
@@ -1333,7 +1333,7 @@ pub fn amin(arr: List(Float)) -> Result(Float, Nil) {
           arr
           |> list.fold(
             val0,
-            fn(a: Float, acc: Float) {
+            fn(acc: Float, a: Float) {
               case a <. acc {
                 True -> a
                 False -> acc

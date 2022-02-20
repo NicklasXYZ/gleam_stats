@@ -174,7 +174,7 @@ pub fn seed_mt19937(seed: Int) -> Iterator(Int) {
   |> iterator.from_list
   |> iterator.scan(
     seed,
-    fn(x: Int, acc: Int) -> Int {
+    fn(acc: Int, x: Int) -> Int {
       lowest_bits(
         mt.f * bitwise.exclusive_or(acc, bitwise.shift_right(acc, mt.w - 2)) + x,
         mt,

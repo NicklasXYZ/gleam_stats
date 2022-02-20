@@ -1,4 +1,4 @@
-import gleam/should
+// import gleam/should
 import gleam/io
 import gleam/pair
 import gleam/list
@@ -9,6 +9,12 @@ import gleam/result
 import gleam_stats/generators
 import gleam_stats/rand
 import gleam_stats/stats
+import gleeunit
+import gleeunit/should
+
+pub fn main() {
+  gleeunit.main()
+}
 
 pub fn next_uniform_test() {
   // MEAN     : (min + max) / 2

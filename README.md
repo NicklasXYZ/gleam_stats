@@ -1,33 +1,19 @@
 # gleam_stats
 
-A Gleam project for generating and working with random numbers, distributions and statistics. The repository is available on [Github](https://github.com/nicklasxyz/gleam_stats) while the documentation is hosted on:
-- [Github Pages](https://nicklasxyz.github.io/gleam_stats/) for the current development version.
-- [HexDocs](https://hexdocs.pm/gleam_stats/) for the current stable version.
-
-
-## Quick start
-
-```sh
-# Run the eunit tests
-rebar3 eunit
-
-# Run the Erlang REPL
-rebar3 shell
-```
+A Gleam library for generating and working with random numbers, distributions and statistics. The repository is available on [Github](https://github.com/nicklasxyz/gleam_stats) while the documentation is hosted on:
+- [HexDocs](https://hexdocs.pm/gleam_stats/)
 
 ## Installation
 
-If [available in Hex](https://rebar3.org/docs/configuration/dependencies/#declaring-dependencies)
-this package can be installed by adding one of the following options to your `rebar.config` dependencies:
+If available on Hex this package can be added to your Gleam project:
 
-```erlang
-{deps, [
-    %% Hex dependencies
-    %% - Current stable version:
-    {gleam_stats, "~> 0.1.0"}
+```sh
+gleam add gleam_stats
+```
 
-    %% Git dependencies
-    %% - Current development version:
-    %% {gleam_stats, "", {git, "git://github.com/nicklasxyz/gleam_stats.git", {branch, "main"}}}
-]}.
+## Development
+
+```sh
+gleam test       # Run the tests
+gleam build docs # Build docs
 ```

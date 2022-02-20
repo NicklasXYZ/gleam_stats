@@ -1,10 +1,16 @@
 //// Small examples used in the docs...
 
-import gleam/should
+// import gleam/should
 import gleam/int
 import gleam/list
 import gleam/pair
 import gleam_stats/stats
+import gleeunit
+import gleeunit/should
+
+pub fn main() {
+  gleeunit.main()
+}
 
 pub fn example_sum_test() {
   []

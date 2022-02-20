@@ -1,6 +1,14 @@
 name = "gleam_stats"
+version = "0.1.1"
 
-[docs]
-links = [
-  { title = 'GitHub', href = 'https://github.com/nicklasxyz/gleam_stats' }
-]
+licences = ["MIT"]
+description = "A Gleam library for generating and working with random numbers, distributions and statistics."
+repository = { type = "github", user = "nicklasxyz", repo = "gleam_stats" }
+links = [{ title = "Documentation", href = "https://hexdocs.pm/gleam_stats" }]
+
+[dependencies]
+gleam_stdlib = "~> 0.19"
+gleam_bitwise = "~> 1.1"
+
+[dev-dependencies]
+gleeunit = "~> 0.6"

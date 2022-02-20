@@ -1,9 +1,15 @@
-import gleam/should
+// import gleam/should
 import gleam/pair
 import gleam/list
 import gleam_stats/generators
 import gleam_stats/rand
 import gleam_stats/stats
+import gleeunit
+import gleeunit/should
+
+pub fn main() {
+  gleeunit.main()
+}
 
 pub fn seed_mt19937_test() {
   // Test that the raw output from the pseudo-random generator is

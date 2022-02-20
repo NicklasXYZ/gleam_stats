@@ -1,4 +1,4 @@
-import gleam/should
+// import gleam/should
 import gleam/list
 import gleam/float
 import gleam/int
@@ -7,6 +7,12 @@ import gleam/pair
 import gleam_stats/generators
 import gleam_stats/rand
 import gleam_stats/stats
+import gleeunit
+import gleeunit/should
+
+pub fn main() {
+  gleeunit.main()
+}
 
 pub fn sum_test() {
   []
