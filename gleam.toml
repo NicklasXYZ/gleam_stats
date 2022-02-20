@@ -1,5 +1,5 @@
 name = "gleam_stats"
-version = "0.1.1"
+version = "0.1.2"
 
 licences = ["MIT"]
 description = "A Gleam library for generating and working with random numbers, distributions and statistics."

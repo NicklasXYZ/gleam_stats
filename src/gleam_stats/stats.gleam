@@ -47,7 +47,7 @@ import gleam/pair
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -87,7 +87,7 @@ pub fn sum(arr: List(Float)) -> Float {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -129,7 +129,7 @@ pub fn mean(arr: List(Float)) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -194,7 +194,7 @@ pub fn median(arr: List(Float)) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -250,7 +250,7 @@ pub fn hmean(arr: List(Float)) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -309,7 +309,7 @@ pub fn gmean(arr: List(Float)) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -362,7 +362,7 @@ pub fn var(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -410,7 +410,7 @@ pub fn std(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -483,7 +483,7 @@ pub fn moment(arr: List(Float), n: Int) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -544,7 +544,7 @@ pub fn skewness(arr: List(Float)) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -605,7 +605,7 @@ pub fn kurtosis(arr: List(Float)) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -656,7 +656,7 @@ pub fn zscore(arr: List(Float), ddof: Int) -> Result(List(Float), Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -706,7 +706,7 @@ pub fn percentile(arr: List(Float), n: Int) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -772,7 +772,7 @@ pub fn iqr(arr: List(Float)) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -837,7 +837,7 @@ pub fn freedman_diaconis_rule(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/math
-///     import gleam/should
+///     import gleeunit/should
 ///
 ///     pub fn example () {
 ///       // Create a range
@@ -874,7 +874,7 @@ pub type Range {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam/pair
 ///     import gleam_stats/math
 ///
@@ -915,7 +915,7 @@ pub type Bin =
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/math
-///     import gleam/should
+///     import gleeunit/should
 ///
 ///     pub fn example () {
 ///       list.range(0, 100)
@@ -1011,7 +1011,7 @@ fn bin_elements(bins: List(Bin), arr: List(Float)) -> List(Bin) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -1095,7 +1095,7 @@ pub fn correlation(xarr: List(Float), yarr: List(Float)) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -1148,7 +1148,7 @@ pub fn trim(arr: List(Float), min: Int, max: Int) -> Result(List(Float), Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -1190,7 +1190,7 @@ pub fn isclose(a: Float, b: Float, rtol: Float, atol: Float) -> Bool {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -1252,7 +1252,7 @@ pub fn allclose(
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -1304,7 +1304,7 @@ pub fn amax(arr: List(Float)) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -1356,7 +1356,7 @@ pub fn amin(arr: List(Float)) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -1415,7 +1415,7 @@ pub fn argmax(arr: List(Float)) -> Result(List(Int), Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
@@ -1472,7 +1472,7 @@ pub fn argmin(arr: List(Float)) -> Result(List(Int), Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam/should
+///     import gleeunit/should
 ///     import gleam_stats/math
 ///
 ///     pub fn example () {
