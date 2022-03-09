@@ -45,9 +45,13 @@ const mask_64: Int = 18446744073709551615
 // Use Box-Muller transform to sample from the normal distribution,
 // given standard uniform distributed random numbers.
 fn box_muller(u1: Float, u2: Float) {
-  case float.square_root(-2. *. log(u1)) {
-    Ok(x) -> x *. cos(2. *. pi() *. u2)
-  }
+  assert Ok(x) = float.square_root(-2. *. log(u1))
+  x *. cos(2. *. pi() *. u2)
+  // TODO: Handle error case if the function is made public.
+  //       Ohterwise the input will always be positive.
+  // case float.square_root(-2. *. log(u1)) {
+  //   Ok(x) -> x *. cos(2. *. pi() *. u2)
+  // }
 }
 
 /// <div style="text-align: right;">

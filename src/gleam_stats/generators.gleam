@@ -252,9 +252,12 @@ fn shout(x: Int, mt: MersenneTwister) -> Int {
 fn mt19937_next_state(state: StateMT, mt: MersenneTwister) -> Step(Int, StateMT) {
   let index: Int = pair.first(state)
   let arr: List(Int) = pair.second(state)
-  case list.at(arr, index) {
-    Ok(x) -> Next(element: shout(x, mt), accumulator: #(index + 1, arr))
-  }
+  // TODO: Should the error case be handled? A new state will always be available. 
+  // case list.at(arr, index) {
+  //   Ok(x) -> Next(element: shout(x, mt), accumulator: #(index + 1, arr))
+  // }
+  assert Ok(x) = list.at(arr, index)
+  Next(element: shout(x, mt), accumulator: #(index + 1, arr))
 }
 
 // Create an iterator that yields pseudo-random numbers

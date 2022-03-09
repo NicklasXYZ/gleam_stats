@@ -130,6 +130,7 @@ pub fn example_skewness_test() {
   |> fn(x: Result(Float, Nil)) -> Bool {
     case x {
       Ok(x) -> x >. 0.
+      _ -> False
     }
   }
   |> should.be_true()
@@ -153,6 +154,7 @@ pub fn example_kurtosis_test() {
   |> fn(x: Result(Float, Nil)) -> Bool {
     case x {
       Ok(x) -> x >. -3.
+      _ -> False
     }
   }
   |> should.be_true()

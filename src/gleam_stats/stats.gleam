@@ -168,6 +168,7 @@ pub fn median(arr: List(Float)) -> Result(Float, Nil) {
             Ok(val0) ->
               val0
               |> Ok()
+            _ -> Error(Nil)
           }
         // If there is an even number of elements in the list, then the median
         // is the mean of the two middle values
@@ -346,6 +347,7 @@ pub fn var(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
             a /. { int.to_float(list.length(arr)) -. int.to_float(ddof) }
           }
           |> Ok()
+        _ -> Error(Nil)
       }
     }
   }
@@ -394,6 +396,7 @@ pub fn std(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
         Ok(var) ->
           var
           |> float.square_root()
+        _ -> Error(Nil)
       }
     }
   }
@@ -463,6 +466,7 @@ pub fn moment(arr: List(Float), n: Int) -> Result(Float, Nil) {
                     float.power(a -. m1, int.to_float(n))
                   })
                   |> mean()
+                _ -> Error(Nil)
               }
             }
           }
@@ -985,18 +989,29 @@ fn bin_elements(bins: List(Bin), arr: List(Float)) -> List(Bin) {
   |> list.fold(
     bins,
     fn(acc: List(Bin), key: Float) {
-      let bin: Result(Bin, Nil) =
+      // TODO: Should the error case be handled? If the bins are constructed
+      //       correctly no value should fall outside a bin...
+      // let bin: Result(Bin, Nil) =
+      //   acc
+      //   |> find_bin(key)
+      assert Ok(bin) =
         acc
         |> find_bin(key)
-      case bin {
-        Ok(bin) ->
-          case list.key_pop(acc, pair.first(bin)) {
-            Ok(kv) ->
-              list.key_set(pair.second(kv), pair.first(bin), pair.first(kv) + 1)
-          }
-      }
+      assert Ok(kv) = list.key_pop(acc, pair.first(bin))
+      list.key_set(pair.second(kv), pair.first(bin), pair.first(kv) + 1)
     },
   )
+  // case list.key_pop(acc, pair.first(bin)) {
+  //   Ok(kv) ->
+  //     list.key_set(pair.second(kv), pair.first(bin), pair.first(kv) + 1)
+  // }
+  // case bin {
+  //   Ok(bin) ->
+  //     case list.key_pop(acc, pair.first(bin)) {
+  //       Ok(kv) ->
+  //         list.key_set(pair.second(kv), pair.first(bin), pair.first(kv) + 1)
+  //     }
+  // }
 }
 
 /// <div style="text-align: right;">
@@ -1075,8 +1090,10 @@ pub fn correlation(xarr: List(Float), yarr: List(Float)) -> Result(Float, Nil) {
             |> sum()
           case float.square_root(b *. c) {
             Ok(val0) -> Ok(a /. val0)
+            _ -> Error(Nil)
           }
         }
+        _, _ -> Error(Nil)
       }
     }
     False -> Error(Nil)
@@ -1289,6 +1306,7 @@ pub fn amax(arr: List(Float)) -> Result(Float, Nil) {
             },
           )
           |> Ok()
+        _ -> Error(Nil)
       }
   }
 }
@@ -1341,6 +1359,9 @@ pub fn amin(arr: List(Float)) -> Result(Float, Nil) {
             },
           )
           |> Ok()
+        // TODO: Probably not necessary.
+        //       We already checked that the list is not empty... 
+        _ -> Error(Nil)
       }
   }
 }
@@ -1399,6 +1420,9 @@ pub fn argmax(arr: List(Float)) -> Result(List(Int), Nil) {
             }
           })
           |> Ok()
+        // TODO: Probably not necessary.
+        //       We already checked that the list is not empty... 
+        _ -> Error(Nil)
       }
     }
   }
@@ -1458,6 +1482,9 @@ pub fn argmin(arr: List(Float)) -> Result(List(Int), Nil) {
             }
           })
           |> Ok()
+        // TODO: Probably not necessary.
+        //       We already checked that the list is not empty... 
+        _ -> Error(Nil)
       }
     }
   }

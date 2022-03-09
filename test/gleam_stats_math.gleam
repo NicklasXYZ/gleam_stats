@@ -259,6 +259,7 @@ pub fn zscore_test() {
             _ -> Error(Nil)
           }
         }
+      _ -> Error(Nil)
     }
   }
   |> should.equal(Ok(True))
