@@ -26,6 +26,7 @@
 //// * **Special Mathematical functions**
 ////   * [`erf`](#erf)
 ////   * [`gamma`](#gamma)
+////   * [`gammainc`](#gammainc)
 ////   * [`beta`](#beta)
 ////   * [`round`](#round)
 //// * **Combinatorial functions**
