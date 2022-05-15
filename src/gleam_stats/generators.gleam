@@ -7,6 +7,8 @@
 //// ---
 ////
 //// * **Bit masking-related functions & constants**
+////   * [`mask_32`](#mask_32)
+////   * [`mask_64`](#mask_64)
 ////   * [`uint32`](#uint32)
 ////   * [`uint64`](#uint64)
 //// * **Random number base-iterator functions**
@@ -19,73 +21,17 @@ import gleam/bitwise
 import gleam/iterator.{Iterator, Next, Step}
 import gleam/pair
 
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
 ///
 /// The value is equal to `float.round(float.power(2., 32.)) - 1`,
 /// which is the maximum value for a 32-bit unsigned integer.
 ///
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
 pub const mask_32: Int = 4294967295
 
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
-///
-/// Gleam does not have 32 bit unsigned integers (integers are arbitrary-sized)
-/// so use an explicit bit mask to convert integers to 32 bit integers.
-///
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
-pub fn uint32(n) -> Int {
-  bitwise.and(n, mask_32)
-}
-
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
 ///
 /// The value is equal to `float.round(float.power(2., 64.)) - 1`,
 /// which is the maximum value for a 64-bit unsigned integer.
 ///
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
 pub const mask_64: Int = 18446744073709551615
-
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
-///
-/// Gleam does not have 64 bit unsigned integers (integers are arbitrary-sized)
-/// so use an explicit bit mask to convert integers to 64 bit integers.
-///
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
-pub fn uint64(n) -> Int {
-  bitwise.and(n, mask_64)
-}
 
 // A type used to encapsulate all parameters used by the Permuted Congruential 
 // Generator (PCG32).
@@ -313,4 +259,42 @@ pub fn take_randints(
       |> Ok
     }
   }
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Gleam does not have 32 bit unsigned integers (integers are arbitrary-sized)
+/// so use an explicit bit mask to convert integers to 32 bit integers.
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn uint32(n: Int) -> Int {
+  bitwise.and(n, mask_32)
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Gleam does not have 64 bit unsigned integers (integers are arbitrary-sized)
+/// so use an explicit bit mask to convert integers to 64 bit integers.
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn uint64(n: Int) -> Int {
+  bitwise.and(n, mask_64)
 }
