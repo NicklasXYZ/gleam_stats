@@ -638,7 +638,6 @@ if javascript {
 ///
 /// The error function. 
 ///
-///
 /// <div style="text-align: right;">
 ///     <a href="#">
 ///         <small>Back to top ↑</small>
