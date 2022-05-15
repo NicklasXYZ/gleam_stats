@@ -33,7 +33,6 @@
 import gleam/list
 import gleam/int
 import gleam/float
-import gleam/io
 import gleam/pair
 
 /// <div style="text-align: right;">
@@ -48,15 +47,17 @@ import gleam/pair
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty list returns an error
 ///       []
-///       |> math.sum()
+///       |> stats.sum()
 ///       |> should.equal(0.)
-///     
+///
+///       // Valid input returns a result
 ///       [1., 2., 3.]
-///       |> math.sum()
+///       |> stats.sum()
 ///       |> should.equal(6.)
 ///     }
 /// </details>
@@ -88,15 +89,17 @@ pub fn sum(arr: List(Float)) -> Float {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty list returns an error
 ///       []
-///       |> math.mean()
-///       |> should.equal(Error(Nil))
-///     
+///       |> stats.mean()
+///       |> should.be_error()
+///
+///       // Valid input returns a result
 ///       [1., 2., 3.]
-///       |> math.mean()
+///       |> stats.mean()
 ///       |> should.equal(Ok(2.))
 ///     }
 /// </details>
@@ -107,14 +110,16 @@ pub fn sum(arr: List(Float)) -> Float {
 ///     </a>
 /// </div>
 ///
-pub fn mean(arr: List(Float)) -> Result(Float, Nil) {
+pub fn mean(arr: List(Float)) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
     _ ->
       arr
       |> sum()
       |> fn(a: Float) -> Float { a /. int.to_float(list.length(arr)) }
-      |> Ok()
+      |> Ok
   }
 }
 
@@ -130,19 +135,21 @@ pub fn mean(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty list returns an error
 ///       []
-///       |> math.median()
-///       |> should.equal(Error(Nil))
-///     
+///       |> stats.median()
+///       |> should.be_error()
+///
+///       // Valid input returns a result
 ///       [1., 2., 3.]
-///       |> math.median()
+///       |> stats.median()
 ///       |> should.equal(Ok(2.))
 ///     
 ///       [1., 2., 3., 4.]
-///       |> math.median()
+///       |> stats.median()
 ///       |> should.equal(Ok(2.5))
 ///     }
 /// </details>
@@ -153,9 +160,11 @@ pub fn mean(arr: List(Float)) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn median(arr: List(Float)) -> Result(Float, Nil) {
+pub fn median(arr: List(Float)) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
     _ -> {
       let count: Int = list.length(arr)
       let mid: Int = list.length(arr) / 2
@@ -163,21 +172,19 @@ pub fn median(arr: List(Float)) -> Result(Float, Nil) {
       case int.is_odd(count) {
         // If there is an odd number of elements in the list, then the median
         // is just the middle value
-        True ->
-          case list.at(sorted, mid) {
-            Ok(val0) ->
-              val0
-              |> Ok()
-            _ -> Error(Nil)
-          }
+        True -> {
+          assert Ok(val0) = list.at(sorted, mid)
+          val0
+          |> Ok
+        }
         // If there is an even number of elements in the list, then the median
         // is the mean of the two middle values
-        False ->
-          case list.at(sorted, mid - 1), list.at(sorted, mid) {
-            Ok(val0), Ok(val1) ->
-              [val0, val1]
-              |> mean()
-          }
+        False -> {
+          assert Ok(val0) = list.at(sorted, mid - 1)
+          assert Ok(val1) = list.at(sorted, mid)
+          [val0, val1]
+          |> mean()
+        }
       }
     }
   }
@@ -190,21 +197,28 @@ pub fn median(arr: List(Float)) -> Result(Float, Nil) {
 /// </div>
 ///
 /// Calculcate the harmonic mean of the elements in a list.
-/// Note that the harmonic mean is only defined for positive numbers.
+/// Note: The harmonic mean is only defined for positive numbers.
 ///
 /// <details>
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty list returns an error
 ///       []
-///       |> math.hmean()
-///       |> should.equal(Error(Nil))
+///       |> stats.hmean()
+///       |> should.be_error()
+///
+///       // List with negative numbers returns an error
+///       [-1., -3., -6.]
+///       |> stats.hmean()
+///       |> should.be_error()
 ///     
+///       // Valid input returns a result
 ///       [1., 3., 6.]
-///       |> math.hmean()
+///       |> stats.hmean()
 ///       |> should.equal(Ok(2.))
 ///     }
 /// </details>
@@ -215,25 +229,33 @@ pub fn median(arr: List(Float)) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn hmean(arr: List(Float)) -> Result(Float, Nil) {
+pub fn hmean(arr: List(Float)) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
     _ -> {
-      let xarr: Result(List(Float), Nil) =
+      let xarr: Result(List(Float), String) =
         arr
-        |> list.try_map(fn(a: Float) -> Result(Float, Nil) {
+        |> list.try_map(fn(a: Float) -> Result(Float, String) {
           case a >=. 0. {
-            True -> Ok(1. /. a)
-            False -> Error(Nil)
+            True ->
+              1. /. a
+              |> Ok
+            False ->
+              "The harmonic mean is only defined for positive numbers."
+              |> Error
           }
         })
       case xarr {
-        Error(Nil) -> Error(Nil)
+        Error(string) ->
+          string
+          |> Error
         Ok(xarr) ->
           xarr
           |> sum()
           |> fn(x: Float) { int.to_float(list.length(xarr)) /. x }
-          |> Ok()
+          |> Ok
       }
     }
   }
@@ -246,21 +268,28 @@ pub fn hmean(arr: List(Float)) -> Result(Float, Nil) {
 /// </div>
 ///
 /// Calculcate the geometric mean of the elements in a list.
-/// Note that the geometric mean is only defined for positive numbers.
+/// Note: The geometric mean is only defined for positive numbers.
 ///
 /// <details>
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty list returns an error
 ///       []
-///       |> math.gmean()
-///       |> should.equal(Error(Nil))
-///     
+///       |> stats.gmean()
+///       |> should.be_error()
+///
+///       // List with negative numbers returns an error
+///       [-1., -3., -6.]
+///       |> stats.gmean()
+///       |> should.be_error()
+///
+///       // Valid input returns a result
 ///       [1., 3., 9.]
-///       |> math.gmean()
+///       |> stats.gmean()
 ///       |> should.equal(Ok(3.))
 ///     }
 /// </details>
@@ -271,29 +300,37 @@ pub fn hmean(arr: List(Float)) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn gmean(arr: List(Float)) -> Result(Float, Nil) {
+pub fn gmean(arr: List(Float)) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
     _ -> {
-      let xval: Result(Float, Nil) =
+      let xval: Result(Float, String) =
         arr
         |> list.try_fold(
           1.,
-          fn(acc: Float, a: Float) -> Result(Float, Nil) {
+          fn(acc: Float, a: Float) -> Result(Float, String) {
             case a >=. 0. {
-              True -> Ok(acc *. a)
-              False -> Error(Nil)
+              True ->
+                acc *. a
+                |> Ok
+              False ->
+                "The geometric mean is only defined for positive numbers."
+                |> Error
             }
           },
         )
       case xval {
-        Error(Nil) -> Error(Nil)
+        Error(string) ->
+          string
+          |> Error
         Ok(xval) ->
           xval
           |> fn(x: Float) {
             float.power(x, 1. /. int.to_float(list.length(arr)))
           }
-          |> Ok()
+          |> Ok
       }
     }
   }
@@ -311,18 +348,20 @@ pub fn gmean(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
 ///       // Degrees of freedom
 ///       let ddof: Int = 1
 ///     
+///       // An empty list returns an error
 ///       []
-///       |> math.var(ddof)
-///       |> should.equal(Error(Nil))
+///       |> stats.var(ddof)
+///       |> should.be_error()
 ///     
+///       // Valid input returns a result
 ///       [1., 2., 3.]
-///       |> math.var(ddof)
+///       |> stats.var(ddof)
 ///       |> should.equal(Ok(1.))
 ///     }
 /// </details>
@@ -333,23 +372,27 @@ pub fn gmean(arr: List(Float)) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn var(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
+pub fn var(arr: List(Float), ddof: Int) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
-    _ -> {
-      let mean: Result(Float, Nil) = mean(arr)
-      case mean {
-        Ok(mean) ->
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
+    _ ->
+      case ddof < 0 {
+        True ->
+          "Invalid input argument: ddof < 0. Valid input is ddof >= 0."
+          |> Error
+        False -> {
+          assert Ok(mean) = mean(arr)
           arr
           |> list.map(fn(a: Float) -> Float { float.power(a -. mean, 2.) })
           |> sum()
           |> fn(a: Float) -> Float {
             a /. { int.to_float(list.length(arr)) -. int.to_float(ddof) }
           }
-          |> Ok()
-        _ -> Error(Nil)
+          |> Ok
+        }
       }
-    }
   }
 }
 
@@ -365,18 +408,20 @@ pub fn var(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
 ///       // Degrees of freedom
 ///       let ddof: Int = 1
 ///     
+///       // An empty list returns an error
 ///       []
-///       |> math.std(ddof)
-///       |> should.equal(Error(Nil))
+///       |> stats.std(ddof)
+///       |> should.be_error()
 ///     
+///       // Valid input returns a result
 ///       [1., 2., 3.]
-///       |> math.std(ddof)
+///       |> stats.std(ddof)
 ///       |> should.equal(Ok(1.))
 ///     }
 /// </details>
@@ -387,18 +432,25 @@ pub fn var(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn std(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
+pub fn std(arr: List(Float), ddof: Int) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
-    _ -> {
-      let var: Result(Float, Nil) = var(arr, ddof)
-      case var {
-        Ok(var) ->
-          var
-          |> float.square_root()
-        _ -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
+    _ ->
+      case ddof < 0 {
+        True ->
+          "Invalid input argument: ddof < 0. Valid input is ddof >= 0."
+          |> Error
+        False -> {
+          assert Ok(variance) = var(arr, ddof)
+          // The computed variance will always be positive
+          // So an error should never be returned 
+          assert Ok(stdev) = float.square_root(variance)
+          stdev
+          |> Ok
+        }
       }
-    }
   }
 }
 
@@ -414,25 +466,27 @@ pub fn std(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty list returns an error
 ///       []
-///       |> math.moment(0)
-///       |> should.equal(Error(Nil))
+///       |> stats.moment(0)
+///       |> should.be_error()
 ///     
 ///       // 0th moment about the mean is 1. per definition
 ///       [0., 1., 2., 3., 4.]
-///       |> math.moment(0)
+///       |> stats.moment(0)
 ///       |> should.equal(Ok(1.))
 ///     
 ///       // 1st moment about the mean is 0. per definition
 ///       [0., 1., 2., 3., 4.]
-///       |> math.moment(1)
+///       |> stats.moment(1)
 ///       |> should.equal(Ok(0.))
 ///     
+///       // 2nd moment about the mean
 ///       [0., 1., 2., 3., 4.]
-///       |> math.moment(2)
+///       |> stats.moment(2)
 ///       |> should.equal(Ok(2.))
 ///     }
 /// </details>
@@ -443,34 +497,34 @@ pub fn std(arr: List(Float), ddof: Int) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn moment(arr: List(Float), n: Int) -> Result(Float, Nil) {
+pub fn moment(arr: List(Float), n: Int) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
     _ ->
       case n >= 0 {
         True ->
           case n {
-            // 0th moment about the mean is 1 by definition
-            0 -> Ok(1.)
-            // 1st moment about the mean is 0 by definition
-            1 -> Ok(0.)
-            // nth moment about the mean
+            // 0th moment about the mean is 1.0 by definition
+            0 ->
+              1.0
+              |> Ok
+            // 1st moment about the mean is 0.0 by definition
+            1 ->
+              0.0
+              |> Ok
+            // n'th moment about the mean
             _ -> {
-              let m1 =
-                arr
-                |> mean()
-              case m1 {
-                Ok(m1) ->
-                  arr
-                  |> list.map(fn(a: Float) {
-                    float.power(a -. m1, int.to_float(n))
-                  })
-                  |> mean()
-                _ -> Error(Nil)
-              }
+              assert Ok(m1) = mean(arr)
+              arr
+              |> list.map(fn(a: Float) { float.power(a -. m1, int.to_float(n)) })
+              |> mean()
             }
           }
-        False -> Error(Nil)
+        False ->
+          "Invalid input argument: n < 0. Valid input is n > 0."
+          |> Error
       }
   }
 }
@@ -488,26 +542,28 @@ pub fn moment(arr: List(Float), n: Int) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty list returns an error
 ///       []
-///       |> math.skewness()
-///       |> should.equal(Error(Nil))
+///       |> stats.skewness()
+///       |> should.be_error()
 ///     
 ///       // No skewness 
 ///       // -> Zero skewness
 ///       [1., 2., 3., 4.]
-///       |> math.skewness()
+///       |> stats.skewness()
 ///       |> should.equal(Ok(0.))
 ///     
 ///       // Right-skewed distribution 
 ///       // -> Positive skewness
 ///       [1., 1., 1., 2.]
-///       |> math.skewness()
-///       |> fn(x: Result(Float, Nil)) -> Bool {
+///       |> stats.skewness()
+///       |> fn(x: Result(Float, String)) -> Bool {
 ///         case x {
 ///           Ok(x) -> x >. 0.
+///           _ -> False
 ///         }
 ///       }
 ///       |> should.be_true()
@@ -520,18 +576,16 @@ pub fn moment(arr: List(Float), n: Int) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn skewness(arr: List(Float)) -> Result(Float, Nil) {
+pub fn skewness(arr: List(Float)) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
     _ -> {
-      let m2: Result(Float, Nil) = moment(arr, 2)
-      let m3: Result(Float, Nil) = moment(arr, 3)
-      case m2, m3 {
-        Ok(m2), Ok(m3) ->
-          m3 /. float.power(m2, 1.5)
-          |> Ok()
-        _, _ -> Error(Nil)
-      }
+      assert Ok(m2) = moment(arr, 2)
+      assert Ok(m3) = moment(arr, 3)
+      m3 /. float.power(m2, 1.5)
+      |> Ok
     }
   }
 }
@@ -549,26 +603,28 @@ pub fn skewness(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty list returns an error
 ///       []
-///       |> math.skewness()
-///       |> should.equal(Error(Nil))
+///       |> stats.skewness()
+///       |> should.be_error()
 ///     
 ///       // No tail 
 ///       // -> Fisher's definition gives kurtosis -3 
 ///       [1., 1., 1., 1.]
-///       |> math.kurtosis()
+///       |> stats.kurtosis()
 ///       |> should.equal(Ok(-3.))
 ///     
 ///       // Distribution with a tail 
 ///       // -> Higher kurtosis 
 ///       [1., 1., 1., 2.]
-///       |> math.kurtosis()
-///       |> fn(x: Result(Float, Nil)) -> Bool {
+///       |> stats.kurtosis()
+///       |> fn(x: Result(Float, String)) -> Bool {
 ///         case x {
 ///           Ok(x) -> x >. -3.
+///           _ -> False
 ///         }
 ///       }
 ///       |> should.be_true()
@@ -581,18 +637,16 @@ pub fn skewness(arr: List(Float)) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn kurtosis(arr: List(Float)) -> Result(Float, Nil) {
+pub fn kurtosis(arr: List(Float)) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
     _ -> {
-      let m2: Result(Float, Nil) = moment(arr, 2)
-      let m4: Result(Float, Nil) = moment(arr, 4)
-      case m2, m4 {
-        Ok(m2), Ok(m4) ->
-          m4 /. float.power(m2, 2.0) -. 3.
-          |> Ok()
-        _, _ -> Error(Nil)
-      }
+      assert Ok(m2) = moment(arr, 2)
+      assert Ok(m4) = moment(arr, 4)
+      m4 /. float.power(m2, 2.0) -. 3.
+      |> Ok
     }
   }
 }
@@ -610,17 +664,18 @@ pub fn kurtosis(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty list returns an error
 ///       []
 ///       // Use degrees of freedom = 1
-///       |> math.zscore(1)
-///       |> should.equal(Error(Nil))
+///       |> stats.zscore(1)
+///       |> should.be_error()
 ///     
 ///       [1., 2., 3.]
 ///       // Use degrees of freedom = 1
-///       |> math.zscore(1)
+///       |> stats.zscore(1)
 ///       |> should.equal(Ok([-1., 0., 1.]))
 ///     }
 /// </details>
@@ -631,20 +686,24 @@ pub fn kurtosis(arr: List(Float)) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn zscore(arr: List(Float), ddof: Int) -> Result(List(Float), Nil) {
+pub fn zscore(arr: List(Float), ddof: Int) -> Result(List(Float), String) {
   case arr {
-    [] -> Error(Nil)
-    _ -> {
-      let mean: Result(Float, Nil) = mean(arr)
-      let stdev: Result(Float, Nil) = std(arr, ddof)
-      case mean, stdev {
-        Ok(mean), Ok(stdev) ->
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
+    _ ->
+      case ddof < 0 {
+        True ->
+          "Invalid input argument: ddof < 0. Valid input is ddof >= 0."
+          |> Error
+        False -> {
+          assert Ok(mean) = mean(arr)
+          assert Ok(stdev) = std(arr, ddof)
           arr
           |> list.map(fn(a: Float) -> Float { { a -. mean } /. stdev })
-          |> Ok()
-        _, _ -> Error(Nil)
+          |> Ok
+        }
       }
-    }
   }
 }
 
@@ -661,16 +720,17 @@ pub fn zscore(arr: List(Float), ddof: Int) -> Result(List(Float), Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty list returns an error
 ///       []
-///       |> math.percentile(40)
-///       |> should.equal(Error(Nil))
+///       |> stats.percentile(40)
+///       |> should.be_error()
 ///     
 ///       // Calculate 40th percentile 
 ///       [15., 20., 35., 40., 50.]
-///       |> math.percentile(40)
+///       |> stats.percentile(40)
 ///       |> should.equal(Ok(29.))
 ///     }
 /// </details>
@@ -681,21 +741,31 @@ pub fn zscore(arr: List(Float), ddof: Int) -> Result(List(Float), Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn percentile(arr: List(Float), n: Int) -> Result(Float, Nil) {
+pub fn percentile(arr: List(Float), n: Int) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
-    _ -> {
-      let s: List(Float) = list.sort(arr, float.compare)
-      // Calculate the rank of the n'th percentile
-      let r: Float =
-        int.to_float(n) /. 100.0 *. int.to_float(list.length(arr) - 1)
-      let f: Int = float.truncate(r)
-      case list.at(s, f), list.at(s, f + 1) {
-        Ok(lower), Ok(upper) ->
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
+    _ ->
+      case n < 0 || n > 100 {
+        True ->
+          "Invalid input argument: n < 0 or n > 100. Valid input is 0 <= n <= 100."
+          |> Error
+        False -> {
+          let s: List(Float) = list.sort(arr, float.compare)
+          // Calculate the rank of the n'th percentile
+          let r: Float =
+            int.to_float(n) /. 100.0 *. int.to_float(list.length(arr) - 1)
+          let f: Int = float.truncate(r)
+          // Directly extract the lower and upper values. Theoretically an error
+          // value will not be returned as the largest index in the array that is
+          // accessed will be the length of the array - 1 (last element). 
+          assert Ok(lower) = list.at(s, f)
+          assert Ok(upper) = list.at(s, f + 1)
           lower +. { upper -. lower } *. { r -. int.to_float(f) }
-          |> Ok()
+          |> Ok
+        }
       }
-    }
   }
 }
 
@@ -711,15 +781,17 @@ pub fn percentile(arr: List(Float), n: Int) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty list returns an error
 ///       []
-///       |> math.iqr()
-///       |> should.equal(Error(Nil))
+///       |> stats.iqr()
+///       |> should.be_error()
 ///     
+///       // Valid input returns a result
 ///       [1., 2., 3., 4., 5.]
-///       |> math.iqr()
+///       |> stats.iqr()
 ///       |> should.equal(Ok(3.))
 ///     }
 /// </details>
@@ -730,9 +802,11 @@ pub fn percentile(arr: List(Float), n: Int) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn iqr(arr: List(Float)) -> Result(Float, Nil) {
+pub fn iqr(arr: List(Float)) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
     _ -> {
       let length: Int = list.length(arr)
       case int.is_even(length) {
@@ -742,9 +816,10 @@ pub fn iqr(arr: List(Float)) -> Result(Float, Nil) {
           let #(x, y) =
             arr
             |> list.split(length / 2)
-          case median(y), median(x) {
-            Ok(val0), Ok(val1) -> Ok(val0 -. val1)
-          }
+          assert Ok(val0) = median(y)
+          assert Ok(val1) = median(x)
+          val0 -. val1
+          |> Ok
         }
         False -> {
           // x contains the n smallest values
@@ -755,9 +830,10 @@ pub fn iqr(arr: List(Float)) -> Result(Float, Nil) {
           let #(_z, y) =
             arr
             |> list.split({ length + 1 } / 2)
-          case median(y), median(x) {
-            Ok(val0), Ok(val1) -> Ok(val0 -. val1)
-          }
+          assert Ok(val0) = median(y)
+          assert Ok(val1) = median(x)
+          val0 -. val1
+          |> Ok
         }
       }
     }
@@ -777,17 +853,18 @@ pub fn iqr(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty list returns an error
 ///       []
-///       |> math.freedman_diaconis_rule()
-///       |> should.equal(Error(Nil))
+///       |> stats.freedman_diaconis_rule()
+///       |> should.be_error()
 ///     
 ///       // Calculate histogram bin widths
 ///       list.range(0, 1000)
 ///       |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-///       |> math.freedman_diaconis_rule()
+///       |> stats.freedman_diaconis_rule()
 ///       |> should.equal(Ok(10.))
 ///     }
 /// </details>
@@ -798,31 +875,33 @@ pub fn iqr(arr: List(Float)) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn freedman_diaconis_rule(arr: List(Float)) -> Result(Float, Nil) {
+pub fn freedman_diaconis_rule(arr: List(Float)) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
     _ -> {
       let length: Float = int.to_float(list.length(arr))
-      let iqr: Result(Float, Nil) =
+      assert Ok(iqr) =
         arr
         |> iqr()
-      let lower: Result(Float, Nil) =
+      assert Ok(lower) =
         arr
         |> amin()
-      let upper: Result(Float, Nil) =
+      assert Ok(upper) =
         arr
         |> amax()
-      case lower, upper, iqr {
-        Ok(lower), Ok(upper), Ok(iqr) -> {
-          let width: Float = 2. *. iqr /. float.power(length, 1. /. 3.)
-          case width <. { upper -. lower } /. length {
-            True -> Error(Nil)
-            False ->
-              float.ceiling({ upper -. lower } /. width)
-              |> Ok
-          }
-        }
-        _, _, _ -> Error(Nil)
+      let width: Float = 2. *. iqr /. float.power(length, 1. /. 3.)
+      case width <. { upper -. lower } /. length {
+        // If the bin size/width is too small then return an error.
+        // The bin size/width should be set manually or in some other
+        // way.
+        True ->
+          "The determined bin width is too small. Determine the width manually or in another way."
+          |> Error
+        False ->
+          float.ceiling({ upper -. lower } /. width)
+          |> Ok
       }
     }
   }
@@ -840,14 +919,14 @@ pub fn freedman_diaconis_rule(arr: List(Float)) -> Result(Float, Nil) {
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///     import gleeunit/should
 ///
 ///     pub fn example () {
 ///       // Create a range
-///       let range = math.Range(0., 1.)
+///       let range = stats.Range(0., 1.)
 ///       // Retrieve min and max values
-///       let math.Range(min, max) = range
+///       let stats.Range(min, max) = range
 ///       min
 ///       |> should.equal(0.)
 ///       max
@@ -880,13 +959,13 @@ pub type Range {
 ///
 ///     import gleeunit/should
 ///     import gleam/pair
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
 ///       // Create a bin
-///       let bin: math.Bin = tuple(math.Range(0., 1.), 999)
+///       let bin: stats.Bin = #(stats.Range(0., 1.), 999)
 ///       // Retrieve min and max values
-///       let math.Range(min, max) = pair.first(bin)
+///       let stats.Range(min, max) = pair.first(bin)
 ///       min
 ///       |> should.equal(0.)
 ///       max
@@ -918,25 +997,27 @@ pub type Bin =
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///     import gleeunit/should
 ///
 ///     pub fn example () {
+///       // An empty lists returns an error
+///       []
+///       |> stats.histogram(1.)
+///       |> should.be_error()
+///
+///       // Create the bins of a histogram given a list of values
 ///       list.range(0, 100)
 ///       |> list.map(fn(x: Int) -> Float { int.to_float(x) })
 ///       // Below 25. is the bin width
 ///       // The Freedman-Diaconis’s Rule can be used to determine a decent value
-///       |> math.histogram(25.)
+///       |> stats.histogram(25.)
 ///       |> should.equal(Ok([
-///         tuple(math.Range(0., 25.), 25),
-///         tuple(math.Range(25., 50.), 25),
-///         tuple(math.Range(50., 75.), 25),
-///         tuple(math.Range(75., 100.), 25),
+///         #(stats.Range(0., 25.), 25),
+///         #(stats.Range(25., 50.), 25),
+///         #(stats.Range(50., 75.), 25),
+///         #(stats.Range(75., 100.), 25),
 ///       ]))
-///
-///       []
-///       |> math.histogram(1.)
-///       |> should.equal(Error(Nil))
 ///     }
 /// </details>
 ///
@@ -946,33 +1027,51 @@ pub type Bin =
 ///     </a>
 /// </div>
 ///
-pub fn histogram(arr: List(Float), width: Float) -> Result(List(Bin), Nil) {
+pub fn histogram(arr: List(Float), width: Float) -> Result(List(Bin), String) {
   case arr {
-    [] -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
     _ ->
-      create_bins(arr, width)
-      |> bin_elements(arr)
-      |> Ok()
+      case create_bins(arr, width) {
+        Error(string) ->
+          string
+          |> Error
+        Ok(bins) ->
+          bins
+          |> bin_elements(arr)
+          |> Ok
+      }
   }
 }
 
-fn create_bins(arr: List(Float), width: Float) -> List(Bin) {
-  let min: Result(Float, Nil) =
-    arr
-    |> amin()
-  let max: Result(Float, Nil) =
-    arr
-    |> amax()
-  case min, max {
-    Ok(min), Ok(max) -> {
-      let inc: Float =
-        { 1.001 *. max -. 0.999 *. min } /. width
-        |> float.ceiling()
-      list.range(0, float.round(inc))
-      |> list.map(fn(x) -> Bin {
-        #(Range(width *. int.to_float(x), width *. int.to_float(x + 1)), 0)
-      })
-    }
+fn create_bins(arr: List(Float), width: Float) -> Result(List(Bin), String) {
+  case arr {
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
+    _ ->
+      case width <. 0.0 {
+        True ->
+          "Invalid input argument: width < 0. Valid input is width > 0."
+          |> Error
+        False -> {
+          assert Ok(min) =
+            arr
+            |> amin()
+          assert Ok(max) =
+            arr
+            |> amax()
+          let inc: Float =
+            { 1.001 *. max -. 0.999 *. min } /. width
+            |> float.ceiling()
+          list.range(0, float.round(inc))
+          |> list.map(fn(x: Int) -> Bin {
+            #(Range(width *. int.to_float(x), width *. int.to_float(x + 1)), 0)
+          })
+          |> Ok
+        }
+      }
   }
 }
 
@@ -988,30 +1087,18 @@ fn bin_elements(bins: List(Bin), arr: List(Float)) -> List(Bin) {
   arr
   |> list.fold(
     bins,
-    fn(acc: List(Bin), key: Float) {
-      // TODO: Should the error case be handled? If the bins are constructed
-      //       correctly no value should fall outside a bin...
-      // let bin: Result(Bin, Nil) =
-      //   acc
-      //   |> find_bin(key)
+    fn(acc: List(Bin), key: Float) -> List(Bin) {
+      // If the bins were constructed correctly then there should be a bin that fits
+      // every value in the input array
       assert Ok(bin) =
         acc
         |> find_bin(key)
+      // Retrieve key-value pair
       assert Ok(kv) = list.key_pop(acc, pair.first(bin))
+      // Update and set key-value pair
       list.key_set(pair.second(kv), pair.first(bin), pair.first(kv) + 1)
     },
   )
-  // case list.key_pop(acc, pair.first(bin)) {
-  //   Ok(kv) ->
-  //     list.key_set(pair.second(kv), pair.first(bin), pair.first(kv) + 1)
-  // }
-  // case bin {
-  //   Ok(bin) ->
-  //     case list.key_pop(acc, pair.first(bin)) {
-  //       Ok(kv) ->
-  //         list.key_set(pair.second(kv), pair.first(bin), pair.first(kv) + 1)
-  //     }
-  // }
 }
 
 /// <div style="text-align: right;">
@@ -1020,19 +1107,28 @@ fn bin_elements(bins: List(Bin), arr: List(Float)) -> List(Bin) {
 ///     </a>
 /// </div>
 ///
-/// Calculate the Pearson correlation coefficient to determine the linear 
+/// Calculate Pearson's correlation coefficient to determine the linear 
 /// relationship between the elements in two lists of equal length. 
 ///
 /// <details>
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
-///       math.correlation([], [])
-///       |> should.equal(Error(Nil))
+///       // An empty lists returns an error
+///       stats.correlation([], [])
+///       |> should.be_error()
 ///     
+///       // Lists with fewer than 2 elements return an error
+///       stats.correlation([1.0], [1.0])
+///       |> should.be_error()
+///
+///       // Lists of uneqal length return an error
+///       stats.correlation([1.0, 2.0, 3.0], [1.0, 2.0])
+///       |> should.be_error()
+///
 ///       // Perfect positive correlation
 ///       let xarr0: List(Float) =
 ///         list.range(0, 100)
@@ -1040,7 +1136,7 @@ fn bin_elements(bins: List(Bin), arr: List(Float)) -> List(Bin) {
 ///       let yarr0: List(Float) =
 ///         list.range(0, 100)
 ///         |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-///       math.correlation(xarr0, yarr0)
+///       stats.correlation(xarr0, yarr0)
 ///       |> should.equal(Ok(1.))
 ///     
 ///       // Perfect negative correlation
@@ -1050,7 +1146,7 @@ fn bin_elements(bins: List(Bin), arr: List(Float)) -> List(Bin) {
 ///       let yarr0: List(Float) =
 ///         list.range(0, 100)
 ///         |> list.map(fn(x: Int) -> Float { int.to_float(x) })
-///       math.correlation(xarr0, yarr0)
+///       stats.correlation(xarr0, yarr0)
 ///       |> should.equal(Ok(-1.))
 ///     }
 /// </details>
@@ -1061,42 +1157,55 @@ fn bin_elements(bins: List(Bin), arr: List(Float)) -> List(Bin) {
 ///     </a>
 /// </div>
 ///
-pub fn correlation(xarr: List(Float), yarr: List(Float)) -> Result(Float, Nil) {
+pub fn correlation(
+  xarr: List(Float),
+  yarr: List(Float),
+) -> Result(Float, String) {
   let xlen: Int = list.length(xarr)
   let ylen: Int = list.length(yarr)
-  case xlen == ylen && xlen > 2 && { xlen >= 2 && ylen >= 2 } {
-    True -> {
-      let xmean: Result(Float, Nil) =
-        xarr
-        |> mean()
-      let ymean: Result(Float, Nil) =
-        yarr
-        |> mean()
-      case xmean, ymean {
-        Ok(xmean), Ok(ymean) -> {
-          let a: Float =
-            list.zip(xarr, yarr)
-            |> list.map(fn(z: #(Float, Float)) -> Float {
-              { pair.first(z) -. xmean } *. { pair.second(z) -. ymean }
-            })
-            |> sum()
-          let b: Float =
-            xarr
-            |> list.map(fn(x: Float) { { x -. xmean } *. { x -. xmean } })
-            |> sum()
-          let c: Float =
-            yarr
-            |> list.map(fn(y: Float) { { y -. ymean } *. { y -. ymean } })
-            |> sum()
-          case float.square_root(b *. c) {
-            Ok(val0) -> Ok(a /. val0)
-            _ -> Error(Nil)
+  case xlen <= 0, ylen <= 0 {
+    True, True ->
+      "Invlaid input argument: length(xarr) == 0 or length(yarr) == 0. Valid input is length(xarr) > 0 and length(yarr) > 0."
+      |> Error
+    _, _ ->
+      case xlen == ylen {
+        False ->
+          "Invalid input argument: length(xarr) != length(yarr). Valid input is when length(xarr) == length(yarr)."
+          |> Error
+        True ->
+          case xlen >= 2 && ylen >= 2 {
+            False ->
+              "Invalid input argument: length(xarr) < 2 or length(yarr) < 2. Valid input is when length(xarr) >= 2 and length(yarr) >= 2."
+              |> Error
+            True -> {
+              assert Ok(xmean) =
+                xarr
+                |> mean()
+              assert Ok(ymean) =
+                yarr
+                |> mean()
+              let a: Float =
+                list.zip(xarr, yarr)
+                |> list.map(fn(z: #(Float, Float)) -> Float {
+                  { pair.first(z) -. xmean } *. { pair.second(z) -. ymean }
+                })
+                |> sum()
+              let b: Float =
+                xarr
+                |> list.map(fn(x: Float) { { x -. xmean } *. { x -. xmean } })
+                |> sum()
+              let c: Float =
+                yarr
+                |> list.map(fn(y: Float) { { y -. ymean } *. { y -. ymean } })
+                |> sum()
+              // The argument is the product of two sums of squared differences
+              // it will never be negative. So extract it directly:
+              assert Ok(val0) = float.square_root(b *. c)
+              a /. val0
+              |> Ok
+            }
           }
-        }
-        _, _ -> Error(Nil)
       }
-    }
-    False -> Error(Nil)
   }
 }
 
@@ -1113,16 +1222,17 @@ pub fn correlation(xarr: List(Float), yarr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty lists returns an error
 ///       []
-///       |> math.trim(0, 0)
-///       |> should.equal(Error(Nil))
+///       |> stats.trim(0, 0)
+///       |> should.be_error()
 ///     
-///       // Trim list to only middle part of list
+///       // Trim the list to only the middle part of list
 ///       [1., 2., 3., 4., 5., 6.]
-///       |> math.trim(1, 4)
+///       |> stats.trim(1, 4)
 ///       |> should.equal(Ok([2., 3., 4., 5.]))
 ///     }
 /// </details>
@@ -1133,17 +1243,21 @@ pub fn correlation(xarr: List(Float), yarr: List(Float)) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn trim(arr: List(Float), min: Int, max: Int) -> Result(List(Float), Nil) {
+pub fn trim(arr: List(Float), min: Int, max: Int) -> Result(List(Float), String) {
   case arr {
-    [] -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
     _ ->
       case min >= 0 && max < list.length(arr) {
+        False ->
+          "Invalid input argument: min < 0 or max < length(arr). Valid input is min > 0 and max < length(arr)."
+          |> Error
         True ->
           arr
           |> list.drop(min)
           |> list.take(max - min + 1)
-          |> Ok()
-        False -> Error(Nil)
+          |> Ok
       }
   }
 }
@@ -1166,7 +1280,7 @@ pub fn trim(arr: List(Float), min: Int, max: Int) -> Result(List(Float), Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
 ///       let val: Float = 99.
@@ -1175,7 +1289,7 @@ pub fn trim(arr: List(Float), min: Int, max: Int) -> Result(List(Float), Nil) {
 ///       // if 'val' is within 1 percent of 'ref_val' +/- 0.1
 ///       let rtol: Float = 0.01
 ///       let atol: Float = 0.10
-///       math.isclose(val, ref_val, rtol, atol)
+///       stats.isclose(val, ref_val, rtol, atol)
 ///       |> should.be_true()
 ///     }
 /// </details>
@@ -1208,7 +1322,7 @@ pub fn isclose(a: Float, b: Float, rtol: Float, atol: Float) -> Bool {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
 ///       let val: Float = 99.
@@ -1219,14 +1333,14 @@ pub fn isclose(a: Float, b: Float, rtol: Float, atol: Float) -> Bool {
 ///       // if 'val' is within 1 percent of 'ref_val' +/- 0.1
 ///       let rtol: Float = 0.01
 ///       let atol: Float = 0.10
-///       math.allclose(xarr, yarr, rtol, atol)
-///       |> fn(zarr: Result(List(Bool), Nil)) -> Result(Bool, Nil) {
+///       stats.allclose(xarr, yarr, rtol, atol)
+///       |> fn(zarr: Result(List(Bool), String)) -> Result(Bool, Nil) {
 ///         case zarr {
 ///           Ok(arr) ->
 ///             arr
 ///             |> list.all(fn(a: Bool) -> Bool { a })
-///             |> Ok()
-///           _ -> Error(Nil)
+///             |> Ok
+///           _ -> Nil |> Error
 ///         }
 ///       }
 ///       |> should.equal(Ok(True))
@@ -1244,17 +1358,19 @@ pub fn allclose(
   yarr: List(Float),
   rtol: Float,
   atol: Float,
-) -> Result(List(Bool), Nil) {
+) -> Result(List(Bool), String) {
   let xlen: Int = list.length(xarr)
   let ylen: Int = list.length(yarr)
   case xlen == ylen {
+    False ->
+      "Invalid input argument: length(xarr) != length(yarr). Valid input is when length(xarr) == length(yarr)."
+      |> Error
     True ->
       list.zip(xarr, yarr)
       |> list.map(fn(z: #(Float, Float)) -> Bool {
         isclose(pair.first(z), pair.second(z), rtol, atol)
       })
-      |> Ok()
-    _ -> Error(Nil)
+      |> Ok
   }
 }
 
@@ -1270,15 +1386,17 @@ pub fn allclose(
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty lists returns an error
 ///       []
-///       |> math.amax()
-///       |> should.equal(Error(Nil))
-///     
+///       |> stats.amax()
+///       |> should.be_error()
+///
+///       // Valid input returns a result
 ///       [4., 4., 3., 2., 1.]
-///       |> math.amax()
+///       |> stats.amax()
 ///       |> should.equal(Ok(4.))
 ///     }
 /// </details>
@@ -1289,25 +1407,25 @@ pub fn allclose(
 ///     </a>
 /// </div>
 ///
-pub fn amax(arr: List(Float)) -> Result(Float, Nil) {
+pub fn amax(arr: List(Float)) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
-    _ ->
-      case list.at(arr, 0) {
-        Ok(val0) ->
-          arr
-          |> list.fold(
-            val0,
-            fn(acc: Float, a: Float) {
-              case a >. acc {
-                True -> a
-                False -> acc
-              }
-            },
-          )
-          |> Ok()
-        _ -> Error(Nil)
-      }
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
+    _ -> {
+      assert Ok(val0) = list.at(arr, 0)
+      arr
+      |> list.fold(
+        val0,
+        fn(acc: Float, a: Float) {
+          case a >. acc {
+            True -> a
+            False -> acc
+          }
+        },
+      )
+      |> Ok
+    }
   }
 }
 
@@ -1323,15 +1441,17 @@ pub fn amax(arr: List(Float)) -> Result(Float, Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty lists returns an error
 ///       []
-///       |> math.amin()
-///       |> should.equal(Error(Nil))
+///       |> stats.amin()
+///       |> should.be_error()
 ///     
+///       // Valid input returns a result
 ///       [4., 4., 3., 2., 1.]
-///       |> math.amin()
+///       |> stats.amin()
 ///       |> should.equal(Ok(1.))
 ///     }
 /// </details>
@@ -1342,27 +1462,25 @@ pub fn amax(arr: List(Float)) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn amin(arr: List(Float)) -> Result(Float, Nil) {
+pub fn amin(arr: List(Float)) -> Result(Float, String) {
   case arr {
-    [] -> Error(Nil)
-    _ ->
-      case list.at(arr, 0) {
-        Ok(val0) ->
-          arr
-          |> list.fold(
-            val0,
-            fn(acc: Float, a: Float) {
-              case a <. acc {
-                True -> a
-                False -> acc
-              }
-            },
-          )
-          |> Ok()
-        // TODO: Probably not necessary.
-        //       We already checked that the list is not empty... 
-        _ -> Error(Nil)
-      }
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
+    _ -> {
+      assert Ok(val0) = list.at(arr, 0)
+      arr
+      |> list.fold(
+        val0,
+        fn(acc: Float, a: Float) {
+          case a <. acc {
+            True -> a
+            False -> acc
+          }
+        },
+      )
+      |> Ok
+    }
   }
 }
 
@@ -1372,21 +1490,23 @@ pub fn amin(arr: List(Float)) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-/// Returns the indices of the maximum values in a list. 
+/// Returns the indices of the maximum values in a list.
 ///
 /// <details>
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty lists returns an error
 ///       []
-///       |> math.argmax()
-///       |> should.equal(Error(Nil))
+///       |> stats.argmax()
+///       |> should.be_error()
 ///     
+///       // Valid input returns a result
 ///       [4., 4., 3., 2., 1.]
-///       |> math.argmax()
+///       |> stats.argmax()
 ///       |> should.equal(Ok([0, 1]))
 ///     }
 /// </details>
@@ -1397,33 +1517,29 @@ pub fn amin(arr: List(Float)) -> Result(Float, Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn argmax(arr: List(Float)) -> Result(List(Int), Nil) {
+pub fn argmax(arr: List(Float)) -> Result(List(Int), String) {
   case arr {
-    [] -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
     _ -> {
-      let max: Result(Float, Nil) =
+      assert Ok(max) =
         arr
         |> amax()
-      case max {
-        Ok(max) ->
-          arr
-          |> list.index_map(fn(index: Int, a: Float) -> Int {
-            case a -. max {
-              0. -> index
-              _ -> -1
-            }
-          })
-          |> list.filter(fn(index: Int) -> Bool {
-            case index {
-              -1 -> False
-              _ -> True
-            }
-          })
-          |> Ok()
-        // TODO: Probably not necessary.
-        //       We already checked that the list is not empty... 
-        _ -> Error(Nil)
-      }
+      arr
+      |> list.index_map(fn(index: Int, a: Float) -> Int {
+        case a -. max {
+          0. -> index
+          _ -> -1
+        }
+      })
+      |> list.filter(fn(index: Int) -> Bool {
+        case index {
+          -1 -> False
+          _ -> True
+        }
+      })
+      |> Ok
     }
   }
 }
@@ -1440,15 +1556,17 @@ pub fn argmax(arr: List(Float)) -> Result(List(Int), Nil) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleeunit/should
-///     import gleam_stats/math
+///     import gleam_stats/stats
 ///
 ///     pub fn example () {
+///       // An empty lists returns an error
 ///       []
-///       |> math.argmin()
-///       |> should.equal(Error(Nil))
+///       |> stats.argmin()
+///       |> should.be_error()
 ///     
+///       // Valid input returns a result
 ///       [4., 4., 3., 2., 1.]
-///       |> math.argmin()
+///       |> stats.argmin()
 ///       |> should.equal(Ok([4]))
 ///     }
 /// </details>
@@ -1459,58 +1577,29 @@ pub fn argmax(arr: List(Float)) -> Result(List(Int), Nil) {
 ///     </a>
 /// </div>
 ///
-pub fn argmin(arr: List(Float)) -> Result(List(Int), Nil) {
+pub fn argmin(arr: List(Float)) -> Result(List(Int), String) {
   case arr {
-    [] -> Error(Nil)
+    [] ->
+      "Invalid input argument: The list is empty."
+      |> Error
     _ -> {
-      let min: Result(Float, Nil) =
+      assert Ok(min) =
         arr
         |> amin()
-      case min {
-        Ok(min) ->
-          arr
-          |> list.index_map(fn(index: Int, a: Float) -> Int {
-            case a -. min {
-              0. -> index
-              _ -> -1
-            }
-          })
-          |> list.filter(fn(index: Int) -> Bool {
-            case index {
-              -1 -> False
-              _ -> True
-            }
-          })
-          |> Ok()
-        // TODO: Probably not necessary.
-        //       We already checked that the list is not empty... 
-        _ -> Error(Nil)
-      }
+      arr
+      |> list.index_map(fn(index: Int, a: Float) -> Int {
+        case a -. min {
+          0. -> index
+          _ -> -1
+        }
+      })
+      |> list.filter(fn(index: Int) -> Bool {
+        case index {
+          -1 -> False
+          _ -> True
+        }
+      })
+      |> Ok
     }
   }
 }
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
-///
-/// 
-/// <details>
-///     <summary>Example:</summary>
-///
-///     import gleeunit/should
-///     import gleam_stats/math
-///
-///     pub fn example () {
-///     }
-/// </details>
-///
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
-// pub fn describe(arr: List(Float)) -> Result(List(tuple(String, Float)), Nil) {
-//   todo
-// }
