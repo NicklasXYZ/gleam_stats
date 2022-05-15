@@ -49,7 +49,7 @@ import gleam/io
 ///     </a>
 /// </div>
 ///
-/// The sine function. Wrapped from the Erlang math library.
+/// The sine function.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -77,7 +77,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The mathematical constant pi. Wrapped from the Erlang math library.  
+/// The mathematical constant pi.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -123,7 +123,7 @@ pub fn tau() -> Float {
 ///     </a>
 /// </div>
 ///
-/// The inverse cosine function. Wrapped from the Erlang math library.  
+/// The inverse cosine function.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -151,7 +151,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse hyperbolic cosine function. Wrapped from the Erlang math library.  
+/// The inverse hyperbolic cosine function.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -179,7 +179,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse sine function. Wrapped from the Erlang math library.  
+/// The inverse sine function.  
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -207,7 +207,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse tangent function. Wrapped from the Erlang math library.  
+/// The inverse tangent function.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -235,7 +235,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse 2-argument tangent function. Wrapped from the Erlang math library.  
+/// The inverse 2-argument tangent function. 
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -263,7 +263,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse hyperbolic tangent function. Wrapped from the Erlang math library.  
+/// The inverse hyperbolic tangent function.  
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -291,7 +291,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The cosine function. Wrapped from the Erlang math library.  
+/// The cosine function.  
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -319,7 +319,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The hyperbolic cosine function. Wrapped from the Erlang math library.  
+/// The hyperbolic cosine function.  
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -347,7 +347,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The exponential function. Wrapped from the Erlang math library.  
+/// The exponential function.  
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -375,7 +375,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The ceiling function. Wrapped from the Erlang math library.  
+/// The ceiling function.  
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -403,7 +403,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The floor function. Wrapped from the Erlang math library.  
+/// The floor function. 
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -431,7 +431,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The exponentiation function. Wrapped from the Erlang math library.  
+/// The exponentiation function.  
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -459,7 +459,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The natural logarithm function. Wrapped from the Erlang math library.  
+/// The natural logarithm function.  
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -487,7 +487,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The base-10 logarithm function. Wrapped from the Erlang math library.  
+/// The base-10 logarithm function.  
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -515,7 +515,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The base-2 logarithm function. Wrapped from the Erlang math library.  
+/// The base-2 logarithm function.  
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -543,7 +543,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The hyperbolic sine function. Wrapped from the Erlang math library.  
+/// The hyperbolic sine function. 
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -571,7 +571,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The hyperbolic tangent function. Wrapped from the Erlang math library.  
+/// The hyperbolic tangent function.  
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
