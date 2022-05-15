@@ -187,7 +187,7 @@ pub fn weibull_cdf(x: Float, lambda: Float, k: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers from a weibull distribution with scale 
+/// Generate 'm' random numbers from a continuous weibull distribution with scale 
 /// parameter 'lambda' > 0 and shape parameter 'k' > 0.
 ///
 /// The random numbers are generated using the inverse transform method.

@@ -177,7 +177,7 @@ pub fn exponential_cdf(x: Float, lambda: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers from a continuous exponential distribution with 
+/// Generate 'm' random numbers from a continuous exponential distribution 
 /// with given rate parameter 'lambda' > 0. 
 ///
 /// The random numbers are generated using the inverse transform method.

@@ -173,7 +173,7 @@ pub fn geometric_cdf(x: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers from a discrete geometric distribution with with 
+/// Generate 'm' random numbers from a discrete geometric distribution with 
 /// parameter 'p' in the interval (0, 1] (the success probability).
 /// 
 /// The random numbers are generated using the inverse transform method.

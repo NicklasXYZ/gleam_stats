@@ -181,8 +181,8 @@ fn box_muller(u1: Float, u2: Float) -> List(Float) {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers from a normal distribution with a given mean 
-/// 'mu' and standard deviation 'sigma'. 
+/// Generate 'm' random numbers from a continuous normal distribution with a given
+/// mean 'mu' and standard deviation 'sigma'. 
 ///
 /// The random numbers are generated using Box–Muller transform.
 ///

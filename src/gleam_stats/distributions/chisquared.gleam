@@ -200,7 +200,7 @@ fn do_chisquared_cdf(x: Float, ddof: Int) -> Float {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers from a continuous chi-squared random variable with
+/// Generate 'm' random numbers from a continuous chi-squared distribution with
 /// given degrees of freedom 'ddof' > 0.
 ///
 /// <details>

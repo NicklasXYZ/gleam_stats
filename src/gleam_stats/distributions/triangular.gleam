@@ -253,7 +253,7 @@ pub fn triangular_cdf(
 /// </div>
 ///
 /// Generate 'm' random numbers in the interval '[a, b]' from a 
-/// triangular distribution with mode 'c'.
+/// continuous triangular distribution with mode 'c'.
 /// 
 /// The random numbers are generated using the inverse transform method.
 ///
