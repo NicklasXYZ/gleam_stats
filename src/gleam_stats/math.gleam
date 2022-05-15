@@ -449,7 +449,7 @@ if erlang {
 }
 
 if javascript {
-  external fn do_exp(Float, Float) -> Float =
+  external fn do_pow(Float, Float) -> Float =
     "../gleam_stats.mjs" "pow"
 }
 
