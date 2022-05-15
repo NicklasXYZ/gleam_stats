@@ -105,13 +105,14 @@ pub fn negbinomial_variance(r: Int, p: Float) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/negbinomial
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let r: Float = 40.
 ///       let p: Float = 0.5
 ///       // For illustrational purposes, evaluate the pmf at the 
 ///       // point -100.0
-///       negbinomial.negbinomial_pmf(-100.0, r, p) |> should.equal(0.0)
+///       negbinomial.negbinomial_pmf(-100.0, r, p) |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///
@@ -158,13 +159,14 @@ pub fn negbinomial_pmf(x: Int, r: Int, p: Float) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/negbinomial
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let r: Float = 40.
 ///       let p: Float = 0.5
 ///       // For illustrational purposes, evaluate the cdf at the 
 ///       // point -100.0
-///       negbinomial.negbinomial_cdf(-100.0, r, p) |> should.equal(0.0)
+///       negbinomial.negbinomial_cdf(-100.0, r, p) |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///

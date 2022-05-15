@@ -1,4 +1,4 @@
-//// Functions related to the continuous weibull random distribution.
+//// Functions related to continuous weibull random variables.
 ////
 //// ---
 ////
@@ -27,6 +27,21 @@ fn check_weibull_parameters(lambda: Float, k: Float) {
   }
 }
 
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Analytically compute the mean of a continuous weibull random variable   
+/// with scale parameter 'lambda' > 0 and shape parameter 'k' > 0.
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
 pub fn weibull_mean(lambda: Float, k: Float) -> Result(Float, String) {
   case check_weibull_parameters(lambda, k) {
     Error(string) ->
@@ -38,6 +53,21 @@ pub fn weibull_mean(lambda: Float, k: Float) -> Result(Float, String) {
   }
 }
 
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Analytically compute the variance of a continuous weibull random variable   
+/// with scale parameter 'lambda' > 0 and shape parameter 'k' > 0.
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
 pub fn weibull_variance(lambda: Float, k: Float) -> Result(Float, String) {
   case check_weibull_parameters(lambda, k) {
     Error(string) ->
@@ -54,6 +84,36 @@ pub fn weibull_variance(lambda: Float, k: Float) -> Result(Float, String) {
   }
 }
 
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Evaluate the probability density function (pdf) of a continuous weibull random 
+/// variable with scale parameter 'lambda' > 0 and shape parameter 'k' > 0.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleam_stats/distributions/weibull
+///     import gleeunit/should
+///
+///     pub fn example() {
+///       let lambda: Float = 1.
+///       let k: Float = 5.
+///       // For illustrational purposes, evaluate the pdf at the 
+///       // point -100.0
+///       weibull.weibull_pdf(-100.0, lambda, k) |> should.equal(Ok(0.0))
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
 pub fn weibull_pdf(x: Float, lambda: Float, k: Float) -> Result(Float, String) {
   case check_weibull_parameters(lambda, k) {
     Error(string) ->
@@ -73,6 +133,37 @@ pub fn weibull_pdf(x: Float, lambda: Float, k: Float) -> Result(Float, String) {
   }
 }
 
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Evaluate, at a certain point, the cumulative distribution function (cdf) of a 
+/// weibull random variable with scale parameter 'lambda' > 0 and shape parameter 
+/// 'k' > 0.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleam_stats/distributions/weibull
+///     import gleeunit/should
+///
+///     pub fn example() {
+///       let lambda: Float = 1.
+///       let k: Float = 5.
+///       // For illustrational purposes, evaluate the cdf at the 
+///       // point -100.0
+///       weibull.weibull_cdf(-100.0, lambda, k) |> should.equal(Ok(0.0))
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
 pub fn weibull_cdf(x: Float, lambda: Float, k: Float) -> Result(Float, String) {
   case check_weibull_parameters(lambda, k) {
     Error(string) ->
@@ -90,6 +181,43 @@ pub fn weibull_cdf(x: Float, lambda: Float, k: Float) -> Result(Float, String) {
   }
 }
 
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Generate 'm' random numbers from a weibull distribution with scale 
+/// parameter 'lambda' > 0 and shape parameter 'k' > 0.
+///
+/// The random numbers are generated using the inverse transform method.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleam/iterator.{Iterator}
+///     import gleam_stats/generator
+///     import gleam_stats/distributions/weibull
+///
+///     pub fn example() {
+///       let seed: Int = 5
+///       let seq: Int = 1
+///       let lambda: Float = 1.
+///       let k: Float = 5.
+///       assert Ok(out) =
+///         generators.seed_pcg32(seed, seq)
+///         |> weibull.weibull_random(lambda, k, 5_000)
+///       let rands: List(Float) = pair.first(out)
+///       let stream: Iterator(Int) = pair.second(out)
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
 pub fn weibull_random(
   stream: Iterator(Int),
   lambda: Float,
@@ -107,15 +235,16 @@ pub fn weibull_random(
           // Take out 'm' integers from the stream of pseudo-random numbers and generate 
           // uniform random numbers.
           assert Ok(out) = uniform.uniform_random(stream, 0., 1., m)
-          // Transform the 'm' continuous uniform random numbers to exponential distributed
+          // Transform the 'm' continuous uniform random numbers to weibull distributed
           // random numbers.
-          // Use the inverse CDF of the exponential distribution - i.e. the quantile function
-          // for this purpose.
           let numbers: List(Float) =
             pair.first(out)
             |> list.map(fn(x: Float) -> Float {
               lambda *. float.power(-1.0 *. math.log(1.0 -. x), 1.0 /. k)
             })
+          // Then return a tuple consisting of a list of weibull random numbers
+          // and the stream of pseudo-random numbers where the 'm' integers have been dropped
+          // from the stream.
           #(numbers, pair.second(out))
           |> Ok
         }

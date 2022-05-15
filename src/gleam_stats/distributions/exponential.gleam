@@ -92,12 +92,13 @@ pub fn exponential_variance(lambda: Float) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/exponential
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let lambda: Float = 1.
 ///       // For illustrational purposes, evaluate the pdf at the 
 ///       // point -100.0
-///       exponential.exponential_pdf(-100.0, lambda) |> should.equal(0.0)
+///       exponential.exponential_pdf(-100.0, lambda) |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///
@@ -137,12 +138,13 @@ pub fn exponential_pdf(x: Float, lambda: Float) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/exponential
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let lambda: Float = 1.
 ///       // For illustrational purposes, evaluate the cdf at the 
 ///       // point -100.0
-///       exponential.exponential_cdf(-100.0, lambda) |> should.equal(0.0)
+///       exponential.exponential_cdf(-100.0, lambda) |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///

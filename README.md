@@ -3,7 +3,6 @@
 [![Package Version](https://img.shields.io/hexpm/v/gleam_stats)](https://hex.pm/packages/gleam_stats)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/gleam_stats/)
 
-
 A Gleam mathematics and statistics library. 
 
 The repository is available on:

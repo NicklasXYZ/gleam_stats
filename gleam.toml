@@ -1,5 +1,5 @@
 name = "gleam_stats"
-version = "0.1.3"
+version = "1.0.0"
 
 licences = ["MIT"]
 description = "A Gleam mathematics and statistics library."

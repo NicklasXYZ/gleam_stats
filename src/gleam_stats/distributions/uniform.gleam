@@ -92,6 +92,7 @@ pub fn uniform_variance(a: Float, b: Float) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/uniform
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let a: Float = 0.
@@ -139,6 +140,7 @@ pub fn uniform_pdf(x: Float, a: Float, b: Float) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/uniform
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let a: Float = 0.

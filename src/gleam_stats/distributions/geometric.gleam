@@ -93,12 +93,13 @@ pub fn geometric_variance(p: Float) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/geometric
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let p: Float = 0.5
 ///       // For illustrational purposes, evaluate the pmf at the 
 ///       // point -100.0
-///       geometric.geometric_pmf(-100.0, r, p) |> should.equal(0.0)
+///       geometric.geometric_pmf(-100.0, r, p) |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///
@@ -139,12 +140,13 @@ pub fn geometric_pmf(x: Int, p: Float) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/geometric
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let p: Float = 0.5
 ///       // For illustrational purposes, evaluate the cdf at the 
 ///       // point -100.0
-///       geometric.geometric_cdf(-100.0, r, p) |> should.equal(0.0)
+///       geometric.geometric_cdf(-100.0, r, p) |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///

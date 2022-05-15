@@ -92,13 +92,14 @@ pub fn normal_variance(mu: Float, sigma: Float) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/normal
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let mean: Float = 0.
 ///       let sigma: Float = 1.
 ///       // For illustrational purposes, evaluate the pdf at the 
 ///       // point -100.0
-///       normal.normal_pdf(-100.0, mu, sigma) |> should.equal(0.0)
+///       normal.normal_pdf(-100.0, mu, sigma) |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///
@@ -137,13 +138,14 @@ pub fn normal_pdf(x: Float, mu: Float, sigma: Float) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/normal
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let mean: Float = 0.
 ///       let sigma: Float = 1.
 ///       // For illustrational purposes, evaluate the cdf at the 
 ///       // point -100.0
-///       normal.normal_cdf(-100.0, mu, sigma) |> should.equal(0.0)
+///       normal.normal_cdf(-100.0, mu, sigma) |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///

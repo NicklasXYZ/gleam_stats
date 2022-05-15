@@ -93,12 +93,13 @@ pub fn chisquared_variance(ddof: Int) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/chisquared
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let ddof: Float = 1.
 ///       // For illustrational purposes, evaluate the pdf at the 
 ///       // point -100.0
-///       chisquared.chisquared_pdf(-100.0, ddof) |> should.equal(0.0)
+///       chisquared.chisquared_pdf(-100.0, ddof) |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///
@@ -144,12 +145,13 @@ pub fn chisquared_pdf(x: Float, ddof: Int) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/chisquared
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let ddof: Float = 1.
 ///       // For illustrational purposes, evaluate the cdf at the 
 ///       // point -100.0
-///       chisquared.chisquared_cdf(-100.0, mu, sigma) |> should.equal(0.0)
+///       chisquared.chisquared_cdf(-100.0, mu, sigma) |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///
@@ -254,7 +256,7 @@ pub fn chisquared_random(
                 fn(acc: Float, a: Float) -> Float { a *. a +. acc },
               )
             })
-          // Then return a tuple consisting of a list of chisquared normal random numbers
+          // Then return a tuple consisting of a list of chi-squared normal random numbers
           // and the stream of pseudo-random numbers where the 'm' integers have been dropped
           // from the stream.
           #(numbers, pair.second(out))

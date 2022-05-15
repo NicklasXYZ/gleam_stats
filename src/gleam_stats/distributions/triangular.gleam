@@ -113,7 +113,8 @@ pub fn triangular_variance(
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam_stats/distributions/uniform
+///     import gleam_stats/distributions/triangular
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       // Min value
@@ -124,7 +125,7 @@ pub fn triangular_variance(
 ///       let c: Float = 0.5
 ///       // For illustrational purposes, evaluate the pdf at the 
 ///       // point -100.0
-///       triangular.triangular_pdf(-100.0, a, b ,c) |> should.equal(0.0)
+///       triangular.triangular_pdf(-100.0, a, b ,c) |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///
@@ -187,7 +188,8 @@ pub fn triangular_pdf(
 /// <details>
 ///     <summary>Example:</summary>
 ///
-///     import gleam_stats/distributions/uniform
+///     import gleam_stats/distributions/triangular
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       // Min value
@@ -198,7 +200,7 @@ pub fn triangular_pdf(
 ///       let c: Float = 0.5
 ///       // For illustrational purposes, evaluate the cdf at the 
 ///       // point -100.0
-///       triangular.triangular_cdf(-100.0, a, b ,c) |> should.equal(0.0)
+///       triangular.triangular_cdf(-100.0, a, b ,c) |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///

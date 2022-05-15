@@ -30,8 +30,8 @@ const k: Float = 5.0
 // weibull distribution (continuous) is correct by checking equality a
 // certain analytically calculated points
 pub fn weibull_pdf_test() {
-  let xs: List(Float) = [0.0, 1.0, 100.0]
-  let fxs: List(Float) = [0.0, 1.839397206, 0.0]
+  let xs: List(Float) = [-100.0, 0.0, 1.0, 100.0]
+  let fxs: List(Float) = [0.0, 0.0, 1.839397206, 0.0]
   let vs: List(#(Float, Float)) = list.zip(xs, fxs)
 
   vs
