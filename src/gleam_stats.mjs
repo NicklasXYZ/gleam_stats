@@ -22,8 +22,8 @@ export function atan(float) {
     return Math.atan(float)
 }
 
-export function atan2(float0, float1) {
-    return Math.atan2(float0, float1)
+export function atan2(floaty, floatx) {
+    return Math.atan2(floaty, floatx)
 }
 
 export function atanh(float) {

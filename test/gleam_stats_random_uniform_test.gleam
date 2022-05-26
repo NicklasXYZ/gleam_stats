@@ -76,7 +76,7 @@ pub fn uniform_cdf_test() {
   |> should.be_true()
 }
 
-pub fn uniform_random_test() {
+pub fn uniform_random_one_test() {
   assert Ok(mean) = uniform.uniform_mean(min, max)
   assert Ok(variance) = uniform.uniform_variance(min, max)
   assert Ok(out) =
@@ -116,5 +116,25 @@ pub fn uniform_random_test() {
       _ -> False
     }
   }
+  |> should.be_true()
+}
+
+pub fn uniform_random_two_test() {
+  let same: Float = 5.0
+  assert Ok(mean) = uniform.uniform_mean(same, same)
+  assert Ok(variance) = uniform.uniform_variance(same, same)
+  assert Ok(out) =
+    generators.seed_pcg32(5, 1)
+    |> uniform.uniform_random(same, same, n)
+
+  // Make sure the generated uniform random numbers are actually within
+  // the given min/max bounds
+  pair.first(out)
+  |> list.all(fn(x) {
+    case x == same {
+      True -> True
+      _ -> False
+    }
+  })
   |> should.be_true()
 }

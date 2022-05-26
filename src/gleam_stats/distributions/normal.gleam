@@ -171,7 +171,8 @@ pub fn normal_cdf(x: Float, mu: Float, sigma: Float) -> Result(Float, String) {
 // Use Box-Muller transform to sample from the normal distribution,
 // given standard uniform distributed random numbers.
 fn box_muller(u1: Float, u2: Float) -> List(Float) {
-  assert Ok(x) = float.square_root(-2.0 *. log(u1))
+  assert Ok(u) = log(u1)
+  assert Ok(x) = float.square_root(-2.0 *. u)
   [x *. cos(2.0 *. pi() *. u2), x *. sin(2.0 *. pi() *. u2)]
 }
 

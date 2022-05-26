@@ -228,7 +228,8 @@ pub fn exponential_random(
           let numbers: List(Float) =
             pair.first(out)
             |> list.map(fn(x: Float) -> Float {
-              1. /. { -1. *. lambda } *. log(x)
+              assert Ok(x1) = log(x)
+              1. /. { -1. *. lambda } *. x1
             })
           // Then return a tuple consisting of a list of exponential random numbers
           // and the stream of pseudo-random numbers where the 'm' integers have been dropped

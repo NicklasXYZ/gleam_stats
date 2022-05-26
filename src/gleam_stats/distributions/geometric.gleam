@@ -226,7 +226,9 @@ pub fn geometric_random(
           let numbers: List(Int) =
             pair.first(out)
             |> list.map(fn(x) {
-              float.round(float.floor(log(x) /. log(1. -. p)))
+              assert Ok(x1) = log(x)
+              assert Ok(x2) = log(1. -. p)
+              float.round(float.floor(x1 /. x2))
             })
           // Then return a tuple consisting of a list of geometric random numbers
           // and the stream of pseudo-random numbers where the 'm' integers have been dropped

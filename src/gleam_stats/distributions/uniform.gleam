@@ -99,8 +99,11 @@ pub fn uniform_variance(a: Float, b: Float) -> Result(Float, String) {
 ///       let b: Float = 1.
 ///       // For illustrational purposes, evaluate the pdf at points 
 ///       // 0.0 and 1.0
-///       uniform.uniform_cdf(0.0, a, b) |> should.equal(Ok(0.5))
-///       uniform.uniform_cdf(1.0, a, b) |> should.equal(Ok(1.0))
+///       uniform.uniform_cdf(0.0, a, b)
+///       |> should.equal(Ok(0.5))
+///
+///       uniform.uniform_cdf(1.0, a, b) 
+///       |> should.equal(Ok(1.0))
 ///     }
 /// </details>
 ///
@@ -147,8 +150,11 @@ pub fn uniform_pdf(x: Float, a: Float, b: Float) -> Result(Float, String) {
 ///       let b: Float = 1.
 ///       // For illustrational purposes, evaluate the cdf at points
 ///       // 0.0 and 1.0
-///       uniform.uniform_cdf(0.0, a, b) |> should.equal(Ok(0.0))
-///       uniform.uniform_cdf(1.0, a, b) |> should.equal(Ok(1.0))
+///       uniform.uniform_cdf(0.0, a, b)
+///       |> should.equal(Ok(0.0))
+///
+///       uniform.uniform_cdf(1.0, a, b)
+///       |> should.equal(Ok(1.0))
 ///     }
 /// </details>
 ///
@@ -244,7 +250,7 @@ pub fn uniform_random(
           let numbers: List(Float) =
             pair.first(out)
             |> list.map(fn(x) {
-              b *. { int.to_float(x) /. int.to_float(mask_32) } +. a
+              a +. int.to_float(x) *. { b -. a } /. int.to_float(mask_32)
             })
           // Then return a tuple consisting of a list of continuous uniform random numbers
           // and the stream of pseudo-random numbers where the 'm' integers have been dropped

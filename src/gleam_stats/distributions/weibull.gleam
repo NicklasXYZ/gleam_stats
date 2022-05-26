@@ -240,7 +240,8 @@ pub fn weibull_random(
           let numbers: List(Float) =
             pair.first(out)
             |> list.map(fn(x: Float) -> Float {
-              lambda *. float.power(-1.0 *. math.log(1.0 -. x), 1.0 /. k)
+              assert Ok(x1) = math.log(1.0 -. x)
+              lambda *. float.power(-1.0 *. x1, 1.0 /. k)
             })
           // Then return a tuple consisting of a list of weibull random numbers
           // and the stream of pseudo-random numbers where the 'm' integers have been dropped

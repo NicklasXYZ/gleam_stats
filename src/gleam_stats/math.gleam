@@ -3,35 +3,38 @@
 //// ---
 ////
 //// * **Standard Mathematical functions**
-////   * [`tanh`](#tanh)
-////   * [`sin`](#sin)
 ////   * [`acos`](#acos)
 ////   * [`acosh`](#acosh)
 ////   * [`asin`](#asin)
+////   * [`asinh`](#asinh)
 ////   * [`atan`](#atan)
 ////   * [`atan2`](#atan2)
 ////   * [`atanh`](#atanh)
+////   * [`ceil`](#ceil)
 ////   * [`cos`](#cos)
 ////   * [`cosh`](#cosh)
 ////   * [`exp`](#exp)
-////   * [`ceil`](#ceil)
 ////   * [`floor`](#floor)
-////   * [`pow`](#pow)
 ////   * [`log`](#log)
 ////   * [`log10`](#log10)
 ////   * [`log2`](#log2)
-////   * [`sinh`](#sinh)
-////   * [`tanh`](#tanh)
+////   * [`pow`](#pow)
 ////   * [`sign`](#sign)
+////   * [`sin`](#sin)
+////   * [`sinh`](#sinh)
+////   * [`tan`](#tan)
+////   * [`tanh`](#tanh)
+////   * [`to_degrees`](#to_degrees)
+////   * [`to_radians`](#to_radians)
 //// * **Special Mathematical functions**
+////   * [`beta`](#beta)
 ////   * [`erf`](#erf)
 ////   * [`gamma`](#gamma)
 ////   * [`gammainc`](#gammainc)
-////   * [`beta`](#beta)
 ////   * [`round`](#round)
 //// * **Combinatorial functions**
-////   * [`factorial`](#factorial)
 ////   * [`combination`](#combination)
+////   * [`factorial`](#factorial)
 ////   * [`permutation`](#permutation)
 //// * **Mathematical constants**
 ////   * [`pi`](#pi)
@@ -49,7 +52,27 @@ import gleam/io
 ///     </a>
 /// </div>
 ///
-/// The sine function.
+/// The inverse cosine function. The function takes a number in the range [-1, 1] 
+/// as input and returns a numeric value (an angle in radians). If the input
+/// value is outside the domain of the function an error is returned.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.acos(1.0)
+///       |> should.equal(Ok(0.0))
+///
+///       math.acos(1.1)
+///       |> should.be_error()
+///
+///       math.acos(-1.1)
+///       |> should.be_error()
+///     }
+/// </details>
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -57,82 +80,15 @@ import gleam/io
 ///     </a>
 /// </div>
 ///
-pub fn sin(x: Float) -> Float {
-  do_sin(x)
-}
-
-if erlang {
-  external fn do_sin(Float) -> Float =
-    "math" "sin"
-}
-
-if javascript {
-  external fn do_sin(Float) -> Float =
-    "../gleam_stats.mjs" "sin"
-}
-
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
-///
-/// The mathematical constant pi.
-///
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
-///
-pub fn pi() -> Float {
-  do_pi()
-}
-
-if erlang {
-  external fn do_pi() -> Float =
-    "math" "pi"
-}
-
-if javascript {
-  external fn do_pi() -> Float =
-    "../gleam_stats.mjs" "pi"
-}
-
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
-///
-/// The mathematical constant tau.  
-///
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
-///
-pub fn tau() -> Float {
-  2. *. pi()
-}
-
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
-///
-/// The inverse cosine function.
-///
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
-///
-pub fn acos(x: Float) -> Float {
-  do_acos(x)
+pub fn acos(x: Float) -> Result(Float, String) {
+  case x >=. -1.0 && x <=. 1.0 {
+    True ->
+      do_acos(x)
+      |> Ok
+    False ->
+      "TODO"
+      |> Error
+  }
 }
 
 if erlang {
@@ -151,7 +107,24 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse hyperbolic cosine function.
+/// The inverse hyperbolic cosine function. The function takes a number 
+/// >= 1 as input and returns a numeric value >= 0. If the input value is 
+/// outside the domain of the function an error is returned.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.acosh(1.0)
+///       |> should.equal(Ok(0.0))
+///
+///       math.acosh(0.0)
+///       |> should.be_error()
+///     }
+/// </details>
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -159,8 +132,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-pub fn acosh(x: Float) -> Float {
-  do_acosh(x)
+pub fn acosh(x: Float) -> Result(Float, String) {
+  case x >=. 1. {
+    True ->
+      do_acosh(x)
+      |> Ok
+    False ->
+      "TODO"
+      |> Error
+  }
 }
 
 if erlang {
@@ -179,7 +159,27 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse sine function.  
+/// The inverse sine function. The function takes a number in the range [-1, 1] 
+/// as input and returns a numeric value (an angle in radians). If the input
+/// value is outside the domain of the function an error is returned.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.asin(0.0)
+///       |> should.equal(0.0)
+///
+///       math.asin(1.1)
+///       |> should.be_error()
+///
+///       math.asin(-1.1)
+///       |> should.be_error()
+///     }
+/// </details>
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -187,8 +187,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-pub fn asin(x: Float) -> Float {
-  do_asin(x)
+pub fn asin(x: Float) -> Result(Float, String) {
+  case x >=. -1.0 && x <=. 1.0 {
+    True ->
+      do_asin(x)
+      |> Ok
+    False ->
+      "TODO"
+      |> Error
+  }
 }
 
 if erlang {
@@ -207,7 +214,61 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse tangent function.
+/// The inverse hyperbolic sine function. The function takes a number as input 
+/// and returns a numeric value (an angle in radians).
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.asinh(0.0)
+///       |> should.equal(0.0)
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn asinh(x: Float) -> Float {
+  do_asinh(x)
+}
+
+if erlang {
+  external fn do_asinh(Float) -> Float =
+    "math" "asinh"
+}
+
+if javascript {
+  external fn do_asinh(Float) -> Float =
+    "../gleam_stdlib.mjs" "asinh"
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The inverse tangent function. The function takes a number as input and
+/// returns a numeric value in the range [-pi/2, pi/2] (an angle in radians).
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.atan(0.0)
+///       |> should.equal(0.0)
+///     }
+/// </details>
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -235,7 +296,22 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse 2-argument tangent function. 
+/// The inverse 2-argument tangent function. The function returns the angle
+/// in radians from the x-axis to the line containing the origin (0, 0) and
+/// a point given as input with coordinates (x, y). The numeric value returned
+/// is in the range [-pi, pi]. 
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.atan2(0.0, 0.0)
+///       |> should.equal(0.0)
+///     }
+/// </details>
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -263,7 +339,27 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse hyperbolic tangent function.  
+/// The inverse hyperbolic tangent function. The function takes a number in the
+/// range (-1, 1) as input and returns a numeric value. If the input value is 
+/// outside the domain of the function an error is returned.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.atanh(0.0)
+///       |> should.equal(Ok(0.0))
+///
+///       math.atanh(1.0)
+///       |> should.be_error()
+///
+///       math.atanh(-1.0)
+///       |> should.be_error()
+///     }
+/// </details>
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -271,8 +367,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-pub fn atanh(x: Float) -> Float {
-  do_atanh(x)
+pub fn atanh(x: Float) -> Result(Float, String) {
+  case x >. -1. && x <. 1. {
+    True ->
+      do_atanh(x)
+      |> Ok
+    False ->
+      "TODO"
+      |> Error
+  }
 }
 
 if erlang {
@@ -291,91 +394,22 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The cosine function.  
-///
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
-///
-pub fn cos(x: Float) -> Float {
-  do_cos(x)
-}
-
-if erlang {
-  external fn do_cos(Float) -> Float =
-    "math" "cos"
-}
-
-if javascript {
-  external fn do_cos(Float) -> Float =
-    "../gleam_stats.mjs" "cos"
-}
-
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
-///
-/// The hyperbolic cosine function.  
-///
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
-///
-pub fn cosh(x: Float) -> Float {
-  do_cosh(x)
-}
-
-if erlang {
-  external fn do_cosh(Float) -> Float =
-    "math" "cosh"
-}
-
-if javascript {
-  external fn do_cosh(Float) -> Float =
-    "../gleam_stats.mjs" "cosh"
-}
-
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
-///
-/// The exponential function.  
-///
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
-///
-pub fn exp(x: Float) -> Float {
-  do_exp(x)
-}
-
-if erlang {
-  external fn do_exp(Float) -> Float =
-    "math" "exp"
-}
-
-if javascript {
-  external fn do_exp(Float) -> Float =
-    "../gleam_stats.mjs" "exp"
-}
-
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
-///
 /// The ceiling function.  
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.ceil(0.2)
+///       |> should.equal(1.0)
+///
+///       math.ceil(0.8)
+///       |> should.equal(1.0)
+///     }
+/// </details>
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -403,7 +437,149 @@ if javascript {
 ///     </a>
 /// </div>
 ///
+/// The cosine function. The function takes a number (an angle in radians)
+/// as input and returns a numeric value in the range [-1, 1].
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.cos(0.0)
+///       |> should.equal(1.0)
+///
+///       math.cos(math.pi())
+///       |> should.equal(-1.0)
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn cos(x: Float) -> Float {
+  do_cos(x)
+}
+
+if erlang {
+  external fn do_cos(Float) -> Float =
+    "math" "cos"
+}
+
+if javascript {
+  external fn do_cos(Float) -> Float =
+    "../gleam_stats.mjs" "cos"
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The hyperbolic cosine function. The function takes a number (an angle in 
+/// radians) as input and returns a numeric value. If the input value is too
+/// large an overflow error might occur.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.cosh(0.0)
+///       |> should.equal(0.0)
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn cosh(x: Float) -> Float {
+  do_cosh(x)
+}
+
+if erlang {
+  external fn do_cosh(Float) -> Float =
+    "math" "cosh"
+}
+
+if javascript {
+  external fn do_cosh(Float) -> Float =
+    "../gleam_stats.mjs" "cosh"
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The exponential function. If the input value is too large an overflow error
+/// might occur. 
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.exp(0.0)
+///       |> should.equal(1.0)
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn exp(x: Float) -> Float {
+  do_exp(x)
+}
+
+if erlang {
+  external fn do_exp(Float) -> Float =
+    "math" "exp"
+}
+
+if javascript {
+  external fn do_exp(Float) -> Float =
+    "../gleam_stats.mjs" "exp"
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
 /// The floor function. 
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.floor(0.2)
+///       |> should.equal(0.0)
+///
+///       math.floor(0.8)
+///       |> should.equal(0.0)
+///     }
+/// </details>
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -431,7 +607,28 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The exponentiation function.  
+/// The natural logarithm function. The function takes a number > 0 as input and
+/// returns a numeric value. If the input value is outside the domain of the 
+/// function an error is returned.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example () {
+///       math.log(1.0)
+///       |> should.equal(Ok(0.0))
+///
+///       math.log(math.exp(1.0))
+///       |> should.equal(1.0)
+///
+///       math.log(-1.0)
+///       |> should.be_error()
+///     }
+/// </details>
+///
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -439,36 +636,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-pub fn pow(x: Float, y: Float) -> Float {
-  do_pow(x, y)
-}
-
-if erlang {
-  external fn do_pow(Float, Float) -> Float =
-    "math" "pow"
-}
-
-if javascript {
-  external fn do_pow(Float, Float) -> Float =
-    "../gleam_stats.mjs" "pow"
-}
-
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
-///
-/// The natural logarithm function.  
-///
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
-///
-pub fn log(x: Float) -> Float {
-  do_log(x)
+pub fn log(x: Float) -> Result(Float, String) {
+  case x >. 0. {
+    True ->
+      do_log(x)
+      |> Ok
+    False ->
+      "TODO"
+      |> Error
+  }
 }
 
 if erlang {
@@ -487,7 +663,27 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The base-10 logarithm function.  
+/// The base-10 logarithm function. The function takes a number > 0 as input and
+/// returns a numeric value. If the input value is outside the domain of the 
+/// function an error is returned.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example () {
+///       math.log10(1.0)
+///       |> should.equal(Ok(0.0))
+///
+///       math.log10(10.0)
+///       |> should.equal(Ok(1.0))
+///
+///       math.log10(-1.0)
+///       |> should.be_error()
+///     }
+/// </details>
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -495,8 +691,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-pub fn log10(x: Float) -> Float {
-  do_log10(x)
+pub fn log10(x: Float) -> Result(Float, String) {
+  case x >. 0. {
+    True ->
+      do_log10(x)
+      |> Ok
+    False ->
+      "TODO"
+      |> Error
+  }
 }
 
 if erlang {
@@ -515,7 +718,27 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The base-2 logarithm function.  
+/// The base-2 logarithm function. The function takes a number > 0 as input and
+/// returns a numeric value. If the input value is outside the domain of the 
+/// function an error is returned.  
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example () {
+///       math.log2(1.0)
+///       |> should.equal(Ok(0.0))
+///
+///       math.log2(2.0)
+///       |> should.equal(Ok(1.0))
+///
+///       math.log2(-1.0)
+///       |> should.be_error()
+///     }
+/// </details>
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -523,8 +746,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-pub fn log2(x: Float) -> Float {
-  do_log2(x)
+pub fn log2(x: Float) -> Result(Float, String) {
+  case x >. 0. {
+    True ->
+      do_log2(x)
+      |> Ok
+    False ->
+      "TODO"
+      |> Error
+  }
 }
 
 if erlang {
@@ -543,7 +773,25 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The hyperbolic sine function. 
+/// The exponentiation function.  
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.pow(2., -1.)
+///       |> should.equal(0.5)
+///
+///       math.pow(2., 2.)
+///       |> should.equal(4.0)
+///
+///       math.pow(-1., 0.5)
+///       |> should.be_error()
+///     }
+/// </details>
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -551,46 +799,32 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-pub fn sinh(x: Float) -> Float {
-  do_sinh(x)
+pub fn pow(x: Float, y: Float) -> Result(Float, String) {
+  let fractional: Bool = ceil(y) -. y >. 0.
+  // In the following check:
+  // 1. If the base (x) is negative and the exponent (y) is fractional 
+  //    then return an error as it will otherwise be an imaginary number
+  // 2. If the base (x) is 0 and the exponent (y) is negative then the 
+  //    expression is equivalent to the exponent (y) divided by 0 and an
+  //    error should be returned
+  case x <. 0. && fractional || x == 0. && y <. 0. {
+    True ->
+      "TODO"
+      |> Error
+    False ->
+      do_pow(x, y)
+      |> Ok
+  }
 }
 
 if erlang {
-  external fn do_sinh(Float) -> Float =
-    "math" "sinh"
+  external fn do_pow(Float, Float) -> Float =
+    "math" "pow"
 }
 
 if javascript {
-  external fn do_sinh(Float) -> Float =
-    "../gleam_stats.mjs" "sinh"
-}
-
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
-///
-/// The hyperbolic tangent function.  
-///
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
-///
-pub fn tanh(x: Float) -> Float {
-  do_tanh(x)
-}
-
-if erlang {
-  external fn do_tanh(Float) -> Float =
-    "math" "tanh"
-}
-
-if javascript {
-  external fn do_tanh(Float) -> Float =
-    "../gleam_stats.mjs" "tanh"
+  external fn do_pow(Float, Float) -> Float =
+    "../gleam_stats.mjs" "pow"
 }
 
 /// <div style="text-align: right;">
@@ -628,6 +862,264 @@ if erlang {
 if javascript {
   external fn do_sign(Float) -> Float =
     "../gleam_stats.mjs" "sign"
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The sine function. The function takes a number (an angle in radians) as 
+/// input and returns a numeric value in the range [-1, 1].
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.sin(0.0)
+///       |> should.equal(0.0)
+///
+///       math.sin(0.5 *. math.pi())
+///       |> should.equal(1.0)
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn sin(x: Float) -> Float {
+  do_sin(x)
+}
+
+if erlang {
+  external fn do_sin(Float) -> Float =
+    "math" "sin"
+}
+
+if javascript {
+  external fn do_sin(Float) -> Float =
+    "../gleam_stats.mjs" "sin"
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The hyperbolic sine function. The function takes a number (an angle in 
+/// radians) as input and returns a numeric value. If the input value is too
+/// large an overflow error might occur.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.sinh(0.0)
+///       |> should.equal(0.0)
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn sinh(x: Float) -> Float {
+  do_sinh(x)
+}
+
+if erlang {
+  external fn do_sinh(Float) -> Float =
+    "math" "sinh"
+}
+
+if javascript {
+  external fn do_sinh(Float) -> Float =
+    "../gleam_stats.mjs" "sinh"
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The tangent function. The function takes a number (an angle in radians)
+/// as input and returns a numeric value.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.tan(0.0)
+///       |> should.equal(0.0)
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn tan(x: Float) -> Float {
+  do_tan(x)
+}
+
+if erlang {
+  external fn do_tan(Float) -> Float =
+    "math" "tan"
+}
+
+if javascript {
+  external fn do_tan(Float) -> Float =
+    "../gleam_stats.mjs" "tan"
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The hyperbolic tangent function.  
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example () {
+///       math.tanh(0.0)
+///       |> should.equal(0.0)
+///
+///       math.tanh(25.0)
+///       |> should.equal(1.0)
+///
+///       math.tanh(-25.0)
+///       |> should.equal(-1.0)
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn tanh(x: Float) -> Float {
+  do_tanh(x)
+}
+
+if erlang {
+  external fn do_tanh(Float) -> Float =
+    "math" "tanh"
+}
+
+if javascript {
+  external fn do_tanh(Float) -> Float =
+    "../gleam_stats.mjs" "tanh"
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Convert a value in degrees to a value measured in radians.
+/// 1 radian is 180 / pi degrees.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.to_degrees(0.0)
+///       |> should.equal(0.0)
+///
+///       math.to_degrees(2 *. pi())
+///       |> should.equal(360.)
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn to_degrees(x: Float) -> Float {
+  x *. 180. /. pi()
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// Convert a value in degrees to a value measured in radians.
+/// 1 degree is pi / 180 radians.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       math.sin(0.0)
+///       |> should.equal(0.0)
+///     }
+/// </details>
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn to_radians(x: Float) -> Float {
+  x *. pi() /. 180.
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The beta function over the real numbers.
+///
+/// The implemented beta function is evaluated through the use of the gamma function.
+/// 
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn beta(x: Float, y: Float) -> Float {
+  gamma(x) *. gamma(y) /. gamma(x +. y)
 }
 
 /// <div style="text-align: right;">
@@ -747,12 +1239,9 @@ pub fn gammainc(a: Float, x: Float) -> Result(Float, String) {
         1.0,
       )
       |> Ok
-    False -> {
-      io.debug(a)
-      io.debug(x)
+    False ->
       "Invlaid input argument: a <= 0 or x < 0. Valid input is a > 0 and x >= 0."
       |> Error
-    }
   }
 }
 
@@ -773,26 +1262,6 @@ fn gammainc_sum(a: Float, x: Float, t: Float, s: Float, n: Float) -> Float {
 ///     </a>
 /// </div>
 ///
-/// The beta function over the real numbers.
-///
-/// The implemented beta function is evaluated through the use of the gamma function.
-/// 
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
-///
-pub fn beta(x: Float, y: Float) -> Float {
-  gamma(x) *. gamma(y) /. gamma(x +. y)
-}
-
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
-///
 /// The function rounds a floating point number to a specific decimal precision.
 /// 
 /// <details>
@@ -802,10 +1271,17 @@ pub fn beta(x: Float, y: Float) -> Float {
 ///     import gleam_stats/math
 ///
 ///     pub fn example() {
-///       math.round(0.4444, 2) |> should.equal(0.44)
-///       math.round(0.4445, 2) |> should.equal(0.44)
-///       math.round(0.4455, 2) |> should.equal(0.45)
-///       math.round(0.4555, 2) |> should.equal(0.46)
+///       math.round(0.4444, 2) 
+///       |> should.equal(0.44)
+///
+///       math.round(0.4445, 2) 
+///       |> should.equal(0.44)
+///
+///       math.round(0.4455, 2) 
+///       |> should.equal(0.45)
+///
+///       math.round(0.4555, 2) 
+///       |> should.equal(0.46)
 ///     }
 /// </details>
 ///
@@ -818,66 +1294,6 @@ pub fn beta(x: Float, y: Float) -> Float {
 pub fn round(x: Float, precision: Int) -> Float {
   let p: Float = float.power(10.0, int.to_float(precision))
   int.to_float(float.round(x *. p)) /. p
-}
-
-/// <div style="text-align: right;">
-///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
-///         <small>Spot a typo? Open an issue!</small>
-///     </a>
-/// </div>
-///
-/// A combinatorial function for computing the total number of combinations of n elements.
-///
-/// <details>
-///     <summary>Example:</summary>
-///
-///     import gleeunit/should
-///     import gleam_stats/math
-///
-///     pub fn example() {
-///       // Invalid input gives an error
-///       math.factorial(-1)
-///       |> should.be_error()
-///     
-///       // Valid input returns a result
-///       math.factorial(0)
-///       |> should.equal(Ok(1))
-///       math.factorial(1)
-///       |> should.equal(Ok(1))
-///       math.factorial(2)
-///       |> should.equal(Ok(2))
-///       math.factorial(3)
-///       |> should.equal(Ok(6))
-///       math.factorial(4)
-///       |> should.equal(Ok(24))
-///     }
-/// </details>
-/// 
-/// <div style="text-align: right;">
-///     <a href="#">
-///         <small>Back to top ↑</small>
-///     </a>
-/// </div>
-///
-pub fn factorial(n) -> Result(Int, String) {
-  case n < 0 {
-    True ->
-      "Invalid input argument: n < 0. Valid input is n > 0."
-      |> Error
-    False ->
-      case n {
-        0 ->
-          1
-          |> Ok
-        1 ->
-          1
-          |> Ok
-        _ ->
-          list.range(1, n + 1)
-          |> list.fold(1, fn(acc: Int, x: Int) { acc * x })
-          |> Ok
-      }
-  }
 }
 
 /// <div style="text-align: right;">
@@ -956,6 +1372,66 @@ pub fn combination(n: Int, k: Int) -> Result(Int, String) {
 ///     </a>
 /// </div>
 ///
+/// A combinatorial function for computing the total number of combinations of n elements.
+///
+/// <details>
+///     <summary>Example:</summary>
+///
+///     import gleeunit/should
+///     import gleam_stats/math
+///
+///     pub fn example() {
+///       // Invalid input gives an error
+///       math.factorial(-1)
+///       |> should.be_error()
+///     
+///       // Valid input returns a result
+///       math.factorial(0)
+///       |> should.equal(Ok(1))
+///       math.factorial(1)
+///       |> should.equal(Ok(1))
+///       math.factorial(2)
+///       |> should.equal(Ok(2))
+///       math.factorial(3)
+///       |> should.equal(Ok(6))
+///       math.factorial(4)
+///       |> should.equal(Ok(24))
+///     }
+/// </details>
+/// 
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn factorial(n) -> Result(Int, String) {
+  case n < 0 {
+    True ->
+      "Invalid input argument: n < 0. Valid input is n > 0."
+      |> Error
+    False ->
+      case n {
+        0 ->
+          1
+          |> Ok
+        1 ->
+          1
+          |> Ok
+        _ ->
+          list.range(1, n + 1)
+          |> list.fold(1, fn(acc: Int, x: Int) { acc * x })
+          |> Ok
+      }
+  }
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
 /// A combinatorial function for computing the number of k-permuations (without repetitions)
 /// of n elements.
 ///
@@ -1013,4 +1489,50 @@ pub fn permutation(n: Int, k: Int) -> Result(Int, String) {
           }
       }
   }
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The mathematical constant pi.
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn pi() -> Float {
+  do_pi()
+}
+
+if erlang {
+  external fn do_pi() -> Float =
+    "math" "pi"
+}
+
+if javascript {
+  external fn do_pi() -> Float =
+    "../gleam_stats.mjs" "pi"
+}
+
+/// <div style="text-align: right;">
+///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
+///         <small>Spot a typo? Open an issue!</small>
+///     </a>
+/// </div>
+///
+/// The mathematical constant tau.  
+///
+/// <div style="text-align: right;">
+///     <a href="#">
+///         <small>Back to top ↑</small>
+///     </a>
+/// </div>
+///
+pub fn tau() -> Float {
+  2. *. pi()
 }

@@ -9,3 +9,8 @@
 - Created gleam bindings to the Javascript Math library to make the library compatible with the Javascript compilation target.
 
 ## Unreleased
+
+- Added missing math functions `tan` and `asinh`.
+- Fixed bugs and handled error cases related to the evaluation of math functions outside of their domain. For example, the evaluation of `math.log(0.0)` should result in an error.
+- Added tests for math functions.
+- Organized implemented math and stats functions such they are ordered in alphabetical order.
