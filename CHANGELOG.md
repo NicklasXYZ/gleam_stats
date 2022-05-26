@@ -12,5 +12,6 @@
 
 - Added missing math functions `tan` and `asinh`.
 - Fixed bugs and handled error cases related to the evaluation of math functions outside of their domain. For example, the evaluation of `math.log(0.0)` should result in an error.
+- Fixed wrong formula used in the generation of continuous uniform random numbers.
 - Added tests for math functions.
 - Organized implemented math and stats functions such they are ordered in alphabetical order.
