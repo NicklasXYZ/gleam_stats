@@ -23,6 +23,9 @@ gleam add gleam_stats
 ## Development
 
 ```sh
-gleam test       # Run the tests
-gleam build docs # Build docs
+# Run the tests
+gleam test
+
+# Build docs (requires python library 'lxml'):
+gleam docs build && cd utils && python inject.py && cd ..
 ```
