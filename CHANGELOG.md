@@ -15,4 +15,5 @@
 - Fixed wrong formula used in the generation of continuous uniform random numbers.
 - Added tests for all implemented math functions.
 - Organized implemented math and stats functions implemented in the `math` and `stats` modules such they are ordered in alphabetical order.
-
+- Added a `random` module to the library for generating and randomizing data.
+- Added a list shuffling function to the `random` module 
