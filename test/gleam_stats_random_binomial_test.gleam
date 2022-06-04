@@ -18,7 +18,7 @@ const rtol: Float = 0.025
 const atol: Float = 0.025
 
 // Number of random numbers to generate when validating the 
-// population mean and variance of the generated random numbers
+// sample mean and variance of the generated random numbers
 const m: Int = 25_000
 
 // Parameters of a binomial distribution (discrete)
@@ -83,7 +83,7 @@ pub fn binomial_random_test() {
     generators.seed_pcg32(5, 1)
     |> binomial.binomial_random(n, p, m)
 
-  // Make sure the population mean of the generated binomial random numbers
+  // Make sure the sample mean of the generated binomial random numbers
   // is close to the analytically calculated mean
   pair.first(out)
   |> list.map(fn(x) { int.to_float(x) })
@@ -96,7 +96,7 @@ pub fn binomial_random_test() {
   }
   |> should.be_true()
 
-  // Make sure the population variance of the generated binomial random numbers
+  // Make sure the sample variance of the generated binomial random numbers
   // is close to the analytically calculated variance
   pair.first(out)
   |> list.map(fn(x) { int.to_float(x) })

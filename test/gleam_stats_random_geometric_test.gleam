@@ -18,7 +18,7 @@ const rtol: Float = 0.025
 const atol: Float = 0.025
 
 // Number of random numbers to generate when validating the 
-// population mean and variance of the generated random numbers
+// sample mean and variance of the generated random numbers
 const n: Int = 25_000
 
 // Parameters of a geometric distribution (discrete)
@@ -30,9 +30,7 @@ const p: Float = 0.5
 // certain analytically calculated points
 pub fn geometric_pmf_test() {
   let xs: List(Int) = [-1, 0, 1, 2, 100]
-  //, 20, 40]
   let fxs: List(Float) = [0.0, 0.5, 0.25, 0.125, 0.0]
-  //, 0.1253706876195792574436, 0.0]
   let vs: List(#(Int, Float)) = list.zip(xs, fxs)
   vs
   |> list.map(fn(v: #(Int, Float)) -> Bool {
@@ -83,7 +81,7 @@ pub fn geometric_random_test() {
     generators.seed_pcg32(5, 1)
     |> geometric.geometric_random(p, n)
 
-  // Make sure the population mean of the generated geometric random numbers
+  // Make sure the sample mean of the generated geometric random numbers
   // is close to the analytically calculated mean
   pair.first(out)
   |> list.map(fn(x) { int.to_float(x) })
@@ -96,7 +94,7 @@ pub fn geometric_random_test() {
   }
   |> should.be_true()
 
-  // Make sure the population variance of the generated geometric random numbers
+  // Make sure the sample variance of the generated geometric random numbers
   // is close to the analytically calculated variance
   pair.first(out)
   |> list.map(fn(x) { int.to_float(x) })

@@ -17,7 +17,7 @@ const rtol: Float = 0.025
 const atol: Float = 0.025
 
 // Number of random numbers to generate when validating the 
-// population mean and variance of the generated random numbers
+// sample mean and variance of the generated random numbers
 const n: Int = 25_000
 
 // The minimum of a uniform distribution (continuos) 
@@ -94,7 +94,7 @@ pub fn uniform_random_one_test() {
   })
   |> should.be_true()
 
-  // Make sure the population mean of the generated uniform random numbers is
+  // Make sure the sample mean of the generated uniform random numbers is
   // close to the analytically calculated mean
   pair.first(out)
   |> stats.mean()
@@ -106,7 +106,7 @@ pub fn uniform_random_one_test() {
   }
   |> should.be_true()
 
-  // Make sure the population variance of the generated uniform random numbers is
+  // Make sure the sample variance of the generated uniform random numbers is
   // close to the analytically calculated variance
   pair.first(out)
   |> stats.var(1)
@@ -136,5 +136,29 @@ pub fn uniform_random_two_test() {
       _ -> False
     }
   })
+  |> should.be_true()
+
+  // Make sure the sample mean of the generated uniform random numbers
+  // is close to the analytically calculated mean
+  pair.first(out)
+  |> stats.mean()
+  |> fn(x) {
+    case x {
+      Ok(x) -> stats.isclose(x, mean, rtol, atol)
+      _ -> False
+    }
+  }
+  |> should.be_true()
+
+  // Make sure the sample variance of the generated uniform random numbers
+  // is close to the analytically calculated variance
+  pair.first(out)
+  |> stats.var(1)
+  |> fn(x) {
+    case x {
+      Ok(x) -> stats.isclose(x, variance, rtol, atol)
+      _ -> False
+    }
+  }
   |> should.be_true()
 }

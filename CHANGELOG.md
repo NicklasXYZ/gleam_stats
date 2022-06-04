@@ -13,7 +13,8 @@
 - Added missing math functions `tan` and `asinh`.
 - Fixed bugs and handled error cases related to the evaluation of math functions outside of their domain. For example, the evaluation of `math.log(0.0)` should result in an error.
 - Fixed wrong formula used in the generation of continuous uniform random numbers.
-- Added tests for all implemented math functions.
+- Added tests for all implemented functions in the `math` module.
 - Organized implemented math and stats functions implemented in the `math` and `stats` modules such they are ordered in alphabetical order.
 - Added a `random` module to the library for generating and randomizing data.
-- Added a list shuffling function to the `random` module 
+- Added a list shuffling function `shuffle` to the `random` module.
+- Added a function `bools` to the `random` module for generating a list of random boolean values.

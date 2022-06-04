@@ -44,7 +44,6 @@ import gleam/list
 import gleam/int
 import gleam/float
 import gleam_stats/stats.{amin}
-import gleam/io
 
 /// <div style="text-align: right;">
 ///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
@@ -86,7 +85,7 @@ pub fn acos(x: Float) -> Result(Float, String) {
       do_acos(x)
       |> Ok
     False ->
-      "TODO"
+      "Invalid input argument: x >= -1 or x <= 1. Valid input is -1. <= x <= 1."
       |> Error
   }
 }
@@ -138,7 +137,7 @@ pub fn acosh(x: Float) -> Result(Float, String) {
       do_acosh(x)
       |> Ok
     False ->
-      "TODO"
+      "Invalid input argument: x < 1. Valid input is x >= 1."
       |> Error
   }
 }
@@ -193,7 +192,7 @@ pub fn asin(x: Float) -> Result(Float, String) {
       do_asin(x)
       |> Ok
     False ->
-      "TODO"
+      "Invalid input argument: x >= -1 or x <= 1. Valid input is -1. <= x <= 1."
       |> Error
   }
 }
@@ -373,7 +372,7 @@ pub fn atanh(x: Float) -> Result(Float, String) {
       do_atanh(x)
       |> Ok
     False ->
-      "TODO"
+      "Invalid input argument: x > -1 or x < 1. Valid input is -1. < x < 1."
       |> Error
   }
 }
@@ -642,7 +641,7 @@ pub fn log(x: Float) -> Result(Float, String) {
       do_log(x)
       |> Ok
     False ->
-      "TODO"
+      "Invalid input argument: x <= 0. Valid input is x > 0."
       |> Error
   }
 }
@@ -697,7 +696,7 @@ pub fn log10(x: Float) -> Result(Float, String) {
       do_log10(x)
       |> Ok
     False ->
-      "TODO"
+      "Invalid input argument: x <= 0. Valid input is x > 0."
       |> Error
   }
 }
@@ -752,7 +751,7 @@ pub fn log2(x: Float) -> Result(Float, String) {
       do_log2(x)
       |> Ok
     False ->
-      "TODO"
+      "Invalid input argument: x <= 0. Valid input is x > 0."
       |> Error
   }
 }
@@ -809,7 +808,7 @@ pub fn pow(x: Float, y: Float) -> Result(Float, String) {
   //    error should be returned
   case x <. 0. && fractional || x == 0. && y <. 0. {
     True ->
-      "TODO"
+      "Invalid input argument: x < 0 and y is fractional or x = 0 and y < 0."
       |> Error
     False ->
       do_pow(x, y)

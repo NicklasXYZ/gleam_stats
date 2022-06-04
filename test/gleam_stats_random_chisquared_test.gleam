@@ -18,7 +18,7 @@ const rtol: Float = 0.025
 const atol: Float = 0.025
 
 // Number of random numbers to generate when validating the 
-// population mean and variance of the generated random numbers
+// sample mean and variance of the generated random numbers
 const n: Int = 25_000
 
 // The degrees of freedom of a chi-squared random variable (continuous) 
@@ -74,17 +74,13 @@ pub fn chisquared_cdf_test() {
 }
 
 pub fn chisquared_random_test() {
-  io.debug("")
   assert Ok(mean) = chisquared.chisquared_mean(ddof)
-  io.debug("Mean: ")
-  io.debug(mean)
   assert Ok(variance) = chisquared.chisquared_variance(ddof)
-  io.debug("Variance: ")
-  io.debug(variance)
   assert Ok(out) =
     generators.seed_pcg32(8, 1)
     |> chisquared.chisquared_random(ddof, n)
-  // Make sure the population mean of the generated normal random numbers
+
+  // Make sure the sample mean of the generated normal random numbers
   // is close to the analytically calculated mean
   pair.first(out)
   |> stats.mean()
@@ -96,7 +92,8 @@ pub fn chisquared_random_test() {
     }
   }
   |> should.be_true()
-  // Make sure the population variance of the generated normal random numbers
+
+  // Make sure the sample variance of the generated normal random numbers
   // is close to the analytically calculated variance
   pair.first(out)
   |> stats.var(1)
