@@ -4,6 +4,8 @@
 ////
 //// * **Lists**
 ////   * [`shuffle`](#shuffle)
+//// * **Data**
+////   * [`bools`](#bools)
 
 import gleam/list
 import gleam/iterator.{Iterator}
