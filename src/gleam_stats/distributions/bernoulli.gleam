@@ -1,4 +1,4 @@
-//// Functions related to discrete bernoulli random variables.
+//// Functions related to discrete Bernoulli random variables.
 ////
 //// ---
 ////
@@ -31,8 +31,10 @@ fn check_bernoulli_parameters(p: Float) -> Result(Bool, String) {
 ///     </a>
 /// </div>
 ///
-/// Analytically compute the mean of a discrete bernoulli distribution with parameter
-/// 'p' in the interval [0, 1] (the success probability of a trial).
+/// Analytically compute the mean of a discrete Bernoulli random variable with parameter
+/// $$p \in \[0, 1\]$$ (the success probability of a trial).
+///
+/// The mean returned is: $$p$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -57,8 +59,10 @@ pub fn bernoulli_mean(p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Analytically compute the variance of a discrete bernoulli distribution with parameter
-/// 'p' in the interval [0, 1] (the success probability of a trial).
+/// Analytically compute the variance of a discrete Bernoulli random variable with parameter
+/// $$p \in \[0, 1\]$$ (the success probability of a trial).
+///
+/// The variance returned is: $$p \cdot \(1 - p\)$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -83,8 +87,19 @@ pub fn bernoulli_variance(p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate the probability mass function (pmf) of a discrete bernoulli distribution with
-/// parameter 'p' in the interval [0, 1] (the success probability of a trial).
+/// Evaluate, at a certain point $$x \in \{0, 1\}$$, the probability mass function (pmf) of a 
+/// Bernoulli distribution (discrete) with parameter $$p \in \[0, 1\]$$ (the success 
+/// probability of a trial).
+///
+/// The pmf is defined as:
+///
+/// \\[
+/// f(x; p) = 
+/// \begin{cases}
+///  p &\text{if } x = 0, \\\\
+///  1 - p &\text{if } x = 1.
+/// \end{cases}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -134,9 +149,20 @@ pub fn bernoulli_pmf(x: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point, the cumulative distribution function (cdf) of a discrete
-/// bernoulli distribution with parameter 'p' in the interval [0, 1] (the success probability
+/// Evaluate, at a certain point $$x \in \mathbb{Z}$$, the cumulative distribution function (cdf) of a
+/// Bernoulli distribution (discrete) with parameter $$p \in \[0, 1\]$$ (the success probability
 /// of a trial).
+///
+/// The cdf is defined as:
+///
+/// \\[
+/// F(x; p) = 
+/// \begin{cases}
+///  0 &\text{if } x < 0, \\\\
+///  1 - p &\text{if } x \leq < 1, \\\\
+///  1 &\text{if } x \geq 1.
+/// \end{cases}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -186,8 +212,8 @@ pub fn bernoulli_cdf(x: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers from a discrete bernoulli distribution with parameter 
-/// 'p' in the interval [0, 1] (the success probability of a trial).
+/// Generate $$m \in \mathbb{N}$$ random numbers from a Bernoulli distribution (discrete) with parameter 
+/// $$p \in \[0, 1\]$$ (the success probability of a trial).
 /// 
 /// The random numbers are generated using the inverse transform method.
 ///

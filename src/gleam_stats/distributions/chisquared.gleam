@@ -35,7 +35,9 @@ fn check_chisquared_parameters(ddof: Int) -> Result(Bool, String) {
 /// </div>
 ///
 /// Analytically compute the mean of a continuous chi-squared random variable   
-/// with given degrees of freedom 'ddof' > 0.
+/// with given degrees of freedom $$d \in \mathbb{N}$$.
+///
+/// The mean returned is: $$d$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -43,8 +45,8 @@ fn check_chisquared_parameters(ddof: Int) -> Result(Bool, String) {
 ///     </a>
 /// </div>
 ///
-pub fn chisquared_mean(ddof: Int) -> Result(Float, String) {
-  case check_chisquared_parameters(ddof) {
+pub fn chisquared_mean(d: Int) -> Result(Float, String) {
+  case check_chisquared_parameters(d) {
     Error(string) ->
       string
       |> Error
@@ -61,7 +63,9 @@ pub fn chisquared_mean(ddof: Int) -> Result(Float, String) {
 /// </div>
 ///
 /// Analytically compute the variance of a continuous chi-squared random variable   
-/// with given degrees of freedom 'ddof' > 0.
+/// with given degrees of freedom $$d \in \mathbb{N}$$.
+///
+/// The variance returned is: $$2 \cdot d$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -69,13 +73,13 @@ pub fn chisquared_mean(ddof: Int) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-pub fn chisquared_variance(ddof: Int) -> Result(Float, String) {
-  case check_chisquared_parameters(ddof) {
+pub fn chisquared_variance(d: Int) -> Result(Float, String) {
+  case check_chisquared_parameters(d) {
     Error(string) ->
       string
       |> Error
     _ ->
-      2.0 *. int.to_float(ddof)
+      2.0 *. int.to_float(d)
       |> Ok
   }
 }
@@ -86,8 +90,18 @@ pub fn chisquared_variance(ddof: Int) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate the probability density function (pdf) of a continuous chi-squared 
-/// random variable with given degrees of freedom 'ddof' > 0.
+/// Evaluate, at a certain point $$x \in \[0, \infty\]$$ the probability density function (pdf)
+/// of a continuous chi-squared random variable with given degrees of freedom $$d \in \mathbb{N}$$.
+///
+/// The pdf is defined as:
+///
+/// \\[
+/// f(x; d) = 
+/// \begin{cases}
+///  \frac{x^{\frac{d}{2} - 1}\cdot e^{-\frac{x}{2}}}{2^{\frac{d}{2}} \cdot \Gamma\left(\frac{d}{2}\right)} &\text{if } x > 0, \\\\
+///  0 &\text{if } x \leq 0.
+/// \end{cases}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -138,8 +152,17 @@ pub fn chisquared_pdf(x: Float, ddof: Int) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point, the cumulative distribution function (cdf) of a
-/// continuous chi-squared random variable with given degrees of freedom 'ddof' > 0.
+/// Evaluate, at a certain point $$x \in \[0, \infty]$$, the cumulative distribution 
+/// function (cdf) of a continuous chi-squared random variable with given degrees of 
+/// freedom $$d \in \mathbb{N}$$.
+///
+/// The cdf is defined as:
+///
+/// \\[
+/// F(x; d) = \frac{\gamma\left(\frac{d}{2}, \frac{x}{2}\right)}{\Gamma\left(\frac{d}{2}\right)}
+/// \\]
+///
+/// In the formula, $$\gamma(\cdot, \cdot)$$ is the lower incomplete gamma function.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -200,8 +223,8 @@ fn do_chisquared_cdf(x: Float, ddof: Int) -> Float {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers from a continuous chi-squared distribution with
-/// given degrees of freedom 'ddof' > 0.
+/// Generate $$m \in \mathbb{N}$$ random numbers from a continuous chi-squared
+/// distribution with given degrees of freedom $$d \in \mathbb{N}$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>

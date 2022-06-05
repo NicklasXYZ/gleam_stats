@@ -40,9 +40,11 @@ fn check_binomial_parameters(n: Int, p: Float) -> Result(Bool, String) {
 ///     </a>
 /// </div>
 ///
-/// Analytically compute the mean of a discrete binomial distribution with parameters
-/// 'n' > 0 (number of trials) and 'p' in the interval [0, 1] (the success probability 
+/// Analytically compute the mean of a discrete Binomial random variable with parameters
+/// $$n > 0$$ (number of trials) and $$p \in \[0, 1\]$$ (the success probability 
 /// in each trial).
+///
+/// The mean returned is: $$n \cdot p$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -67,9 +69,11 @@ pub fn binomial_mean(n: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Analytically compute the variance of a discrete binomial distribution with parameters
-/// 'n' > 0 (number of trials) and 'p' in the interval [0, 1] (the success probability 
+/// Analytically compute the variance of a discrete Binomial random variable with parameters
+/// $$n > 0$$ (number of trials) and $$p \in \[0, 1\]$$ (the success probability 
 /// in each trial).
+///
+/// The variance returned is: $$n \cdot p \cdot (1 - p)$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -94,9 +98,15 @@ pub fn binomial_variance(n: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate the probability mass function (pmf) of a discrete binomial distribution with
-/// parameters 'n' > 0 (number of trials) and 'p' in the interval [0, 1] (the success 
+/// Evaluate the probability mass function (pmf) of a discrete Binomial random variable with
+/// parameters $$n > 0$$ (number of trials) and $$p \in \[0, 1\]$$ (the success 
 /// probability in each trial).
+///
+/// The pmf is defined as:
+///
+/// \\[
+/// f(x; n, p) =  \binom{n}{x} \cdot p^{x} (1 - p)^{n - x}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -146,9 +156,15 @@ pub fn binomial_pmf(x: Int, n: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point, the cumulative distribution function (cdf) of a discrete
-/// binomial distribution with parameters 'n' > 0 (number of trials) and 'p' in the interval
-/// [0, 1] (the success probability in each trial).
+/// Evaluate, at a certain point $$x \in \mathbb{Z}$$, the cumulative distribution function (cdf) of a 
+/// discrete Binomial random variable with parameters $$n > 0$$ (number of trials) and $$p \in \[0, 1\]$$
+/// (the success probability in each trial).
+///
+/// The cdf is defined as:
+///
+/// \\[
+/// F(x; n, p) = \sum_{i=0}^{\lfloor k \rfloor} \binom{n}{i}p^{i}(1-p)^{n-i}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -212,8 +228,8 @@ pub fn binomial_cdf(x: Int, n: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers from a discrete binomial distribution with parameters 'n' > 0 
-/// (number of trials) and 'p' in the interval [0, 1] (the success probability in each trial).
+/// Generate $$m \in \mathbb{N}$$ random numbers from a Binomial distribution (discrete) with parameters 
+/// $$n > 0$$ (number of trials) and $$p \in \[0, 1\]$$ (the success probability in each trial).
 /// 
 /// The random numbers are generated using the inverse transform method.
 ///
