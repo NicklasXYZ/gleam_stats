@@ -47,9 +47,12 @@ def inject_header_content(content: list[str], file_paths: list[str]) -> None:
             ncontent = etree.tostring(
                 root,
                 encoding="unicode",
+                method="html",
                 pretty_print=True,
             )
+            print(ncontent)
         with open(file, "w+") as f:
+            f.write("<!DOCTYPE html>\n")
             f.write(ncontent)
 
 def traverse_directories(root: str) -> list[str]:

@@ -2,7 +2,7 @@
 ////
 //// ---
 ////
-//// * **Standard Mathematical functions**
+//// * **Standard mathematical functions**
 ////   * [`acos`](#acos)
 ////   * [`acosh`](#acosh)
 ////   * [`asin`](#asin)
@@ -26,7 +26,7 @@
 ////   * [`tanh`](#tanh)
 ////   * [`to_degrees`](#to_degrees)
 ////   * [`to_radians`](#to_radians)
-//// * **Special Mathematical functions**
+//// * **Special mathematical functions**
 ////   * [`beta`](#beta)
 ////   * [`erf`](#erf)
 ////   * [`gamma`](#gamma)
@@ -51,9 +51,15 @@ import gleam_stats/stats.{amin}
 ///     </a>
 /// </div>
 ///
-/// The inverse cosine function. The function takes a number in the range [-1, 1] 
-/// as input and returns a numeric value (an angle in radians). If the input
-/// value is outside the domain of the function an error is returned.
+/// The inverse cosine function: 
+///
+/// \\[
+/// \forall x \in \[-1, 1\], \, \cos^{-1}{(x)} = y \in \[0, \pi \]
+/// \\]
+///
+/// The function takes a number $$x$$ in its domain $$\[-1, 1\]$$ as input and returns a
+/// numeric value $y$ that lies in the range $$\[0, \pi \]$$ (an angle in radians). 
+/// If the input value is outside the domain of the function an error is returned.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -106,9 +112,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse hyperbolic cosine function. The function takes a number 
-/// >= 1 as input and returns a numeric value >= 0. If the input value is 
-/// outside the domain of the function an error is returned.
+/// The inverse hyperbolic cosine function: 
+///
+/// \\[
+/// \forall x \in [1, +\infty\), \, \cosh^{-1}{(x)} = y \in \[0, +\infty\)
+/// \\]
+///
+/// The function takes a number $$x$$ in its domain $$\[1, +\infty\)$$ as input and returns
+/// a numeric value $$y$$ that lies in the range $$\[0, +\infty\)$$ (an angle in radians). 
+/// If the input value is outside the domain of the function an error is returned.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -158,9 +170,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse sine function. The function takes a number in the range [-1, 1] 
-/// as input and returns a numeric value (an angle in radians). If the input
-/// value is outside the domain of the function an error is returned.
+/// The inverse sine function: 
+///
+/// \\[
+/// \forall x \in \[-1, 1\], \, \sin^{-1}{(x)} = y \in \(-\infty, +\infty\)
+/// \\]
+///
+/// The function takes a number $$x$$ in its domain $$\[-1, 1\]$$ as input and returns a numeric
+/// value $y$ that lies in the range $$\[-\frac{\pi}{2}, \frac{\pi}{2}\]$$ (an angle in radians). 
+/// If the input value is outside the domain of the function an error is returned.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -213,8 +231,14 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse hyperbolic sine function. The function takes a number as input 
-/// and returns a numeric value (an angle in radians).
+/// The inverse hyperbolic sine function:
+///
+/// \\[
+/// \forall x \in \(-\infty, \infty\), \, \sinh^{-1}{(x)} = y \in \(-\infty, +\infty\)
+/// \\]
+///
+/// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input and returns 
+/// a numeric value $$y$$ that lies in the range $$\(-\infty, +\infty\)$$ (an angle in radians).
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -254,8 +278,14 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse tangent function. The function takes a number as input and
-/// returns a numeric value in the range [-pi/2, pi/2] (an angle in radians).
+/// The inverse tangent function:
+///
+/// \\[
+/// \forall x \in \(-\infty, \infty\), \, \tan^{-1}{(x)} = y \in \[-\frac{\pi}{2}, \frac{\pi}{2}\]
+/// \\]
+///
+/// The function takes a number $x$ in its domain $$\(-\infty, +\infty\)$$ as input and returns 
+/// a numeric value $$y$$ that lies in the range $$\[-\frac{\pi}{2}, \frac{\pi}{2}\]$$ (an angle in radians).
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -295,10 +325,23 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse 2-argument tangent function. The function returns the angle
-/// in radians from the x-axis to the line containing the origin (0, 0) and
-/// a point given as input with coordinates (x, y). The numeric value returned
-/// is in the range [-pi, pi]. 
+/// The inverse 2-argument tangent function:
+///
+/// \\[
+/// \text{atan2}(y, x) =
+/// \begin{cases}
+///  \tan^{-1}(\frac y x) &\text{if } x > 0, \\\\
+///  \tan^{-1}(\frac y x) + \pi &\text{if } x < 0 \text{ and } y \ge 0, \\\\
+///  \tan^{-1}(\frac y x) - \pi &\text{if } x < 0 \text{ and } y < 0, \\\\
+///  +\frac{\pi}{2} &\text{if } x = 0 \text{ and } y > 0, \\\\
+///  -\frac{\pi}{2} &\text{if } x = 0 \text{ and } y < 0, \\\\
+///  \text{undefined} &\text{if } x = 0 \text{ and } y = 0.
+/// \end{cases}
+/// \\]
+///
+/// The function returns the angle in radians from the x-axis to the line containing the 
+/// origin $$\(0, 0\)$$ and a point given as input with coordinates $$\(x, y\)$$. The numeric value
+/// returned by $$\text{atan2}(y, x)$$ is in the range $$\[-\pi, \pi\]$$. 
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -338,9 +381,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse hyperbolic tangent function. The function takes a number in the
-/// range (-1, 1) as input and returns a numeric value. If the input value is 
-/// outside the domain of the function an error is returned.
+/// The inverse hyperbolic tangent function:
+///
+/// \\[
+/// \forall x \in \(-1, 1\), \, \tanh^{-1}{(x)} = y \in \(-\infty, +\infty\)
+/// \\]
+///
+/// The function takes a number $x$ in its domain $$\(-1, 1\)$$ as input and returns 
+/// a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$ (an angle in radians).
+/// If the input value is outside the domain of the function an error is returned.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -436,8 +485,14 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The cosine function. The function takes a number (an angle in radians)
-/// as input and returns a numeric value in the range [-1, 1].
+/// The cosine function:
+///
+/// \\[
+/// \forall x \in \(-\infty, +\infty\), \, \cos{(x)} = y \in \[-1, 1\]
+/// \\]
+///
+/// The function takes a number $x$ in its domain $$\(-\infty, \infty\)$$ (an angle in radians) 
+/// as input and returns a numeric value $$y$$ that lies in the range $$\[-1, 1\]$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -480,9 +535,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The hyperbolic cosine function. The function takes a number (an angle in 
-/// radians) as input and returns a numeric value. If the input value is too
-/// large an overflow error might occur.
+/// The hyperbolic cosine function:
+///
+/// \\[
+/// \forall x \in \(-\infty, \infty\), \, \cosh{(x)} = y \in \(-\infty, +\infty\)
+/// \\]
+///
+/// The function takes a number $x$ in its domain $$\(-\infty, \infty\)$$ as input (an angle in radians)
+/// and returns a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$.
+/// If the input value is too large an overflow error might occur.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -522,8 +583,13 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The exponential function. If the input value is too large an overflow error
-/// might occur. 
+/// The exponential function: 
+///
+/// \\[
+/// \forall x \in \(-\infty, \infty\), \, e^{(x)} = y \in \(0, +\infty\)
+/// \\]
+///
+/// If the input value is too large an overflow error might occur. 
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -606,9 +672,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The natural logarithm function. The function takes a number > 0 as input and
-/// returns a numeric value. If the input value is outside the domain of the 
-/// function an error is returned.
+/// The natural logarithm function:
+///
+/// \\[
+/// \forall x \in \(0, \infty\), \, \log_{e}{(x)} = y \in \(-\infty, +\infty\)
+/// \\]
+///
+/// The function takes a number $x$ in its domain $$\(0, \infty\)$$ as input and returns 
+/// a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$.
+/// If the input value is outside the domain of the function an error is returned.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -662,9 +734,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The base-10 logarithm function. The function takes a number > 0 as input and
-/// returns a numeric value. If the input value is outside the domain of the 
-/// function an error is returned.
+/// The The base-10 logarithm function:
+///
+/// \\[
+/// \forall x \in \(0, \infty), \, \log_{10}{(x)} = y \in \(-\infty, +\infty\)
+/// \\]
+///
+/// The function takes a number $x$ in its domain $$\(0, \infty\)$$ as input and returns 
+/// a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$.
+/// If the input value is outside the domain of the function an error is returned.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -717,9 +795,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The base-2 logarithm function. The function takes a number > 0 as input and
-/// returns a numeric value. If the input value is outside the domain of the 
-/// function an error is returned.  
+/// The The base-2 logarithm function:
+///
+/// \\[
+/// \forall x \in \(0, \infty), \, \log_{2}{(x)} = y \in \(-\infty, +\infty\)
+/// \\]
+///
+/// The function takes a number $x$ in its domain $$\(0, \infty\)$$ as input and returns 
+/// a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$.
+/// If the input value is outside the domain of the function an error is returned.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -772,7 +856,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The exponentiation function.  
+/// The exponentiation function: $$y = x^{a}$$. 
+///
+/// Note that the function is not defined if:
+/// 1. The base is negative ($$x < 0$$) and the exponent is fractional 
+///    ($$a = \frac{n}{m}$$ is an irrreducible fraction). An error will be returned 
+///    as an imaginary number will otherwise have to be returned.
+/// 2. The base is zero ($$x = 0$$) and the exponent is negative ($$a < 0$$) then the 
+///    expression is equivalent to the exponent $$y$$ divided by $$0$$ and an
+///    error will have to be returned as the expression is otherwise undefined.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -869,8 +961,14 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The sine function. The function takes a number (an angle in radians) as 
-/// input and returns a numeric value in the range [-1, 1].
+/// The sine function:
+///
+/// \\[
+/// \forall x \in \(-\infty, +\infty\), \, \sin{(x)} = y \in \[-1, 1\]
+/// \\]
+///
+/// The function takes a number $x$ in its domain $$\(-\infty, \infty\)$$ (an angle in radians) 
+/// as input and returns a numeric value $$y$$ that lies in the range $$\[-1, 1\]$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -913,9 +1011,16 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The hyperbolic sine function. The function takes a number (an angle in 
-/// radians) as input and returns a numeric value. If the input value is too
-/// large an overflow error might occur.
+/// The hyperbolic sine function:
+///
+/// \\[
+/// \forall x \in \(-\infty, +\infty\), \, \sinh{(x)} = y \in \(-\infty, +\infty\)
+/// \\]
+///
+/// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input 
+/// (an angle in radians) and returns a numeric value $$y$$ that lies in the range 
+/// $$\(-\infty, +\infty\)$$. If the input value is too large an overflow error might 
+/// occur.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -955,8 +1060,15 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The tangent function. The function takes a number (an angle in radians)
-/// as input and returns a numeric value.
+/// The tangent function:
+///
+/// \\[
+/// \forall x \in \(-\infty, +\infty\), \, \tan{(x)} = y \in \(-\infty, +\infty\)
+/// \\]
+///
+/// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input 
+/// (an angle in radians) and returns a numeric value $$y$$ that lies in the range 
+/// $$\(-\infty, +\infty\)$$. 
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -996,7 +1108,14 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The hyperbolic tangent function.  
+/// The hyperbolic tangent function:
+///
+/// \\[
+/// \forall x \in \(-\infty, \infty\), \, \tanh{(x)} = y \in \[-1, 1\]
+/// \\]
+///
+/// The function takes a number $x$ in its domain $$\(-\infty, \infty\)$$ as input (an angle in radians)
+/// and returns a numeric value $$y$$ that lies in the range $$\[-1, 1\]$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -1043,7 +1162,7 @@ if javascript {
 /// </div>
 ///
 /// Convert a value in degrees to a value measured in radians.
-/// 1 radian is 180 / pi degrees.
+/// That is, $$1 \text{ radians } = \frac{180}{\pi} \text{ degrees }$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -1077,7 +1196,7 @@ pub fn to_degrees(x: Float) -> Float {
 /// </div>
 ///
 /// Convert a value in degrees to a value measured in radians.
-/// 1 degree is pi / 180 radians.
+/// That is, $$1 \text{ degrees } = \frac{\pi}{180} \text{ radians }$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -1107,9 +1226,13 @@ pub fn to_radians(x: Float) -> Float {
 ///     </a>
 /// </div>
 ///
-/// The beta function over the real numbers.
+/// The beta function over the real numbers:
 ///
-/// The implemented beta function is evaluated through the use of the gamma function.
+/// \\[
+/// \text{B}(x, y) = \frac{\Gamma(x) \cdot \Gamma(y)}{\Gamma(x + y)}
+/// \\]
+///
+/// The beta function is evaluated through the use of the gamma function.
 /// 
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -1141,6 +1264,7 @@ pub fn erf(x: Float) -> Float {
   ]
   let p = 0.3275911
 
+  // TODO: Use the implemented sign function
   let sign = case x <. 0.0 {
     True -> -1.0
     False -> 1.0
@@ -1301,8 +1425,12 @@ pub fn round(x: Float, precision: Int) -> Float {
 ///     </a>
 /// </div>
 ///
-/// A combinatorial function for computing the number of a k-combinations of n elements.
-/// Also known as "n choose k" or the binomial coefficient.
+/// A combinatorial function for computing the number of a $$k$$-combinations of $$n$$ elements:
+///
+/// \\[
+/// C(n, k) = \binom{n}{k} = \frac{n!}{k! (n-k)!}
+/// \\]
+/// Also known as "$$n$$ choose $$k$$" or the binomial coefficient.
 ///
 /// The implementation uses the effecient iterative multiplicative formula for the computation.
 ///
@@ -1371,7 +1499,8 @@ pub fn combination(n: Int, k: Int) -> Result(Int, String) {
 ///     </a>
 /// </div>
 ///
-/// A combinatorial function for computing the total number of combinations of n elements.
+/// A combinatorial function for computing the total number of combinations of $$n$$
+/// elements, that is $$n!$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -1431,8 +1560,12 @@ pub fn factorial(n) -> Result(Int, String) {
 ///     </a>
 /// </div>
 ///
-/// A combinatorial function for computing the number of k-permuations (without repetitions)
-/// of n elements.
+/// A combinatorial function for computing the number of $$k$$-permuations (without repetitions)
+/// of $$n$$ elements:
+///
+/// \\[
+/// P(n, k) = \frac{n!}{(n - k)!}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -1496,7 +1629,7 @@ pub fn permutation(n: Int, k: Int) -> Result(Int, String) {
 ///     </a>
 /// </div>
 ///
-/// The mathematical constant pi.
+/// The mathematical constant pi: $$\pi \approx 3.1415\dots$$
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -1524,7 +1657,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The mathematical constant tau.  
+/// The mathematical constant tau: $$\tau = 2 \cdot \pi \approx 6.283\dots$$
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">

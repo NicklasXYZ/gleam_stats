@@ -188,9 +188,19 @@ pub fn freedman_diaconis_rule(arr: List(Float)) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Calculate Pearson's correlation coefficient to determine the linear 
-/// relationship between the elements in two lists of equal length. 
+/// Calculate Pearson's sample correlation coefficient to determine the linear 
+/// relationship between the elements in two lists of equal 
+/// length. The correlation coefficient $$r_{xy} \in \[-1, 1\]$$ is calculated
+/// as:
 ///
+/// \\[
+/// r_{xy} =\frac{\sum ^n _{i=1}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum^n _{i=1}(x_i - \bar{x})^2} \sqrt{\sum^n _{i=1}(y_i - \bar{y})^2}}
+/// \\]
+///
+/// In the formula, $$n$$ is the sample size (the length of the input lists), 
+/// $$x_i$$, $$y_i$$ are the corresponding sample points indexed by $$i$$ and 
+/// $$\bar{x}$$, $$\bar{y}$$ are the sample means.
+/// 
 /// <details>
 ///     <summary>Example:</summary>
 ///
@@ -296,7 +306,14 @@ pub fn correlation(
 ///     </a>
 /// </div>
 ///
-/// Calculcate the geometric mean of the elements in a list.
+/// Calculcate the geometric mean $$\bar{x}$$ of the elements in a list:
+///
+/// \\[
+///   \bar{x} = \left(\prod^{n}_{i=1} x_i\right)^{\frac{1}{n}}
+/// \\]
+///
+/// In the formula, $$n$$ is the sample size (the length of the list) and 
+/// $$x_i$$ is the sample point in the input list indexed by $$i$$.
 /// Note: The geometric mean is only defined for positive numbers.
 ///
 /// <details>
@@ -486,7 +503,14 @@ fn bin_elements(bins: List(Bin), arr: List(Float)) -> List(Bin) {
 ///     </a>
 /// </div>
 ///
-/// Calculcate the harmonic mean of the elements in a list.
+/// Calculcate the harmonic mean $$\bar{x}$$ of the elements in a list:
+///
+/// \\[
+///   \bar{x} = \frac{n}{\sum_{i=1}^{n}\frac{1}{x_i}}
+/// \\]
+///
+/// In the formula, $$n$$ is the sample size (the length of the list) and 
+/// $$x_i$$ is the sample point in the input list indexed by $$i$$.
 /// Note: The harmonic mean is only defined for positive numbers.
 ///
 /// <details>
@@ -689,7 +713,14 @@ pub fn kurtosis(arr: List(Float)) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Calculcate the arithmetic mean of the elements in a list.
+/// Calculcate the arithmetic mean of the elements in a list:
+///
+/// \\[
+/// \bar{x} = \frac{1}{n}\sum_{i=1}^n x_i
+/// \\]
+///
+/// In the formula, $$n$$ is the sample size (the length of the list) and 
+/// $$x_i$$ is the sample point in the input list indexed by $$i$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -1000,7 +1031,16 @@ pub fn skewness(arr: List(Float)) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Calculcate the sample standard deviation of the elements in a list.
+/// Calculcate the sample standard deviation of the elements in a list:
+/// \\[
+/// s = \left(\frac{1}{n - d} \sum_{i=1}^{n}(x_i - \bar{x}))\right)^{\frac{1}{2}}
+/// \\]
+///
+/// In the formula, $$n$$ is the sample size (the length of the list) and 
+/// $$x_i$$ is the sample point in the input list indexed by $$i$$. 
+/// Furthermore, $$\bar{x}$$ is the sample mean and $$d$$ is the "Delta 
+/// Degrees of Freedom", and is by default set to $$d = 0$$, which gives a biased
+/// estimate of the sample standard deviation. Setting $$d = 1$$ gives an unbiased estimate.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -1058,7 +1098,16 @@ pub fn std(arr: List(Float), ddof: Int) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Calculcate the sample variance of the elements in a list.
+/// Calculcate the sample variance of the elements in a list:
+/// \\[
+/// s^{2} = \frac{1}{n - d} \sum_{i=1}^{n}(x_i - \bar{x})
+/// \\]
+///
+/// In the formula, $$n$$ is the sample size (the length of the list) and 
+/// $$x_i$$ is the sample point in the input list indexed by $$i$$. 
+/// Furthermore, $$\bar{x}$$ is the sample mean and $$d$$ is the "Delta 
+/// Degrees of Freedom", and is by default set to $$d = 0$$, which gives a biased
+/// estimate of the sample variance. Setting $$d = 1$$ gives an unbiased estimate.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -1469,14 +1518,15 @@ pub fn argmin(arr: List(Float)) -> Result(List(Int), String) {
 ///     </a>
 /// </div>
 ///
-/// Determine if a given value is close to or equivalent to a reference value 
-/// based on supplied relative and absolute tolerance values. The equivalance
-/// of the two given values are then determined based on the equation:
+/// Determine if a given value $$a$$ is close to or equivalent to a reference value 
+/// $$b$$ based on supplied relative $$r_{tol}$$ and absolute $$a_{tol}$$ tolerance values.
+/// The equivalance of the two given values are then determined based on the equation:
 ///
-/// <center>
-///     absolute(a - b) <= (atol + rtol * absolute(b))
-/// </center>
+/// \\[
+///     \|a - b\| \leq (a_{tol} + r_{tol} \cdot \|b\|)
+/// \\]
 ///
+/// `True` is returned if statement holds, otherwise `False` is returned. 
 /// <details>
 ///     <summary>Example:</summary>
 ///
@@ -1516,7 +1566,14 @@ pub fn isclose(a: Float, b: Float, rtol: Float, atol: Float) -> Bool {
 ///     </a>
 /// </div>
 ///
-/// Calculcate the sum of the elements in a list.
+/// Calculcate the sum of the elements in a list:
+///
+/// \\[
+/// \sum_{i=1}^n x_i
+/// \\]
+///
+/// In the formula, $$n$$ is the length of the list and 
+/// $$x_i$$ is the value in the input list indexed by $$i$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>
