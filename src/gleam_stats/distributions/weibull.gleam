@@ -1,8 +1,8 @@
-//// Functions related to continuous weibull random variables.
+//// Functions related to continuous Weibull random variables.
 ////
 //// ---
 ////
-//// * **Available Functions**
+//// * **Available functions**
 ////   * [`weibull_mean`](#weibull_mean)
 ////   * [`weibull_variance`](#weibull_variance)
 ////   * [`weibull_pdf`](#weibull_pdf)
@@ -33,8 +33,11 @@ fn check_weibull_parameters(lambda: Float, k: Float) {
 ///     </a>
 /// </div>
 ///
-/// Analytically compute the mean of a continuous weibull random variable   
-/// with scale parameter 'lambda' > 0 and shape parameter 'k' > 0.
+/// Analytically compute the mean of a continuous Weibull random variable   
+/// with scale parameter $$\lambda \in \(0, +\infty\)$$ and shape parameter 
+/// $$k \in \(0, +\infty\)$$.
+///
+/// The mean returned is: $$\lambda \cdot \Gamma\left(1 + \frac{1}{k}\right)$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -59,8 +62,11 @@ pub fn weibull_mean(lambda: Float, k: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Analytically compute the variance of a continuous weibull random variable   
-/// with scale parameter 'lambda' > 0 and shape parameter 'k' > 0.
+/// Analytically compute the variance of a continuous Weibull random variable   
+/// with scale parameter $$\lambda \in \(0, +\infty\)$$ and shape parameter 
+/// $$k \in \(0, +\infty\)$$.
+///
+/// The variance returned is: $$\lambda^{2} \cdot \left[ \Gamma\left(1 + \frac{2}{k}\right) - \left(\Gamma\left(1 + \frac{1}{k}\right)\right)^{2} \right]$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -90,8 +96,9 @@ pub fn weibull_variance(lambda: Float, k: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate the probability density function (pdf) of a continuous weibull random 
-/// variable with scale parameter 'lambda' > 0 and shape parameter 'k' > 0.
+/// Evaluate, at a certain point $$x \in \[0, +\infty\)$$, the probability density function (pdf) 
+/// of a continuous Weibull random variable with scale parameter $$\lambda in \(0,+\infty\)$$ and
+/// shape parameter $$k \in \(0, +\infty\)$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -139,9 +146,9 @@ pub fn weibull_pdf(x: Float, lambda: Float, k: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point, the cumulative distribution function (cdf) of a 
-/// weibull random variable with scale parameter 'lambda' > 0 and shape parameter 
-/// 'k' > 0.
+/// Evaluate, at a certain point $$x \in \(-\infty, +\infty\)$$, the cumulative distribution 
+/// function (cdf) of a Weibull random variable with scale parameter $$\lambda in \(0, +\infty\)$$ 
+/// and shape parameter $$k \in \(0, +\infty\)$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -187,8 +194,8 @@ pub fn weibull_cdf(x: Float, lambda: Float, k: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers from a continuous weibull distribution with scale 
-/// parameter 'lambda' > 0 and shape parameter 'k' > 0.
+/// Generate $$m \in \mathbb{Z}\_{>0}$$ random numbers from a continuous Weibull distribution with
+/// scale parameter $$\lambda \in \(0, +\infty\)$$ and shape parameter $$k \in \(0, +\infty\)$$.
 ///
 /// The random numbers are generated using the inverse transform method.
 ///

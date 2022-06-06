@@ -34,7 +34,9 @@ fn check_uniform_parameters(a: Float, b: Float) -> Result(Bool, String) {
 /// </div>
 ///
 /// Analytically compute the mean of a continuous uniform random variable   
-/// that takes values in the interval '[a, b]'.
+/// that takes values in the interval $$\[a, b\]$$.
+///
+/// The mean returned is: $$\frac{a + b}{2}$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -60,7 +62,9 @@ pub fn uniform_mean(a: Float, b: Float) -> Result(Float, String) {
 /// </div>
 ///
 /// Analytically compute the variance of a continuous uniform random variable   
-/// that takes values in the interval '[a, b]'.
+/// that takes values in the interval $$\[a, b\]$$.
+///
+/// The variance returned is: $$\frac{\left(b - a\right)^{2}}{12}$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -85,8 +89,18 @@ pub fn uniform_variance(a: Float, b: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate the probability density function (pdf) of a continuous uniform random 
-/// variable that takes values in the interval '[a, b]'.
+/// Evaluate, at a certain point $$x \in \(-\infty, +\infty\)$$, the probability density function
+/// (pdf) of a continuous uniform random variable that takes values in the interval $$\[a, b\]$$.
+///
+/// The pdf is defined as:
+///
+/// \\[
+/// f(x; a, b) = 
+/// \begin{cases}
+///  \frac{1}{b - a} &\text{if } a \leq x \leq b, \\\\
+///  0 &\text{if } x < a \text{ or } x > b.
+/// \end{cases}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -136,8 +150,19 @@ pub fn uniform_pdf(x: Float, a: Float, b: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point, the cumulative distribution function (cdf) of a 
-/// continuous uniform random variable that takes values in the interval '[a, b]'.
+/// Evaluate, at a certain point $$x \in \(-\infty, +\infty\)$$, the cumulative distribution function
+/// (cdf) of a continuous uniform random variable that takes values in the interval $$\[a, b\]$$.
+///
+/// The cdf is defined as:
+///
+/// \\[
+/// F(x; a, b) = 
+/// \begin{cases}
+///  0 &\text{if } x < a, \\\\
+///  \frac{x - a}{b - a} &\text{if } a \leq x \leq b, \\\\
+///  0 &\text{if } x > b.
+/// \end{cases}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -199,7 +224,7 @@ pub fn uniform_cdf(x: Float, a: Float, b: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers in the interval '[a, b]' from a 
+/// Generate $$m \in \mathbb{Z}_{>0}$$ random numbers in the interval $$\[a, b\]$$ from a 
 /// continuous uniform distribution.
 ///
 /// <details>

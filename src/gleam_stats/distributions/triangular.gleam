@@ -49,7 +49,10 @@ fn check_triangular_parameters(
 /// </div>
 ///
 /// Analytically compute the mean of a continuous triangular random variable   
-/// that takes values in the interval '[a, b]' and has mode (a peak at value) 'c'.
+/// that takes values in the interval $$\[a, b\]$$ and has mode (a peak at value) 
+/// $$c$$, $$a \leq c \leq b$$.
+///
+/// The mean returned is: $$\frac{a + b + c}{3}$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -75,7 +78,14 @@ pub fn triangular_mean(a: Float, b: Float, c: Float) -> Result(Float, String) {
 /// </div>
 ///
 /// Analytically compute the variance of a continuous triangular random variable   
-/// that takes values in the interval '[a, b]' and has mode (a peak at value) 'c'.
+/// that takes values in the intervalinterval $$\[a, b\]$$ and has mode (a peak at value) 
+/// $$c$$, $$a \leq c \leq b$$.
+///
+/// The variance returned is: 
+///
+/// \\[
+/// \frac{a^{2} + b^{2} + c^{2} - a \cdot b - a\cdot c - b \cdot c}{18}
+/// \\]
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -106,9 +116,22 @@ pub fn triangular_variance(
 ///     </a>
 /// </div>
 ///
-/// Evaluate the probability density function (pdf) of a continuous triangular
-/// random variable that takes values in the interval '[a, b]' and has mode (a 
-/// peak at value) 'c'.
+/// Evaluate, at a certain point $$x \in \(-\infty, \infty\)$$ the probability density function (pdf)
+/// of a continuous triangular random variable that takes values in the interval $$\[a, b\]$$ and has
+/// mode (a peak at value) $$c$$, $$a \leq c \leq b$$.
+///
+/// The pdf is defined as:
+///
+/// \\[
+/// f(x; a, b, c) = 
+/// \begin{cases}
+///  0 &\text{if } x < 0, \\\\
+///  \frac{2 \cdot (x - a)}{(b - a) \cdot (c - a)} &\text{if } a \leq x < c, \\\\
+///  \frac{2}{b - a} &\text{if } x = c, \\\\
+///  \frac{2 \cdot (b - x)}{(b - a) \cdot (b - c)} &\text{if } c < x \leq b, \\\\
+///  0 &\text{if } b < x.
+/// \end{cases}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -181,9 +204,21 @@ pub fn triangular_pdf(
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point, the cumulative distribution function (cdf) of a 
-/// continuous triangular random variable that takes values in the interval '[a, b]'
-/// and has mode (a peak at value) 'c'.
+/// Evaluate, at a certain point $$\(-\infty, \infty\)$$, the cumulative distribution function (cdf) of a 
+/// continuous triangular random variable that takes values in the interval $$\[a, b\]$$ and has
+/// mode (a peak at value) $$c$$, $$a \leq c \leq b$$.
+///
+/// The cdf is defined as:
+///
+/// \\[
+/// F(x; a, b, c) = 
+/// \begin{cases}
+///  0 &\text{if } x \leq 0, \\\\
+///  \frac{(x - a)^{2}}{(b - a) \cdot (c - a)} &\text{if } a < x \leq c, \\\\
+///  1 - \frac{(b - x)^{2}}{(b - a) \cdot (b - c)} &\text{if } c < x < b, \\\\
+///  1 &\text{if } b \leq x.
+/// \end{cases}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -252,9 +287,10 @@ pub fn triangular_cdf(
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers in the interval '[a, b]' from a 
-/// continuous triangular distribution with mode 'c'.
-/// 
+/// Generate $$m \in \mathbb{Z}\_{>0}$$ random numbers in the interval $$\[a, b\]$$ from a 
+/// continuous triangular distribution with mode (a peak at value) 
+/// $$c$$, $$a \leq c \leq b$$.
+///
 /// The random numbers are generated using the inverse transform method.
 ///
 /// <details>

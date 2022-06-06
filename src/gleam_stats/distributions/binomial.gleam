@@ -2,7 +2,7 @@
 ////
 //// ---
 ////
-//// * **Available Functions**
+//// * **Available functions**
 ////   * [`binomial_mean`](#binomial_mean)
 ////   * [`binomial_variance`](#binomial_variance)
 ////   * [`binomial_pmf`](#binomial_pmf)
@@ -40,8 +40,8 @@ fn check_binomial_parameters(n: Int, p: Float) -> Result(Bool, String) {
 ///     </a>
 /// </div>
 ///
-/// Analytically compute the mean of a discrete Binomial random variable with parameters
-/// $$n > 0$$ (number of trials) and $$p \in \[0, 1\]$$ (the success probability 
+/// Analytically compute the mean of a discrete binomial random variable with parameters
+/// $$n \in \mathbb{Z}\_{\geq 0}$$ (number of trials) and $$p \in \[0, 1\]$$ (the success probability 
 /// in each trial).
 ///
 /// The mean returned is: $$n \cdot p$$.
@@ -69,8 +69,8 @@ pub fn binomial_mean(n: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Analytically compute the variance of a discrete Binomial random variable with parameters
-/// $$n > 0$$ (number of trials) and $$p \in \[0, 1\]$$ (the success probability 
+/// Analytically compute the variance of a discrete binomial random variable with parameters
+/// $$n \in \mathbb{Z}\_{\geq 0}$$ (number of trials) and $$p \in \[0, 1\]$$ (the success probability 
 /// in each trial).
 ///
 /// The variance returned is: $$n \cdot p \cdot (1 - p)$$.
@@ -98,20 +98,25 @@ pub fn binomial_variance(n: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate the probability mass function (pmf) of a discrete Binomial random variable with
-/// parameters $$n > 0$$ (number of trials) and $$p \in \[0, 1\]$$ (the success 
-/// probability in each trial).
+/// Evaluate, at a certain point $$x \in \mathbb{Z}$$, the probability mass function (pmf) of 
+/// a discrete binomial random variable with parameters $$n \in \mathbb{Z}\_{\geq 0}$$ (number of trials)
+/// and $$p \in \[0, 1\]$$ (the success probability in each trial).
 ///
 /// The pmf is defined as:
 ///
 /// \\[
-/// f(x; n, p) =  \binom{n}{x} \cdot p^{x} (1 - p)^{n - x}
+/// f(x; n, p) = 
+/// \begin{cases}
+/// \binom{n}{x} \cdot p^{x} \cdot \(1 - p\)^{n - x} &\text{if } x \geq 0, \\\\
+/// 0 &\text{if } x < 0.
+/// \end{cases}
 /// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/binomial
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let n: Float = 40.
@@ -156,20 +161,25 @@ pub fn binomial_pmf(x: Int, n: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point $$x \in \mathbb{Z}$$, the cumulative distribution function (cdf) of a 
-/// discrete Binomial random variable with parameters $$n > 0$$ (number of trials) and $$p \in \[0, 1\]$$
-/// (the success probability in each trial).
+/// Evaluate, at a certain point $$x \in \mathbb{Z}$$, the cumulative distribution 
+/// function (cdf) of a discrete binomial random variable with parameters $$n \in \mathbb{Z}\_{\geq 0}$$ 
+/// (number of trials) and $$p \in \[0, 1\]$$ (the success probability in each trial).
 ///
 /// The cdf is defined as:
 ///
 /// \\[
-/// F(x; n, p) = \sum_{i=0}^{\lfloor k \rfloor} \binom{n}{i}p^{i}(1-p)^{n-i}
+/// F(x; n, p) = 
+/// \begin{cases}
+/// \sum_{i=0}^{x} \binom{n}{i} \cdot p^{i} \cdot \(1-p\)^{n-i} &\text{if } x \geq 0,\\\\
+/// 0 &\text{if } x < 0.
+/// \end{cases}
 /// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/binomial
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let n: Float = 40.
@@ -228,8 +238,9 @@ pub fn binomial_cdf(x: Int, n: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Generate $$m \in \mathbb{N}$$ random numbers from a Binomial distribution (discrete) with parameters 
-/// $$n > 0$$ (number of trials) and $$p \in \[0, 1\]$$ (the success probability in each trial).
+/// Generate $$m \in \mathbb{Z}\_{>0}$$ random numbers from a binomial distribution (discrete) with parameters 
+/// $$n \in \mathbb{Z}\_{\geq 0}$$ (number of trials) and $$p \in \[0, 1\]$$ (the success 
+/// probability in each trial).
 /// 
 /// The random numbers are generated using the inverse transform method.
 ///

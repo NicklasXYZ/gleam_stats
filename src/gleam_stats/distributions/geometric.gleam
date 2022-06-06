@@ -34,8 +34,10 @@ fn check_geometric_parameters(p: Float) -> Result(Bool, String) {
 ///     </a>
 /// </div>
 ///
-/// Analytically compute the mean of a discrete geometric distribution with parameter
-/// 'p' in the interval (0, 1] (the success probability).
+/// Analytically compute the mean of a discrete geometric random variable with parameter
+/// $$p \in \(0, 1\]$$ (the success probability).
+///
+/// The mean returned is: $$\frac{1 - p}{p}$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -60,8 +62,10 @@ pub fn geometric_mean(p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Analytically compute the variance of a discrete geometric distribution with parameter
-/// 'p' in the interval (0, 1] (the success probability).
+/// Analytically compute the variance of a discrete geometric random variable with parameter
+/// $$p \in \(0, 1\]$$ (the success probability).
+///
+/// The variance returned is: $$\frac{1 - p}{p^{2}}$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -86,8 +90,18 @@ pub fn geometric_variance(p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate the probability mass function (pmf) of a discrete geometric distribution
-/// with with parameter 'p' in the interval (0, 1] (the success probability).
+/// Evaluate, at a certain point $$x \in \mathbb{Z}$$, the probability mass function (pmf) of 
+/// a discrete geometric random variable with parameter $$p \in \(0, 1\]$$ (the success probability).
+///
+/// The pmf is defined as:
+///
+/// \\[
+/// f(x; p) =
+/// \begin{cases}
+/// \(1 - p\)^{x} \cdot p &\text{if } x \geq 0, \\\\
+/// 0 &\text{if } x < 0.
+/// \end{cases}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -132,9 +146,19 @@ pub fn geometric_pmf(x: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point, the cumulative distribution function (cdf) of a 
-/// of a discrete geometric distribution with with parameter 'p' in the interval (0, 1]
+/// Evaluate, at a certain point $$x \in \mathbb{Z}$$, the cumulative distribution function 
+/// (cdf) of a discrete geometric random variable with with parameter $$p \in \(0, 1\]$$
 /// (the success probability).
+///
+/// The cdf is defined as:
+///
+/// \\[
+/// F(x; p) = 
+/// \begin{cases}
+///  1 - \(1 - p\)^{x + 1} &\text{if } x \geq 0, \\\\
+///  0 &\text{if } x < a \text{ or } x < 0.
+/// \end{cases} 
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -162,8 +186,14 @@ pub fn geometric_cdf(x: Int, p: Float) -> Result(Float, String) {
       string
       |> Error
     _ ->
-      1.0 -. float.power(1.0 -. p, int.to_float(x) +. 1.0)
-      |> Ok
+      case x >= 0 {
+        True ->
+          1.0 -. float.power(1.0 -. p, int.to_float(x) +. 1.0)
+          |> Ok
+        False ->
+          0.0
+          |> Ok
+      }
   }
 }
 
@@ -173,8 +203,8 @@ pub fn geometric_cdf(x: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers from a discrete geometric distribution with 
-/// parameter 'p' in the interval (0, 1] (the success probability).
+/// Generate $$m \in \mathbb{Z}\_{>0}$$ random numbers from a discrete geometric distribution with 
+/// parameter $$p \in \(0, 1\]$$ (the success probability).
 /// 
 /// The random numbers are generated using the inverse transform method.
 ///

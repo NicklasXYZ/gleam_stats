@@ -29,8 +29,8 @@ const p: Float = 0.5
 // geometric distribution (discrete) is correct by checking equality a
 // certain analytically calculated points
 pub fn geometric_pmf_test() {
-  let xs: List(Int) = [-1, 0, 1, 2, 100]
-  let fxs: List(Float) = [0.0, 0.5, 0.25, 0.125, 0.0]
+  let xs: List(Int) = [-2, -1, 0, 1, 2, 100]
+  let fxs: List(Float) = [0.0, 0.0, 0.5, 0.25, 0.125, 0.0]
   let vs: List(#(Int, Float)) = list.zip(xs, fxs)
   vs
   |> list.map(fn(v: #(Int, Float)) -> Bool {
@@ -53,9 +53,8 @@ pub fn geometric_pmf_test() {
 // geometric distribution (discrete) is correct by checking equality a
 // certain analytically calculated points
 pub fn geometric_cdf_test() {
-  let xs: List(Int) = [-1, 0, 1, 2, 100]
-  //, 20, 40]
-  let fxs: List(Float) = [0.0, 0.5, 0.75, 0.875, 1.0]
+  let xs: List(Int) = [-2, -1, 0, 1, 2, 100]
+  let fxs: List(Float) = [0.0, 0.0, 0.5, 0.75, 0.875, 1.0]
   let vs: List(#(Int, Float)) = list.zip(xs, fxs)
   vs
   |> list.map(fn(v: #(Int, Float)) -> Bool {

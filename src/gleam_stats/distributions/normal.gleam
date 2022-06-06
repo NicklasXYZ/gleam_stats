@@ -2,7 +2,7 @@
 ////
 //// ---
 ////
-//// * **Available Functions**
+//// * **Available functions**
 ////   * [`normal_mean`](#normal_mean)
 ////   * [`normal_variance`](#normal_variance)
 ////   * [`normal_pdf`](#normal_pdf)
@@ -34,7 +34,10 @@ fn check_normal_parameters(mu: Float, sigma: Float) -> Result(Bool, String) {
 /// </div>
 ///
 /// Analytically compute the mean of a continuous normal random variable   
-/// with given mean 'mu' and standard deviation 'sigma'.
+/// with given mean $$\mu \in \(-\infty, +\infty\)$$ and standard deviation
+/// $$\sigma \in \(-\infty, +\infty\)$$ .
+///
+/// The mean returned is: $$\mu$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -60,7 +63,10 @@ pub fn normal_mean(mu: Float, sigma: Float) -> Result(Float, String) {
 /// </div>
 ///
 /// Analytically compute the variance of a continuous normal random variable   
-/// with given mean 'mu' and standard deviation 'sigma'.
+/// with given mean $$\mu \in \(-\infty, +\infty\)$$ and standard deviation
+/// $$\sigma\in \(-\infty, +\infty\)$$ .
+///
+/// The variance returned is: $$\sigma^{2}$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -85,8 +91,15 @@ pub fn normal_variance(mu: Float, sigma: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate the probability density function (pdf) of a continuous normal random 
-/// variable with given mean 'mu' and standard deviation 'sigma'.
+/// Evaluate, at a certain point $$x \in \(-\infty, +\infty\)$$, the probability density function (pdf) of a
+/// continuous normal random variable with given mean $$\mu \in \(-\infty, +\infty\)$$ and standard deviation
+/// $$\sigma\in \(-\infty, +\infty\)$$ .
+///
+/// The pdf is defined as:
+///
+/// \\[
+/// f(x; \mu, \sigma) = \frac{1}{\sigma \cdot \left(2 \cdot \pi \right)^{\frac{1}{2}}} \cdot e^{- \frac{1}{2} \cdot \left(\frac{x - \mu}{\sigma}\right)^{2}}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -131,8 +144,17 @@ pub fn normal_pdf(x: Float, mu: Float, sigma: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point, the cumulative distribution function (cdf) of a 
-/// continuous normal random variable with mean 'mu' and standard deviation 'sigma'.
+/// Evaluate, at a certain point $$x \in \(-\infty, \infty\)$$, the cumulative distribution function (cdf)
+/// of a continuous normal random variable with mean $$\mu \in \(-\infty, +\infty\)$$ and standard deviation
+/// $$\sigma\in \(-\infty, +\infty\)$$.
+///
+/// The cdf is defined as:
+///
+/// \\[
+/// F(x; \mu, \sigma) = \frac{1}{2} \cdot \left[ 1 + \text{erf}\left(\frac{x - \mu}{\sigma \cdot 2^{\frac{1}{2}}}\right) \right]
+/// \\]
+///
+/// In the formula $$\text{erf}(\dot)$$ is the error function.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -182,8 +204,8 @@ fn box_muller(u1: Float, u2: Float) -> List(Float) {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers from a continuous normal distribution with a given
-/// mean 'mu' and standard deviation 'sigma'. 
+/// Generate $$m \in \in \mathbb{Z}\_{>0}$$ random numbers from a continuous normal distribution with a given
+/// mean $$\mu \in \(-\infty, +\infty\)$$ and standard deviation $$\sigma\in \(-\infty, +\infty\)$$.
 ///
 /// The random numbers are generated using Box–Muller transform.
 ///

@@ -1,8 +1,8 @@
-//// Functions related to continuous normal random variables.
+//// Functions related to continuous chi-squared random variables.
 ////
 //// ---
 ////
-//// * **Available Functions**
+//// * **Available functions**
 ////   * [`chisquared_mean`](#chisquared_mean)
 ////   * [`chisquared_variance`](#chisquared_variance)
 ////   * [`chisquared_pdf`](#chisquared_pdf)
@@ -17,10 +17,10 @@ import gleam/int
 import gleam_stats/math.{exp, gamma, gammainc}
 import gleam_stats/distributions/normal
 
-fn check_chisquared_parameters(ddof: Int) -> Result(Bool, String) {
-  case ddof > 0 {
+fn check_chisquared_parameters(d: Int) -> Result(Bool, String) {
+  case d > 0 {
     False ->
-      "Invalid input argument: ddof < 0. Valid input is ddof > 0."
+      "Invalid input argument: d < 0. Valid input is d > 0."
       |> Error
     True ->
       True
@@ -51,7 +51,7 @@ pub fn chisquared_mean(d: Int) -> Result(Float, String) {
       string
       |> Error
     _ ->
-      int.to_float(ddof)
+      int.to_float(d)
       |> Ok
   }
 }
@@ -63,7 +63,7 @@ pub fn chisquared_mean(d: Int) -> Result(Float, String) {
 /// </div>
 ///
 /// Analytically compute the variance of a continuous chi-squared random variable   
-/// with given degrees of freedom $$d \in \mathbb{N}$$.
+/// with given degrees of freedom $$d \in \mathbb{Z}\_{>0}$$.
 ///
 /// The variance returned is: $$2 \cdot d$$.
 ///
@@ -90,8 +90,8 @@ pub fn chisquared_variance(d: Int) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point $$x \in \[0, \infty\]$$ the probability density function (pdf)
-/// of a continuous chi-squared random variable with given degrees of freedom $$d \in \mathbb{N}$$.
+/// Evaluate, at a certain point $$x \in \[0, +\infty\]$$ the probability density function (pdf)
+/// of a continuous chi-squared random variable with given degrees of freedom $$d \in \mathbb{Z}\_{>0}$$.
 ///
 /// The pdf is defined as:
 ///
@@ -123,15 +123,15 @@ pub fn chisquared_variance(d: Int) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-pub fn chisquared_pdf(x: Float, ddof: Int) -> Result(Float, String) {
-  case check_chisquared_parameters(ddof) {
+pub fn chisquared_pdf(x: Float, d: Int) -> Result(Float, String) {
+  case check_chisquared_parameters(d) {
     Error(string) ->
       string
       |> Error
     _ ->
       case x >. 0.0 {
         True -> {
-          let float_ddof: Float = int.to_float(ddof)
+          let float_ddof: Float = int.to_float(d)
           let expr: Float = float_ddof /. 2.0
           let denominator: Float = float.power(2.0, expr) *. gamma(expr)
           let numerator: Float =
@@ -152,9 +152,9 @@ pub fn chisquared_pdf(x: Float, ddof: Int) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point $$x \in \[0, \infty]$$, the cumulative distribution 
+/// Evaluate, at a certain point $$x \in \[0, +\infty]$$, the cumulative distribution 
 /// function (cdf) of a continuous chi-squared random variable with given degrees of 
-/// freedom $$d \in \mathbb{N}$$.
+/// freedom $$d \in \mathbb{Z}\_{>0}$$.
 ///
 /// The cdf is defined as:
 ///
@@ -184,20 +184,20 @@ pub fn chisquared_pdf(x: Float, ddof: Int) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-pub fn chisquared_cdf(x: Float, ddof: Int) -> Result(Float, String) {
-  case check_chisquared_parameters(ddof) {
+pub fn chisquared_cdf(x: Float, d: Int) -> Result(Float, String) {
+  case check_chisquared_parameters(d) {
     Error(string) ->
       string
       |> Error
     _ ->
-      case x >. 0.0 && ddof == 1 {
+      case x >. 0.0 && d == 1 {
         True ->
-          do_chisquared_cdf(x, ddof)
+          do_chisquared_cdf(x, d)
           |> Ok
         False ->
-          case x >=. 0.0 && ddof > 1 {
+          case x >=. 0.0 && d > 1 {
             True ->
-              do_chisquared_cdf(x, ddof)
+              do_chisquared_cdf(x, d)
               |> Ok
             False ->
               0.0
@@ -207,10 +207,10 @@ pub fn chisquared_cdf(x: Float, ddof: Int) -> Result(Float, String) {
   }
 }
 
-fn do_chisquared_cdf(x: Float, ddof: Int) -> Float {
+fn do_chisquared_cdf(x: Float, d: Int) -> Float {
   // In the computations below, assume all input arguments
   // have been checked and are valid
-  let float_ddof: Float = int.to_float(ddof)
+  let float_ddof: Float = int.to_float(d)
   let expr: Float = float_ddof /. 2.0
   assert Ok(numerator) = gammainc(expr, x /. 2.0)
   let denominator: Float = gamma(expr)
@@ -223,8 +223,8 @@ fn do_chisquared_cdf(x: Float, ddof: Int) -> Float {
 ///     </a>
 /// </div>
 ///
-/// Generate $$m \in \mathbb{N}$$ random numbers from a continuous chi-squared
-/// distribution with given degrees of freedom $$d \in \mathbb{N}$$.
+/// Generate $$m \in \mathbb{Z}\_{>0}$$ random numbers from a continuous chi-squared
+/// distribution with given degrees of freedom $$d \in \mathbb{Z}\_{>0}$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -253,10 +253,10 @@ fn do_chisquared_cdf(x: Float, ddof: Int) -> Float {
 ///
 pub fn chisquared_random(
   stream: Iterator(Int),
-  ddof: Int,
+  d: Int,
   m: Int,
 ) -> Result(#(List(Float), Iterator(Int)), String) {
-  case check_chisquared_parameters(ddof) {
+  case check_chisquared_parameters(d) {
     Error(string) ->
       string
       |> Error
@@ -264,14 +264,14 @@ pub fn chisquared_random(
       case m > 0 {
         False -> Error("Invalid input arugment: m < 0. Valid input is m > 0.")
         True -> {
-          // Take out 'ddof' * 'm' integers from the stream of pseudo-random numbers and 
+          // Take out 'd' * 'm' integers from the stream of pseudo-random numbers and 
           // generate normal random numbers.
-          assert Ok(out) = normal.normal_random(stream, 0.0, 1.0, ddof * m)
-          // Transform the 'ddof' * 'm' continuous normal random numbers to 'm' chi-squared
+          assert Ok(out) = normal.normal_random(stream, 0.0, 1.0, d * m)
+          // Transform the 'd' * 'm' continuous normal random numbers to 'm' chi-squared
           // distributed random numbers
           let numbers: List(Float) =
             pair.first(out)
-            |> list.sized_chunk(ddof)
+            |> list.sized_chunk(d)
             |> list.map(fn(x: List(Float)) -> Float {
               x
               |> list.fold(

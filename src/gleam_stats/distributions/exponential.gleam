@@ -2,7 +2,7 @@
 ////
 //// ---
 ////
-//// * **Available Functions**
+//// * **Available functions**
 ////   * [`exponential_mean`](#exponential_mean)
 ////   * [`exponential_variance`](#exponential_variance)
 ////   * [`exponential_pdf`](#exponential_pdf)
@@ -34,7 +34,9 @@ fn check_exponential_parameters(lambda: Float) {
 /// </div>
 ///
 /// Analytically compute the mean of a continuous exponential random variable   
-/// with given rate parameter 'lambda' > 0.
+/// with given rate parameter $$\lambda \in \(0, +\infty)$$.
+///
+/// The mean returned is: $$\frac{1}{\lambda}$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -60,7 +62,9 @@ pub fn exponential_mean(lambda: Float) -> Result(Float, String) {
 /// </div>
 ///
 /// Analytically compute the variance of a continuous exponential random variable   
-/// with given rate parameter 'lambda' > 0.
+/// with given rate parameter $$\lambda \in \(0, +\infty)$$.
+///
+/// The variance returned is: $$\frac{1}{\lambda^{2}}$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -85,8 +89,18 @@ pub fn exponential_variance(lambda: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate the probability density function (pdf) of a continuous exponential random
-/// variable with given rate parameter 'lambda' > 0.
+/// Evaluate, at a certain point $$x \in \(-\infty, +\infty\)$$, the probability density function (pdf)
+/// of a continuous exponential random variable with given rate parameter $$\lambda \in \(0, +\infty)$$.
+///
+/// The pdf is defined as:
+///
+/// \\[
+/// f(x; \lambda) = 
+/// \begin{cases}
+///  \lambda \cdot e^{-\lambda \cdot x} &\text{if } x \geq 0, \\\\
+///  0 &\text{if } x < 0.
+/// \end{cases}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -131,8 +145,19 @@ pub fn exponential_pdf(x: Float, lambda: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point, the cumulative distribution function (cdf) of a 
-/// continuous exponential random variable with given rate parameter 'lambda' > 0.
+/// Evaluate, at a certain point $$x \in \(-\infty, +\infty\)$$, the cumulative distribution 
+/// function (cdf) of a continuous exponential random variable with given rate parameter 
+/// $$\lambda \in \(0, +\infty)$$.
+///
+/// The cdf is defined as:
+///
+/// \\[
+/// F(x; \lambda) = 
+/// \begin{cases}
+///  1 - e^{-\lambda \cdot x} &\text{if } x \geq 0, \\\\
+///  0 &\text{if } x < 0.
+/// \end{cases}
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -177,8 +202,8 @@ pub fn exponential_cdf(x: Float, lambda: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers from a continuous exponential distribution 
-/// with given rate parameter 'lambda' > 0. 
+/// Generate $$m \in \mathbb{Z}\_{>0}$$ random numbers from a continuous exponential distribution 
+/// with given rate parameter $$\lambda \in \(0, +\infty)$$.
 ///
 /// The random numbers are generated using the inverse transform method.
 ///

@@ -6,6 +6,7 @@ import gleam_stats/stats
 import gleeunit
 import gleeunit/should
 import gleam/int
+import gleam/io
 
 pub fn main() {
   gleeunit.main()
@@ -32,8 +33,8 @@ const p: Float = 0.5
 // negbinomial distribution (discrete) is correct by checking equality a
 // certain analytically calculated points
 pub fn negbinomial_pmf_test() {
-  let xs: List(Int) = [-100, 40, 200]
-  let fxs: List(Float) = [0.0, 0.044463939386953616, 0.0]
+  let xs: List(Int) = [-100, 40, 45, 200]
+  let fxs: List(Float) = [0.0, 0.044463939386953616, 0.0351105314186622, 0.0]
   let vs: List(#(Int, Float)) = list.zip(xs, fxs)
   vs
   |> list.map(fn(v: #(Int, Float)) -> Bool {
@@ -56,8 +57,10 @@ pub fn negbinomial_pmf_test() {
 // negbinomial distribution (discrete) is correct by checking equality a
 // certain analytically calculated points
 pub fn negbinomial_cdf_test() {
-  let xs: List(Int) = [-100, 40, 200]
-  let fxs: List(Float) = [0.0, 0.5444639393869535, 1.0]
+  let xs: List(Int) = [-100, 40, 45, 200]
+  let fxs: List(Float) = [0.0, 0.5444639393869535, 0.7422871340580496, 1.0]
+  // let xs: List(Int) = [-100, 40, 200]
+  // let fxs: List(Float) = [0.0, 0.5444639393869535, 1.0]
   let vs: List(#(Int, Float)) = list.zip(xs, fxs)
   vs
   |> list.map(fn(v: #(Int, Float)) -> Bool {
@@ -67,6 +70,7 @@ pub fn negbinomial_cdf_test() {
       case x {
         Ok(x) ->
           x
+          |> io.debug()
           |> stats.isclose(pair.second(v), rtol, atol)
         _ -> False
       }

@@ -40,10 +40,11 @@ fn check_negbinomial_parameters(r: Int, p: Float) -> Result(Bool, String) {
 ///     </a>
 /// </div>
 ///
-/// Analytically compute the mean of a discrete negative binomial 
-/// distribution with parameters 'r' > 0 (number of failures until the experiment
-/// is stopped) and 'p' in the interval [0, 1] (the success probability in each 
-/// experiment).
+/// Analytically compute the mean of a discrete negative binomial random variable with parameters 
+/// $$r \in \mathbb{Z}\_{>0}$$ (number of failures until the experiment is stopped) and $$p \in \[0, 1\]$$
+/// (the success probability in each experiment).
+///
+/// The mean returned is: $$\frac{r \cdot p}{1 - p}$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -68,10 +69,11 @@ pub fn negbinomial_mean(r: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Analytically compute the variance of a discrete negative binomial 
-/// distribution with parameters 'r' > 0 (number of failures until the experiment
-/// is stopped) and 'p' in the interval [0, 1] (the success probability in each 
-/// experiment).
+/// Analytically compute the variance of a discrete negative binomial random variiable with parameters 
+/// $$r \in \mathbb{Z}\_{>0}$$ (number of failures until the experiment is stopped) and $$p \in \[0, 1\]$$
+/// (the success probability in each experiment).
+///
+/// The variance returned is: $$\frac{r \cdot p}{\(1 - p\)^2}$$.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -96,10 +98,19 @@ pub fn negbinomial_variance(r: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate the probability mass function (pmf) of a discrete negative binomial 
-/// distribution with parameters 'r' > 0 (number of failures until the experiment
-/// is stopped) and 'p' in the interval [0, 1] (the success probability in each 
-/// experiment).
+/// Evaluate, at a certain point $$x \in \mathbb{Z}$$, the probability mass function (pmf) of a discrete 
+/// negative binomial random variable with parameters $$r \in \mathbb{Z}\_{>0}$$ (number of failures until 
+/// the experiment is stopped) and $$p \in \[0, 1\]$$ (the success probability in each experiment).
+///
+/// The pmf is defined as:
+///
+/// \\[
+/// f(x; r, p) = 
+/// \begin{cases}
+///  \binom{x + r - 1}{x} \cdot \(1 - p\)^{r} \cdot p^{x} &\text{if } x \geq 0, \\\\
+///  0 &\text{if } x < 0.
+/// \end{cases} 
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -128,7 +139,7 @@ pub fn negbinomial_pmf(x: Int, r: Int, p: Float) -> Result(Float, String) {
       string
       |> Error
     _ ->
-      case x >= 0 && x <= r {
+      case x >= 0 && x + r - 1 > 0 {
         True -> {
           assert Ok(c) = math.combination(x + r - 1, x)
           int.to_float(c) *. float.power(1.0 -. p, int.to_float(r)) *. float.power(
@@ -150,10 +161,20 @@ pub fn negbinomial_pmf(x: Int, r: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point, the cumulative distribution function (cdf) of a 
-/// discrete negative binomial distribution with parameters 'r' > 0 (number of 
-/// failures until the experiment is stopped) and 'p' in the interval [0, 1] (the 
-/// success probability in each experiment).
+/// Evaluate, at a certain point $$x \in \mathbb{Z}$$, the cumulative distribution function (cdf) of a 
+/// discrete negative binomial random variable with parameters $$r \in \mathbb{Z}\_{>0}$$ (number of 
+/// failures until the experiment is stopped) and $$p \in \[0, 1\]$$ (the success probability in each
+/// experiment).
+///
+/// The cdf is defined as:
+///
+/// \\[
+/// F(x; r, p) = 
+/// \begin{cases}
+///  \sum_{i=0}^{x} \binom{i + r - 1}{i} \cdot \(1 - p\)^{r} \cdot p^{i} &\text{if } x \geq 0, \\\\
+///  0 &\text{if } x < 0.
+/// \end{cases} 
+/// \\]
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -187,7 +208,7 @@ pub fn negbinomial_cdf(x: Int, r: Int, p: Float) -> Result(Float, String) {
           0.0
           |> Ok
         False ->
-          case x >= 0 && x <= r {
+          case x >= 0 && x + r - 1 > 0 {
             True ->
               list.range(0, x + 1)
               |> list.fold(
@@ -216,9 +237,9 @@ pub fn negbinomial_cdf(x: Int, r: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Generate 'm' random numbers from a discrete negative binomial distribution
-/// with parameters 'r' > 0 (number of failures until the experiment is stopped)
-/// and 'p' in the interval [0, 1] (the success probability in each experiment).
+/// Generate $m in \mathbb{Z}\_{>0}$ random numbers from a discrete negative binomial distribution
+/// with parameters $$r \in \mathbb{Z}\_{>0}$$ (number of failures until the experiment is stopped)
+/// and $$p \in \[0, 1\]$$ (the success probability in each experiment).
 /// 
 /// The random numbers are generated using the inverse transform method.
 ///

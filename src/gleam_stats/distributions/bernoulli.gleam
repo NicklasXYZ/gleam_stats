@@ -2,7 +2,7 @@
 ////
 //// ---
 ////
-//// * **Available Functions**
+//// * **Available functions**
 ////   * [`bernoulli_mean`](#bernoulli_mean)
 ////   * [`bernoulli_variance`](#bernoulli_variance)
 ////   * [`bernoulli_pmf`](#bernoulli_pmf)
@@ -88,7 +88,7 @@ pub fn bernoulli_variance(p: Float) -> Result(Float, String) {
 /// </div>
 ///
 /// Evaluate, at a certain point $$x \in \{0, 1\}$$, the probability mass function (pmf) of a 
-/// Bernoulli distribution (discrete) with parameter $$p \in \[0, 1\]$$ (the success 
+/// discrete Bernoulli random variable with parameter $$p \in \[0, 1\]$$ (the success 
 /// probability of a trial).
 ///
 /// The pmf is defined as:
@@ -105,6 +105,7 @@ pub fn bernoulli_variance(p: Float) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/bernoulli
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let p: Float = 0.5
@@ -149,8 +150,8 @@ pub fn bernoulli_pmf(x: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Evaluate, at a certain point $$x \in \mathbb{Z}$$, the cumulative distribution function (cdf) of a
-/// Bernoulli distribution (discrete) with parameter $$p \in \[0, 1\]$$ (the success probability
+/// Evaluate, at a certain point $$x \in \mathbb{Z}$$, the cumulative distribution function (cdf) of 
+/// a discrete Bernoulli random variable with parameter $$p \in \[0, 1\]$$ (the success probability
 /// of a trial).
 ///
 /// The cdf is defined as:
@@ -168,6 +169,7 @@ pub fn bernoulli_pmf(x: Int, p: Float) -> Result(Float, String) {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam_stats/distributions/bernoulli
+///     import gleeunit/should
 ///
 ///     pub fn example() {
 ///       let p: Float = 0.5
@@ -212,8 +214,8 @@ pub fn bernoulli_cdf(x: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Generate $$m \in \mathbb{N}$$ random numbers from a Bernoulli distribution (discrete) with parameter 
-/// $$p \in \[0, 1\]$$ (the success probability of a trial).
+/// Generate $$m \in \mathbb{Z}\_{>0}$$ random numbers from a Bernoulli distribution (discrete) with 
+/// parameter $$p \in \[0, 1\]$$ (the success probability of a trial).
 /// 
 /// The random numbers are generated using the inverse transform method.
 ///
