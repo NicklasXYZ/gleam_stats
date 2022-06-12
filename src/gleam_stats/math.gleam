@@ -54,7 +54,7 @@ import gleam_stats/stats.{amin}
 /// The inverse cosine function: 
 ///
 /// \\[
-/// \forall x \in \[-1, 1\], \, \cos^{-1}{(x)} = y \in \[0, \pi \]
+/// \forall x \in \[-1, 1\],   \\; \cos^{-1}{(x)} = y \in \[0, \pi \]
 /// \\]
 ///
 /// The function takes a number $$x$$ in its domain $$\[-1, 1\]$$ as input and returns a
@@ -115,7 +115,7 @@ if javascript {
 /// The inverse hyperbolic cosine function: 
 ///
 /// \\[
-/// \forall x \in [1, +\infty\), \, \cosh^{-1}{(x)} = y \in \[0, +\infty\)
+/// \forall x \in [1, +\infty\),   \\; \cosh^{-1}{(x)} = y \in \[0, +\infty\)
 /// \\]
 ///
 /// The function takes a number $$x$$ in its domain $$\[1, +\infty\)$$ as input and returns
@@ -173,11 +173,11 @@ if javascript {
 /// The inverse sine function: 
 ///
 /// \\[
-/// \forall x \in \[-1, 1\], \, \sin^{-1}{(x)} = y \in \(-\infty, +\infty\)
+/// \forall x \in \[-1, 1\],   \\; \sin^{-1}{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
 /// The function takes a number $$x$$ in its domain $$\[-1, 1\]$$ as input and returns a numeric
-/// value $y$ that lies in the range $$\[-\frac{\pi}{2}, \frac{\pi}{2}\]$$ (an angle in radians). 
+/// value $$y$$ that lies in the range $$\[-\frac{\pi}{2}, \frac{\pi}{2}\]$$ (an angle in radians). 
 /// If the input value is outside the domain of the function an error is returned.
 ///
 /// <details>
@@ -234,7 +234,7 @@ if javascript {
 /// The inverse hyperbolic sine function:
 ///
 /// \\[
-/// \forall x \in \(-\infty, \infty\), \, \sinh^{-1}{(x)} = y \in \(-\infty, +\infty\)
+/// \forall x \in \(-\infty, \infty\),   \\; \sinh^{-1}{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
 /// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input and returns 
@@ -281,10 +281,10 @@ if javascript {
 /// The inverse tangent function:
 ///
 /// \\[
-/// \forall x \in \(-\infty, \infty\), \, \tan^{-1}{(x)} = y \in \[-\frac{\pi}{2}, \frac{\pi}{2}\]
+/// \forall x \in \(-\infty, \infty\),   \\; \tan^{-1}{(x)} = y \in \[-\frac{\pi}{2}, \frac{\pi}{2}\]
 /// \\]
 ///
-/// The function takes a number $x$ in its domain $$\(-\infty, +\infty\)$$ as input and returns 
+/// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input and returns 
 /// a numeric value $$y$$ that lies in the range $$\[-\frac{\pi}{2}, \frac{\pi}{2}\]$$ (an angle in radians).
 ///
 /// <details>
@@ -384,10 +384,10 @@ if javascript {
 /// The inverse hyperbolic tangent function:
 ///
 /// \\[
-/// \forall x \in \(-1, 1\), \, \tanh^{-1}{(x)} = y \in \(-\infty, +\infty\)
+/// \forall x \in \(-1, 1\),   \\; \tanh^{-1}{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
-/// The function takes a number $x$ in its domain $$\(-1, 1\)$$ as input and returns 
+/// The function takes a number $$x$$ in its domain $$\(-1, 1\)$$ as input and returns 
 /// a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$ (an angle in radians).
 /// If the input value is outside the domain of the function an error is returned.
 ///
@@ -488,10 +488,10 @@ if javascript {
 /// The cosine function:
 ///
 /// \\[
-/// \forall x \in \(-\infty, +\infty\), \, \cos{(x)} = y \in \[-1, 1\]
+/// \forall x \in \(-\infty, +\infty\),   \\; \cos{(x)} = y \in \[-1, 1\]
 /// \\]
 ///
-/// The function takes a number $x$ in its domain $$\(-\infty, \infty\)$$ (an angle in radians) 
+/// The function takes a number $$x$$ in its domain $$\(-\infty, \infty\)$$ (an angle in radians) 
 /// as input and returns a numeric value $$y$$ that lies in the range $$\[-1, 1\]$$.
 ///
 /// <details>
@@ -538,10 +538,10 @@ if javascript {
 /// The hyperbolic cosine function:
 ///
 /// \\[
-/// \forall x \in \(-\infty, \infty\), \, \cosh{(x)} = y \in \(-\infty, +\infty\)
+/// \forall x \in \(-\infty, \infty\),   \\; \cosh{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
-/// The function takes a number $x$ in its domain $$\(-\infty, \infty\)$$ as input (an angle in radians)
+/// The function takes a number $$x$$ in its domain $$\(-\infty, \infty\)$$ as input (an angle in radians)
 /// and returns a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$.
 /// If the input value is too large an overflow error might occur.
 ///
@@ -586,7 +586,7 @@ if javascript {
 /// The exponential function: 
 ///
 /// \\[
-/// \forall x \in \(-\infty, \infty\), \, e^{(x)} = y \in \(0, +\infty\)
+/// \forall x \in \(-\infty, \infty\),   \\; e^{(x)} = y \in \(0, +\infty\)
 /// \\]
 ///
 /// If the input value is too large an overflow error might occur. 
@@ -675,10 +675,10 @@ if javascript {
 /// The natural logarithm function:
 ///
 /// \\[
-/// \forall x \in \(0, \infty\), \, \log_{e}{(x)} = y \in \(-\infty, +\infty\)
+/// \forall x \in \(0, \infty\),   \\; \log_{e}{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
-/// The function takes a number $x$ in its domain $$\(0, \infty\)$$ as input and returns 
+/// The function takes a number $$x$$ in its domain $$\(0, \infty\)$$ as input and returns 
 /// a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$.
 /// If the input value is outside the domain of the function an error is returned.
 ///
@@ -737,10 +737,10 @@ if javascript {
 /// The The base-10 logarithm function:
 ///
 /// \\[
-/// \forall x \in \(0, \infty), \, \log_{10}{(x)} = y \in \(-\infty, +\infty\)
+/// \forall x \in \(0, \infty),   \\; \log_{10}{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
-/// The function takes a number $x$ in its domain $$\(0, \infty\)$$ as input and returns 
+/// The function takes a number $$x$$ in its domain $$\(0, \infty\)$$ as input and returns 
 /// a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$.
 /// If the input value is outside the domain of the function an error is returned.
 ///
@@ -798,10 +798,10 @@ if javascript {
 /// The The base-2 logarithm function:
 ///
 /// \\[
-/// \forall x \in \(0, \infty), \, \log_{2}{(x)} = y \in \(-\infty, +\infty\)
+/// \forall x \in \(0, \infty),   \\; \log_{2}{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
-/// The function takes a number $x$ in its domain $$\(0, \infty\)$$ as input and returns 
+/// The function takes a number $$x$$ in its domain $$\(0, \infty\)$$ as input and returns 
 /// a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$.
 /// If the input value is outside the domain of the function an error is returned.
 ///
@@ -964,10 +964,10 @@ if javascript {
 /// The sine function:
 ///
 /// \\[
-/// \forall x \in \(-\infty, +\infty\), \, \sin{(x)} = y \in \[-1, 1\]
+/// \forall x \in \(-\infty, +\infty\),   \\; \sin{(x)} = y \in \[-1, 1\]
 /// \\]
 ///
-/// The function takes a number $x$ in its domain $$\(-\infty, \infty\)$$ (an angle in radians) 
+/// The function takes a number $$x$$ in its domain $$\(-\infty, \infty\)$$ (an angle in radians) 
 /// as input and returns a numeric value $$y$$ that lies in the range $$\[-1, 1\]$$.
 ///
 /// <details>
@@ -1014,7 +1014,7 @@ if javascript {
 /// The hyperbolic sine function:
 ///
 /// \\[
-/// \forall x \in \(-\infty, +\infty\), \, \sinh{(x)} = y \in \(-\infty, +\infty\)
+/// \forall x \in \(-\infty, +\infty\),   \\; \sinh{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
 /// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input 
@@ -1063,7 +1063,7 @@ if javascript {
 /// The tangent function:
 ///
 /// \\[
-/// \forall x \in \(-\infty, +\infty\), \, \tan{(x)} = y \in \(-\infty, +\infty\)
+/// \forall x \in \(-\infty, +\infty\),   \\; \tan{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
 /// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input 
@@ -1111,10 +1111,10 @@ if javascript {
 /// The hyperbolic tangent function:
 ///
 /// \\[
-/// \forall x \in \(-\infty, \infty\), \, \tanh{(x)} = y \in \[-1, 1\]
+/// \forall x \in \(-\infty, \infty\),   \\; \tanh{(x)} = y \in \[-1, 1\]
 /// \\]
 ///
-/// The function takes a number $x$ in its domain $$\(-\infty, \infty\)$$ as input (an angle in radians)
+/// The function takes a number $$x$$ in its domain $$\(-\infty, \infty\)$$ as input (an angle in radians)
 /// and returns a numeric value $$y$$ that lies in the range $$\[-1, 1\]$$.
 ///
 /// <details>
