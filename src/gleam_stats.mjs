@@ -18,8 +18,16 @@ export function asin(float) {
     return Math.asin(float)
 }
 
+export function asinh(float) {
+    return Math.asinh(float)
+}
+
 export function atan(float) {
     return Math.atan(float)
+}
+
+export function tan(float) {
+    return Math.tan(float)
 }
 
 export function atan2(floaty, floatx) {
@@ -40,10 +48,6 @@ export function cosh(float) {
 
 export function exp(float) {
     return Math.exp(float)
-}
-
-export function sin(float) {
-    return Math.sin(float)
 }
 
 export function ceil(float) {

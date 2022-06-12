@@ -269,7 +269,7 @@ if erlang {
 
 if javascript {
   external fn do_asinh(Float) -> Float =
-    "../gleam_stdlib.mjs" "asinh"
+    "../gleam_stats.mjs" "asinh"
 }
 
 /// <div style="text-align: right;">
