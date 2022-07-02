@@ -1,6 +1,5 @@
 //// Small examples ALSO used in the docs...
 
-// import gleam/should
 import gleam/int
 import gleam/list
 import gleam/pair

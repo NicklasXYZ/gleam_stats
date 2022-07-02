@@ -11,20 +11,39 @@ pub fn main() {
 }
 
 // The relative tolerance
-const rtol: Float = 0.025
+const random_rtol: Float = 0.025
+
+const rtol: Float = 0.0
 
 // The absolute tolerance
-const atol: Float = 0.025
+const random_atol: Float = 0.025
+
+const atol: Float = 0.000_000_1
 
 // Number of random numbers to generate when validating the 
 // sample mean and variance of the generated random numbers
-const n: Int = 25_000
+const m: Int = 4_000
 
 // The minimum of a uniform distribution (continuos) 
 const min: Float = 0.
 
 // The maximum of a uniform distribution (continuos) 
 const max: Float = 1.
+
+// Temporary function used instead of 'list.all' from the standard
+// library. There is currently a bug with the 'list.all' function
+fn all(xs: List(Bool), initial: Bool) -> Bool {
+  list.fold(
+    xs,
+    initial,
+    fn(acc: Bool, x: Bool) -> Bool {
+      case acc {
+        True -> acc && x
+        False -> False
+      }
+    },
+  )
+}
 
 // Test that the implemented probability density function (pdf) of a 
 // uniform distribution (continuous) is correct by checking equality a
@@ -38,7 +57,7 @@ pub fn uniform_pdf_test() {
   |> list.map(fn(v: #(Float, Float)) -> Bool {
     pair.first(v)
     |> uniform.uniform_pdf(min, max)
-    |> fn(x: Result(Float, String)) {
+    |> fn(x: Result(Float, String)) -> Bool {
       case x {
         Ok(x) ->
           x
@@ -47,7 +66,8 @@ pub fn uniform_pdf_test() {
       }
     }
   })
-  |> list.all(fn(a: Bool) -> Bool { a })
+  // |> list.all(fn(a: Bool) -> Bool { a })
+  |> all(True)
   |> should.be_true()
 }
 
@@ -63,7 +83,7 @@ pub fn uniform_cdf_test() {
   |> list.map(fn(v: #(Float, Float)) -> Bool {
     pair.first(v)
     |> uniform.uniform_cdf(min, max)
-    |> fn(x: Result(Float, String)) {
+    |> fn(x: Result(Float, String)) -> Bool {
       case x {
         Ok(x) ->
           x
@@ -72,7 +92,8 @@ pub fn uniform_cdf_test() {
       }
     }
   })
-  |> list.all(fn(a: Bool) -> Bool { a })
+  // |> list.all(fn(a: Bool) -> Bool { a })
+  |> all(True)
   |> should.be_true()
 }
 
@@ -81,26 +102,35 @@ pub fn uniform_random_one_test() {
   assert Ok(variance) = uniform.uniform_variance(min, max)
   assert Ok(out) =
     generators.seed_pcg32(5, 1)
-    |> uniform.uniform_random(min, max, n)
+    |> uniform.uniform_random(min, max, m)
 
   // Make sure the generated uniform random numbers are actually within
   // the given min/max bounds
+  // pair.first(out)
+  // |> list.all(fn(x: Float) -> Bool {
+  //   case x <=. max, x >=. min {
+  //     True, True -> True
+  //     _, _ -> False
+  //   }
+  // })
+  // |> should.be_true()
   pair.first(out)
-  |> list.all(fn(x) {
+  |> list.map(fn(x: Float) -> Bool {
     case x <=. max, x >=. min {
       True, True -> True
       _, _ -> False
     }
   })
+  |> all(True)
   |> should.be_true()
 
   // Make sure the sample mean of the generated uniform random numbers is
   // close to the analytically calculated mean
   pair.first(out)
   |> stats.mean()
-  |> fn(x) {
+  |> fn(x: Result(Float, String)) -> Bool {
     case x {
-      Ok(x) -> stats.isclose(x, mean, rtol, atol)
+      Ok(x) -> stats.isclose(x, mean, random_rtol, random_atol)
       _ -> False
     }
   }
@@ -110,9 +140,9 @@ pub fn uniform_random_one_test() {
   // close to the analytically calculated variance
   pair.first(out)
   |> stats.var(1)
-  |> fn(x) {
+  |> fn(x: Result(Float, String)) -> Bool {
     case x {
-      Ok(x) -> stats.isclose(x, variance, rtol, atol)
+      Ok(x) -> stats.isclose(x, variance, random_rtol, random_atol)
       _ -> False
     }
   }
@@ -125,26 +155,35 @@ pub fn uniform_random_two_test() {
   assert Ok(variance) = uniform.uniform_variance(same, same)
   assert Ok(out) =
     generators.seed_pcg32(5, 1)
-    |> uniform.uniform_random(same, same, n)
+    |> uniform.uniform_random(same, same, m)
 
   // Make sure the generated uniform random numbers are actually within
   // the given min/max bounds
+  // pair.first(out)
+  // |> list.all(fn(x) {
+  //   case x == same {
+  //     True -> True
+  //     _ -> False
+  //   }
+  // })
+  // |> should.be_true()
   pair.first(out)
-  |> list.all(fn(x) {
+  |> list.map(fn(x: Float) -> Bool {
     case x == same {
       True -> True
       _ -> False
     }
   })
+  |> all(True)
   |> should.be_true()
 
   // Make sure the sample mean of the generated uniform random numbers
   // is close to the analytically calculated mean
   pair.first(out)
   |> stats.mean()
-  |> fn(x) {
+  |> fn(x: Result(Float, String)) -> Bool {
     case x {
-      Ok(x) -> stats.isclose(x, mean, rtol, atol)
+      Ok(x) -> stats.isclose(x, mean, random_rtol, random_atol)
       _ -> False
     }
   }
@@ -154,9 +193,9 @@ pub fn uniform_random_two_test() {
   // is close to the analytically calculated variance
   pair.first(out)
   |> stats.var(1)
-  |> fn(x) {
+  |> fn(x: Result(Float, String)) -> Bool {
     case x {
-      Ok(x) -> stats.isclose(x, variance, rtol, atol)
+      Ok(x) -> stats.isclose(x, variance, random_rtol, random_atol)
       _ -> False
     }
   }

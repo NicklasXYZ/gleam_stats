@@ -9,13 +9,15 @@
 ////   * [`negbinomial_cdf`](#negbinomial_cdf)
 ////   * [`negbinomial_random`](#negbinomial_random)
 
-import gleam/list
 import gleam/iterator.{Iterator}
-import gleam/float
 import gleam/int
-import gleam/pair
 import gleam_stats/math
-import gleam_stats/distributions/geometric
+
+if erlang {
+  import gleam/list
+  import gleam/pair
+  import gleam_stats/distributions/geometric
+}
 
 fn check_negbinomial_parameters(r: Int, p: Float) -> Result(Bool, String) {
   case r > 0 {
@@ -86,9 +88,11 @@ pub fn negbinomial_variance(r: Int, p: Float) -> Result(Float, String) {
     Error(string) ->
       string
       |> Error
-    _ ->
-      int.to_float(r) *. p /. float.power(1.0 -. p, 2.0)
+    _ -> {
+      assert Ok(v) = math.pow(1.0 -. p, 2.0)
+      int.to_float(r) *. p /. v
       |> Ok
+    }
   }
 }
 
@@ -134,25 +138,35 @@ pub fn negbinomial_variance(r: Int, p: Float) -> Result(Float, String) {
 /// </div>
 ///
 pub fn negbinomial_pmf(x: Int, r: Int, p: Float) -> Result(Float, String) {
-  case check_negbinomial_parameters(r, p) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case x >= 0 && x + r - 1 > 0 {
-        True -> {
-          assert Ok(c) = math.combination(x + r - 1, x)
-          int.to_float(c) *. float.power(1.0 -. p, int.to_float(r)) *. float.power(
-            p,
-            int.to_float(x),
-          )
-          |> Ok
+  do_negbinomial_pmf(x, r, p)
+}
+
+if erlang {
+  fn do_negbinomial_pmf(x: Int, r: Int, p: Float) -> Result(Float, String) {
+    case check_negbinomial_parameters(r, p) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case x >= 0 && x + r - 1 > 0 {
+          True -> {
+            assert Ok(c) = math.combination(x + r - 1, x)
+            assert Ok(v1) = math.pow(1.0 -. p, int.to_float(r))
+            assert Ok(v2) = math.pow(p, int.to_float(x))
+            int.to_float(c) *. v1 *. v2
+            |> Ok
+          }
+          _ ->
+            0.0
+            |> Ok
         }
-        _ ->
-          0.0
-          |> Ok
-      }
+    }
   }
+}
+
+if javascript {
+  external fn do_negbinomial_pmf(Int, Int, Float) -> Result(Float, String) =
+    "../../negbinomial.mjs" "negbinomial_pmf"
 }
 
 /// <div style="text-align: right;">
@@ -198,37 +212,46 @@ pub fn negbinomial_pmf(x: Int, r: Int, p: Float) -> Result(Float, String) {
 /// </div>
 ///
 pub fn negbinomial_cdf(x: Int, r: Int, p: Float) -> Result(Float, String) {
-  case check_negbinomial_parameters(r, p) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case x < 0 {
-        True ->
-          0.0
-          |> Ok
-        False ->
-          case x >= 0 && x + r - 1 > 0 {
-            True ->
-              list.range(0, x + 1)
-              |> list.fold(
-                0.0,
-                fn(acc: Float, i: Int) {
-                  let v: Float = int.to_float(i)
-                  assert Ok(c) = math.combination(i + r - 1, i)
-                  acc +. int.to_float(c) *. float.power(
-                    1.0 -. p,
-                    int.to_float(r),
-                  ) *. float.power(p, v)
-                },
-              )
-              |> Ok
-            False ->
-              1.0
-              |> Ok
-          }
-      }
+  do_negbinomial_cdf(x, r, p)
+}
+
+if erlang {
+  fn do_negbinomial_cdf(x: Int, r: Int, p: Float) -> Result(Float, String) {
+    case check_negbinomial_parameters(r, p) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case x < 0 {
+          True ->
+            0.0
+            |> Ok
+          False ->
+            case x >= 0 && x + r - 1 > 0 {
+              True ->
+                list.range(0, x + 1)
+                |> list.fold(
+                  0.0,
+                  fn(acc: Float, i: Int) {
+                    assert Ok(c) = math.combination(i + r - 1, i)
+                    assert Ok(v1) = math.pow(1.0 -. p, int.to_float(r))
+                    assert Ok(v2) = math.pow(p, int.to_float(i))
+                    acc +. int.to_float(c) *. v1 *. v2
+                  },
+                )
+                |> Ok
+              False ->
+                1.0
+                |> Ok
+            }
+        }
+    }
   }
+}
+
+if javascript {
+  external fn do_negbinomial_cdf(Int, Int, Float) -> Result(Float, String) =
+    "../../negbinomial.mjs" "negbinomial_cdf"
 }
 
 /// <div style="text-align: right;">
@@ -237,7 +260,7 @@ pub fn negbinomial_cdf(x: Int, r: Int, p: Float) -> Result(Float, String) {
 ///     </a>
 /// </div>
 ///
-/// Generate $m in \mathbb{Z}\_{>0}$ random numbers from a discrete negative binomial distribution
+/// Generate $$m \in \mathbb{Z}\_{>0}$$ random numbers from a discrete negative binomial distribution
 /// with parameters $$r \in \mathbb{Z}\_{>0}$$ (number of failures until the experiment is stopped)
 /// and $$p \in \[0, 1\]$$ (the success probability in each experiment).
 /// 
@@ -256,7 +279,7 @@ pub fn negbinomial_cdf(x: Int, r: Int, p: Float) -> Result(Float, String) {
 ///       let r: Float = 40.
 ///       let p: Float = 0.5
 ///       assert Ok(out) =
-///         generators.seed_pcg32(seed)
+///         generators.seed_pcg32(seed, seq)
 ///         |> negbinomial.negbinomial_random(r, p, 5_000)
 ///       let rands: List(Float) = pair.first(out)
 ///       let stream: Iterator(Int) = pair.second(out)
@@ -275,34 +298,55 @@ pub fn negbinomial_random(
   p: Float,
   m: Int,
 ) -> Result(#(List(Int), Iterator(Int)), String) {
-  case check_negbinomial_parameters(r, p) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case m > 0 {
-        False ->
-          "Invalid input arugment: m < 0. Valid input is m > 0."
-          |> Error
-        True -> {
-          // Take out 'm' integers from the stream of pseudo-random numbers and generate 
-          // uniform random numbers.
-          assert Ok(out) = geometric.geometric_random(stream, p, r * m)
-          // Transform each batch of 'm' bernoulli distributed random numbers to a negative binomial
-          // distributed random number
-          let numbers: List(Int) =
-            pair.first(out)
-            |> list.window(r)
-            |> list.map(fn(x: List(Int)) -> Int {
-              x
-              |> list.fold(0, fn(a: Int, b: Int) -> Int { a + b })
-            })
-          // Then return a tuple consisting of a list of negative binomial random numbers
-          // and the stream of pseudo-random numbers where the 'm' integers have been dropped
-          // from the stream.
-          #(numbers, pair.second(out))
-          |> Ok
+  do_negbinomial_random(stream, r, p, m)
+}
+
+if erlang {
+  fn do_negbinomial_random(
+    stream: Iterator(Int),
+    r: Int,
+    p: Float,
+    m: Int,
+  ) -> Result(#(List(Int), Iterator(Int)), String) {
+    case check_negbinomial_parameters(r, p) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case m > 0 {
+          False ->
+            "Invalid input arugment: m < 0. Valid input is m > 0."
+            |> Error
+          True -> {
+            // Take out 'm' integers from the stream of pseudo-random numbers and generate 
+            // uniform random numbers.
+            assert Ok(out) = geometric.geometric_random(stream, p, r * m)
+            // Transform each batch of 'm' bernoulli distributed random numbers to a negative binomial
+            // distributed random number
+            let numbers: List(Int) =
+              pair.first(out)
+              |> list.window(r)
+              |> list.map(fn(x: List(Int)) -> Int {
+                x
+                |> list.fold(0, fn(a: Int, b: Int) -> Int { a + b })
+              })
+            // Then return a tuple consisting of a list of negative binomial random numbers
+            // and the stream of pseudo-random numbers where the 'm' integers have been dropped
+            // from the stream.
+            #(numbers, pair.second(out))
+            |> Ok
+          }
         }
-      }
+    }
   }
+}
+
+if javascript {
+  external fn do_negbinomial_random(
+    Iterator(Int),
+    Int,
+    Float,
+    Int,
+  ) -> Result(#(List(Int), Iterator(Int)), String) =
+    "../../negbinomial.mjs" "negbinomial_random"
 }

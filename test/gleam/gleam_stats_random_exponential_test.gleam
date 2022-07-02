@@ -11,17 +11,36 @@ pub fn main() {
 }
 
 // The relative tolerance
-const rtol: Float = 0.025
+const random_rtol: Float = 0.025
+
+const rtol: Float = 0.0
 
 // The absolute tolerance
-const atol: Float = 0.025
+const random_atol: Float = 0.025
+
+const atol: Float = 0.000_000_1
 
 // Number of random numbers to generate when validating the 
 // sample mean and variance of the generated random numbers
-const n: Int = 25_000
+const m: Int = 4_000
 
 // The rate parameter of a exponential distribution (continuous) 
 const lambda: Float = 1.0
+
+// Temporary function used instead of 'list.all' from the standard
+// library. There is currently a bug with the 'list.all' function
+fn all(xs: List(Bool), initial: Bool) -> Bool {
+  list.fold(
+    xs,
+    initial,
+    fn(acc: Bool, x: Bool) -> Bool {
+      case acc {
+        True -> acc && x
+        False -> False
+      }
+    },
+  )
+}
 
 // Test that the implemented probability density function (pdf) of a 
 // exponential distribution (continuous) is correct by checking equality a
@@ -37,7 +56,7 @@ pub fn exponential_pdf_test() {
   |> list.map(fn(v: #(Float, Float)) -> Bool {
     pair.first(v)
     |> exponential.exponential_pdf(lambda)
-    |> fn(x: Result(Float, String)) {
+    |> fn(x: Result(Float, String)) -> Bool {
       case x {
         Ok(x) ->
           x
@@ -46,7 +65,8 @@ pub fn exponential_pdf_test() {
       }
     }
   })
-  |> list.all(fn(a: Bool) -> Bool { a })
+  // |> list.all(fn(a: Bool) -> Bool { a })
+  |> all(True)
   |> should.be_true()
 }
 
@@ -63,7 +83,7 @@ pub fn exponential_cdf_test() {
   |> list.map(fn(v: #(Float, Float)) -> Bool {
     pair.first(v)
     |> exponential.exponential_cdf(lambda)
-    |> fn(x: Result(Float, String)) {
+    |> fn(x: Result(Float, String)) -> Bool {
       case x {
         Ok(x) ->
           x
@@ -72,7 +92,8 @@ pub fn exponential_cdf_test() {
       }
     }
   })
-  |> list.all(fn(a: Bool) -> Bool { a })
+  // |> list.all(fn(a: Bool) -> Bool { a })
+  |> all(True)
   |> should.be_true()
 }
 
@@ -81,15 +102,15 @@ pub fn exponential_random_test() {
   assert Ok(variance) = exponential.exponential_variance(lambda)
   assert Ok(out) =
     generators.seed_pcg32(5, 1)
-    |> exponential.exponential_random(lambda, n)
+    |> exponential.exponential_random(lambda, m)
 
   // Make sure the sample mean of the generated exponential random numbers
   // is close to the analytically calculated mean
   pair.first(out)
   |> stats.mean()
-  |> fn(x) {
+  |> fn(x: Result(Float, String)) -> Bool {
     case x {
-      Ok(x) -> stats.isclose(x, mean, rtol, atol)
+      Ok(x) -> stats.isclose(x, mean, random_rtol, random_atol)
       _ -> False
     }
   }
@@ -99,9 +120,9 @@ pub fn exponential_random_test() {
   // is close to the analytically calculated variance
   pair.first(out)
   |> stats.var(1)
-  |> fn(x) {
+  |> fn(x: Result(Float, String)) -> Bool {
     case x {
-      Ok(x) -> stats.isclose(x, variance, rtol, atol)
+      Ok(x) -> stats.isclose(x, variance, random_rtol, random_atol)
       _ -> False
     }
   }

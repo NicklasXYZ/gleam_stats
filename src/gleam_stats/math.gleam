@@ -43,7 +43,6 @@
 import gleam/list
 import gleam/int
 import gleam/float
-import gleam_stats/stats.{amin}
 
 /// <div style="text-align: right;">
 ///     <a href="https://github.com/nicklasxyz/gleam_stats/issues">
@@ -103,7 +102,7 @@ if erlang {
 
 if javascript {
   external fn do_acos(Float) -> Float =
-    "../gleam_stats.mjs" "acos"
+    "../math.mjs" "acos"
 }
 
 /// <div style="text-align: right;">
@@ -161,7 +160,7 @@ if erlang {
 
 if javascript {
   external fn do_acosh(Float) -> Float =
-    "../gleam_stats.mjs" "acosh"
+    "../math.mjs" "acosh"
 }
 
 /// <div style="text-align: right;">
@@ -222,7 +221,7 @@ if erlang {
 
 if javascript {
   external fn do_asin(Float) -> Float =
-    "../gleam_stats.mjs" "asin"
+    "../math.mjs" "asin"
 }
 
 /// <div style="text-align: right;">
@@ -269,7 +268,7 @@ if erlang {
 
 if javascript {
   external fn do_asinh(Float) -> Float =
-    "../gleam_stats.mjs" "asinh"
+    "../math.mjs" "asinh"
 }
 
 /// <div style="text-align: right;">
@@ -316,7 +315,7 @@ if erlang {
 
 if javascript {
   external fn do_atan(Float) -> Float =
-    "../gleam_stats.mjs" "atan"
+    "../math.mjs" "atan"
 }
 
 /// <div style="text-align: right;">
@@ -372,7 +371,7 @@ if erlang {
 
 if javascript {
   external fn do_atan2(Float, Float) -> Float =
-    "../gleam_stats.mjs" "atan2"
+    "../math.mjs" "atan2"
 }
 
 /// <div style="text-align: right;">
@@ -433,7 +432,7 @@ if erlang {
 
 if javascript {
   external fn do_atanh(Float) -> Float =
-    "../gleam_stats.mjs" "atanh"
+    "../math.mjs" "atanh"
 }
 
 /// <div style="text-align: right;">
@@ -476,7 +475,7 @@ if erlang {
 
 if javascript {
   external fn do_ceil(Float) -> Float =
-    "../gleam_stats.mjs" "ceil"
+    "../math.mjs" "ceil"
 }
 
 /// <div style="text-align: right;">
@@ -526,7 +525,7 @@ if erlang {
 
 if javascript {
   external fn do_cos(Float) -> Float =
-    "../gleam_stats.mjs" "cos"
+    "../math.mjs" "cos"
 }
 
 /// <div style="text-align: right;">
@@ -574,7 +573,7 @@ if erlang {
 
 if javascript {
   external fn do_cosh(Float) -> Float =
-    "../gleam_stats.mjs" "cosh"
+    "../math.mjs" "cosh"
 }
 
 /// <div style="text-align: right;">
@@ -620,7 +619,7 @@ if erlang {
 
 if javascript {
   external fn do_exp(Float) -> Float =
-    "../gleam_stats.mjs" "exp"
+    "../math.mjs" "exp"
 }
 
 /// <div style="text-align: right;">
@@ -663,7 +662,7 @@ if erlang {
 
 if javascript {
   external fn do_floor(Float) -> Float =
-    "../gleam_stats.mjs" "floor"
+    "../math.mjs" "floor"
 }
 
 /// <div style="text-align: right;">
@@ -725,7 +724,7 @@ if erlang {
 
 if javascript {
   external fn do_log(Float) -> Float =
-    "../gleam_stats.mjs" "log"
+    "../math.mjs" "log"
 }
 
 /// <div style="text-align: right;">
@@ -786,7 +785,7 @@ if erlang {
 
 if javascript {
   external fn do_log10(Float) -> Float =
-    "../gleam_stats.mjs" "log10"
+    "../math.mjs" "log10"
 }
 
 /// <div style="text-align: right;">
@@ -847,7 +846,7 @@ if erlang {
 
 if javascript {
   external fn do_log2(Float) -> Float =
-    "../gleam_stats.mjs" "log2"
+    "../math.mjs" "log2"
 }
 
 /// <div style="text-align: right;">
@@ -915,7 +914,7 @@ if erlang {
 
 if javascript {
   external fn do_pow(Float, Float) -> Float =
-    "../gleam_stats.mjs" "pow"
+    "../math.mjs" "pow"
 }
 
 /// <div style="text-align: right;">
@@ -952,7 +951,7 @@ if erlang {
 
 if javascript {
   external fn do_sign(Float) -> Float =
-    "../gleam_stats.mjs" "sign"
+    "../math.mjs" "sign"
 }
 
 /// <div style="text-align: right;">
@@ -1002,7 +1001,7 @@ if erlang {
 
 if javascript {
   external fn do_sin(Float) -> Float =
-    "../gleam_stats.mjs" "sin"
+    "../math.mjs" "sin"
 }
 
 /// <div style="text-align: right;">
@@ -1051,7 +1050,7 @@ if erlang {
 
 if javascript {
   external fn do_sinh(Float) -> Float =
-    "../gleam_stats.mjs" "sinh"
+    "../math.mjs" "sinh"
 }
 
 /// <div style="text-align: right;">
@@ -1099,7 +1098,7 @@ if erlang {
 
 if javascript {
   external fn do_tan(Float) -> Float =
-    "../gleam_stats.mjs" "tan"
+    "../math.mjs" "tan"
 }
 
 /// <div style="text-align: right;">
@@ -1152,7 +1151,7 @@ if erlang {
 
 if javascript {
   external fn do_tanh(Float) -> Float =
-    "../gleam_stats.mjs" "tanh"
+    "../math.mjs" "tanh"
 }
 
 /// <div style="text-align: right;">
@@ -1287,7 +1286,7 @@ pub fn erf(x: Float) -> Float {
 /// </div>
 ///
 /// The gamma function over the real numbers. The function is essentially equal to the 
-/// factorial for any positive integer argument: gamma(n) = (n - 1)!.
+/// factorial for any positive integer argument: $$\Gamma(n) = (n - 1)!$$
 ///
 /// The implemented gamma function is approximated through Lanczos approximation
 /// using the same coefficients used by the GNU Scientific Library.
@@ -1327,9 +1326,9 @@ fn gamma_lanczos(x: Float) -> Float {
           },
         )
       let t: Float = z +. lanczos_g +. 0.5
-      float.power(2.0 *. pi(), 0.5) *. float.power(t, z +. 0.5) *. exp(
-        -1.0 *. t,
-      ) *. x
+      assert Ok(v1) = pow(2.0 *. pi(), 0.5)
+      assert Ok(v2) = pow(t, z +. 0.5)
+      v1 *. v2 *. exp(-1.0 *. t) *. x
     }
   }
 }
@@ -1353,15 +1352,12 @@ fn gamma_lanczos(x: Float) -> Float {
 ///
 pub fn gammainc(a: Float, x: Float) -> Result(Float, String) {
   case a >. 0.0 && x >=. 0.0 {
-    True ->
-      float.power(x, a) *. exp(-1.0 *. x) *. gammainc_sum(
-        a,
-        x,
-        1.0 /. a,
-        0.0,
-        1.0,
-      )
+    True -> {
+      assert Ok(v) = pow(x, a)
+      v *. exp(-1.0 *. x) *. gammainc_sum(a, x, 1.0 /. a, 0.0, 1.0)
       |> Ok
+    }
+
     False ->
       "Invlaid input argument: a <= 0 or x < 0. Valid input is a > 0 and x >= 0."
       |> Error
@@ -1415,7 +1411,7 @@ fn gammainc_sum(a: Float, x: Float, t: Float, s: Float, n: Float) -> Float {
 /// </div>
 ///
 pub fn round(x: Float, precision: Int) -> Float {
-  let p: Float = float.power(10.0, int.to_float(precision))
+  assert Ok(p) = pow(10.0, int.to_float(precision))
   int.to_float(float.round(x *. p)) /. p
 }
 
@@ -1480,11 +1476,14 @@ pub fn combination(n: Int, k: Int) -> Result(Int, String) {
               1
               |> Ok
             False -> {
-              assert Ok(min) = amin([int.to_float(k), int.to_float(n - k)])
-              list.range(0, float.round(min))
+              let min = case k < n - k {
+                True -> k
+                False -> n - k
+              }
+              list.range(1, min + 1)
               |> list.fold(
                 1,
-                fn(acc: Int, x: Int) { acc * { n - x } / { x + 1 } },
+                fn(acc: Int, x: Int) -> Int { acc * { n + 1 - x } / x },
               )
               |> Ok
             }
@@ -1648,7 +1647,7 @@ if erlang {
 
 if javascript {
   external fn do_pi() -> Float =
-    "../gleam_stats.mjs" "pi"
+    "../math.mjs" "pi"
 }
 
 /// <div style="text-align: right;">

@@ -9,13 +9,16 @@
 ////   * [`geometric_cdf`](#geometric_cdf)
 ////   * [`geometric_random`](#geometric_random)
 
-import gleam/list
 import gleam/iterator.{Iterator}
-import gleam/float
-import gleam/int
-import gleam/pair
-import gleam_stats/math.{log}
-import gleam_stats/distributions/uniform
+import gleam_stats/math
+
+if erlang {
+  import gleam/list
+  import gleam/int
+  import gleam/pair
+  import gleam/float
+  import gleam_stats/distributions/uniform
+}
 
 fn check_geometric_parameters(p: Float) -> Result(Bool, String) {
   case 0.0 <. p && p <=. 1.0 {
@@ -78,9 +81,11 @@ pub fn geometric_variance(p: Float) -> Result(Float, String) {
     Error(string) ->
       string
       |> Error
-    _ ->
-      { 1.0 -. p } /. float.power(p, 2.0)
+    _ -> {
+      assert Ok(v) = math.pow(p, 2.0)
+      { 1.0 -. p } /. v
       |> Ok
+    }
   }
 }
 
@@ -124,20 +129,33 @@ pub fn geometric_variance(p: Float) -> Result(Float, String) {
 /// </div>
 ///
 pub fn geometric_pmf(x: Int, p: Float) -> Result(Float, String) {
-  case check_geometric_parameters(p) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case x >= 0 {
-        True ->
-          float.power(1.0 -. p, int.to_float(x)) *. p
-          |> Ok
-        _ ->
-          0.0
-          |> Ok
-      }
+  do_geometric_pmf(x, p)
+}
+
+if erlang {
+  fn do_geometric_pmf(x: Int, p: Float) -> Result(Float, String) {
+    case check_geometric_parameters(p) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case x >= 0 {
+          True -> {
+            assert Ok(v) = math.pow(1.0 -. p, int.to_float(x))
+            v *. p
+            |> Ok
+          }
+          _ ->
+            0.0
+            |> Ok
+        }
+    }
   }
+}
+
+if javascript {
+  external fn do_geometric_pmf(Int, Float) -> Result(Float, String) =
+    "../../geometric.mjs" "geometric_pmf"
 }
 
 /// <div style="text-align: right;">
@@ -181,20 +199,33 @@ pub fn geometric_pmf(x: Int, p: Float) -> Result(Float, String) {
 /// </div>
 ///
 pub fn geometric_cdf(x: Int, p: Float) -> Result(Float, String) {
-  case check_geometric_parameters(p) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case x >= 0 {
-        True ->
-          1.0 -. float.power(1.0 -. p, int.to_float(x) +. 1.0)
-          |> Ok
-        False ->
-          0.0
-          |> Ok
-      }
+  do_geometric_cdf(x, p)
+}
+
+if erlang {
+  fn do_geometric_cdf(x: Int, p: Float) -> Result(Float, String) {
+    case check_geometric_parameters(p) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case x >= 0 {
+          True -> {
+            assert Ok(v) = math.pow(1.0 -. p, int.to_float(x) +. 1.0)
+            1.0 -. v
+            |> Ok
+          }
+          False ->
+            0.0
+            |> Ok
+        }
+    }
   }
+}
+
+if javascript {
+  external fn do_geometric_cdf(Int, Float) -> Result(Float, String) =
+    "../../geometric.mjs" "geometric_cdf"
 }
 
 /// <div style="text-align: right;">
@@ -220,7 +251,7 @@ pub fn geometric_cdf(x: Int, p: Float) -> Result(Float, String) {
 ///       let seq: Int = 1
 ///       let p: Float = 0.5
 ///       assert Ok(out) =
-///         generators.seed_pcg32(seed)
+///         generators.seed_pcg32(seed, seq)
 ///         |> geometric.geometric_random(r, p, 5_000)
 ///       let rands: List(Float) = pair.first(out)
 ///       let stream: Iterator(Int) = pair.second(out)
@@ -238,34 +269,53 @@ pub fn geometric_random(
   p: Float,
   m: Int,
 ) -> Result(#(List(Int), Iterator(Int)), String) {
-  case check_geometric_parameters(p) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case m > 0 {
-        False ->
-          "Invalid input arugment: m < 0. Valid input is m > 0."
-          |> Error
-        True -> {
-          // Take out 'm' integers from the stream of pseudo-random numbers and generate 
-          // uniform random numbers.
-          assert Ok(out) = uniform.uniform_random(stream, 0., 1., m)
-          // Transform the 'm' continuous uniform random numbers to geometric distributed 
-          // random numbers
-          let numbers: List(Int) =
-            pair.first(out)
-            |> list.map(fn(x) {
-              assert Ok(x1) = log(x)
-              assert Ok(x2) = log(1. -. p)
-              float.round(float.floor(x1 /. x2))
-            })
-          // Then return a tuple consisting of a list of geometric random numbers
-          // and the stream of pseudo-random numbers where the 'm' integers have been dropped
-          // from the stream.
-          #(numbers, pair.second(out))
-          |> Ok
+  do_geometric_random(stream, p, m)
+}
+
+if erlang {
+  fn do_geometric_random(
+    stream: Iterator(Int),
+    p: Float,
+    m: Int,
+  ) -> Result(#(List(Int), Iterator(Int)), String) {
+    case check_geometric_parameters(p) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case m > 0 {
+          False ->
+            "Invalid input arugment: m < 0. Valid input is m > 0."
+            |> Error
+          True -> {
+            // Take out 'm' integers from the stream of pseudo-random numbers and generate 
+            // uniform random numbers.
+            assert Ok(out) = uniform.uniform_random(stream, 0., 1., m)
+            // Transform the 'm' continuous uniform random numbers to geometric distributed 
+            // random numbers
+            let numbers: List(Int) =
+              pair.first(out)
+              |> list.map(fn(x) {
+                assert Ok(x1) = math.log(x)
+                assert Ok(x2) = math.log(1. -. p)
+                float.round(math.floor(x1 /. x2))
+              })
+            // Then return a tuple consisting of a list of geometric random numbers
+            // and the stream of pseudo-random numbers where the 'm' integers have been dropped
+            // from the stream.
+            #(numbers, pair.second(out))
+            |> Ok
+          }
         }
-      }
+    }
   }
+}
+
+if javascript {
+  external fn do_geometric_random(
+    Iterator(Int),
+    Float,
+    Int,
+  ) -> Result(#(List(Int), Iterator(Int)), String) =
+    "../../geometric.mjs" "geometric_random"
 }

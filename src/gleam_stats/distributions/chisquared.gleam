@@ -9,13 +9,15 @@
 ////   * [`chisquared_cdf`](#chisquared_cdf)
 ////   * [`chisquared_random`](#chisquared_random)
 
-import gleam/list
 import gleam/iterator.{Iterator}
-import gleam/float
-import gleam/pair
 import gleam/int
-import gleam_stats/math.{exp, gamma, gammainc}
-import gleam_stats/distributions/normal
+
+if erlang {
+  import gleam/list
+  import gleam/pair
+  import gleam_stats/math
+  import gleam_stats/distributions/normal
+}
 
 fn check_chisquared_parameters(d: Int) -> Result(Bool, String) {
   case d > 0 {
@@ -124,26 +126,38 @@ pub fn chisquared_variance(d: Int) -> Result(Float, String) {
 /// </div>
 ///
 pub fn chisquared_pdf(x: Float, d: Int) -> Result(Float, String) {
-  case check_chisquared_parameters(d) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case x >. 0.0 {
-        True -> {
-          let float_ddof: Float = int.to_float(d)
-          let expr: Float = float_ddof /. 2.0
-          let denominator: Float = float.power(2.0, expr) *. gamma(expr)
-          let numerator: Float =
-            float.power(x, expr -. 1.0) *. exp(-1.0 *. x /. 2.0)
-          numerator /. denominator
-          |> Ok
+  do_chisquared_pdf(x, d)
+}
+
+if erlang {
+  fn do_chisquared_pdf(x: Float, d: Int) -> Result(Float, String) {
+    case check_chisquared_parameters(d) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case x >. 0.0 {
+          True -> {
+            let float_ddof: Float = int.to_float(d)
+            let expr: Float = float_ddof /. 2.0
+            assert Ok(v1) = math.pow(2.0, expr)
+            let denominator: Float = v1 *. math.gamma(expr)
+            assert Ok(v2) = math.pow(x, expr -. 1.0)
+            let numerator: Float = v2 *. math.exp(-1.0 *. x /. 2.0)
+            numerator /. denominator
+            |> Ok
+          }
+          False ->
+            0.0
+            |> Ok
         }
-        False ->
-          0.0
-          |> Ok
-      }
+    }
   }
+}
+
+if javascript {
+  external fn do_chisquared_pdf(Float, Int) -> Result(Float, String) =
+    "../../chisquared.mjs" "chisquared_pdf"
 }
 
 /// <div style="text-align: right;">
@@ -185,36 +199,47 @@ pub fn chisquared_pdf(x: Float, d: Int) -> Result(Float, String) {
 /// </div>
 ///
 pub fn chisquared_cdf(x: Float, d: Int) -> Result(Float, String) {
-  case check_chisquared_parameters(d) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case x >. 0.0 && d == 1 {
-        True ->
-          do_chisquared_cdf(x, d)
-          |> Ok
-        False ->
-          case x >=. 0.0 && d > 1 {
-            True ->
-              do_chisquared_cdf(x, d)
-              |> Ok
-            False ->
-              0.0
-              |> Ok
-          }
-      }
+  do_chisquared_cdf(x, d)
+}
+
+if erlang {
+  fn do_chisquared_cdf(x: Float, d: Int) -> Result(Float, String) {
+    case check_chisquared_parameters(d) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case x >. 0.0 && d == 1 {
+          True ->
+            chisquared_cdf_helper(x, d)
+            |> Ok
+          False ->
+            case x >=. 0.0 && d > 1 {
+              True ->
+                chisquared_cdf_helper(x, d)
+                |> Ok
+              False ->
+                0.0
+                |> Ok
+            }
+        }
+    }
+  }
+
+  fn chisquared_cdf_helper(x: Float, d: Int) -> Float {
+    // In the computations below, assume all input arguments
+    // have been checked and are valid
+    let float_ddof: Float = int.to_float(d)
+    let expr: Float = float_ddof /. 2.0
+    assert Ok(numerator) = math.gammainc(expr, x /. 2.0)
+    let denominator: Float = math.gamma(expr)
+    numerator /. denominator
   }
 }
 
-fn do_chisquared_cdf(x: Float, d: Int) -> Float {
-  // In the computations below, assume all input arguments
-  // have been checked and are valid
-  let float_ddof: Float = int.to_float(d)
-  let expr: Float = float_ddof /. 2.0
-  assert Ok(numerator) = gammainc(expr, x /. 2.0)
-  let denominator: Float = gamma(expr)
-  numerator /. denominator
+if javascript {
+  external fn do_chisquared_cdf(Float, Int) -> Result(Float, String) =
+    "../../chisquared.mjs" "chisquared_cdf"
 }
 
 /// <div style="text-align: right;">
@@ -256,35 +281,54 @@ pub fn chisquared_random(
   d: Int,
   m: Int,
 ) -> Result(#(List(Float), Iterator(Int)), String) {
-  case check_chisquared_parameters(d) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case m > 0 {
-        False -> Error("Invalid input arugment: m < 0. Valid input is m > 0.")
-        True -> {
-          // Take out 'd' * 'm' integers from the stream of pseudo-random numbers and 
-          // generate normal random numbers.
-          assert Ok(out) = normal.normal_random(stream, 0.0, 1.0, d * m)
-          // Transform the 'd' * 'm' continuous normal random numbers to 'm' chi-squared
-          // distributed random numbers
-          let numbers: List(Float) =
-            pair.first(out)
-            |> list.sized_chunk(d)
-            |> list.map(fn(x: List(Float)) -> Float {
-              x
-              |> list.fold(
-                0.,
-                fn(acc: Float, a: Float) -> Float { a *. a +. acc },
-              )
-            })
-          // Then return a tuple consisting of a list of chi-squared normal random numbers
-          // and the stream of pseudo-random numbers where the 'm' integers have been dropped
-          // from the stream.
-          #(numbers, pair.second(out))
-          |> Ok
+  do_chisquared_random(stream, d, m)
+}
+
+if erlang {
+  fn do_chisquared_random(
+    stream: Iterator(Int),
+    d: Int,
+    m: Int,
+  ) -> Result(#(List(Float), Iterator(Int)), String) {
+    case check_chisquared_parameters(d) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case m > 0 {
+          False -> Error("Invalid input arugment: m < 0. Valid input is m > 0.")
+          True -> {
+            // Take out 'd' * 'm' integers from the stream of pseudo-random numbers and 
+            // generate normal random numbers.
+            assert Ok(out) = normal.normal_random(stream, 0.0, 1.0, d * m)
+            // Transform the 'd' * 'm' continuous normal random numbers to 'm' chi-squared
+            // distributed random numbers
+            let numbers: List(Float) =
+              pair.first(out)
+              |> list.sized_chunk(d)
+              |> list.map(fn(x: List(Float)) -> Float {
+                x
+                |> list.fold(
+                  0.0,
+                  fn(acc: Float, a: Float) -> Float { a *. a +. acc },
+                )
+              })
+            // Then return a tuple consisting of a list of chi-squared normal random numbers
+            // and the stream of pseudo-random numbers where the 'm' integers have been dropped
+            // from the stream.
+            #(numbers, pair.second(out))
+            |> Ok
+          }
         }
-      }
+    }
   }
+}
+
+if javascript {
+  external fn do_chisquared_random(
+    Iterator(Int),
+    Int,
+    Int,
+  ) -> Result(#(List(Float), Iterator(Int)), String) =
+    "../../chisquared.mjs" "chisquared_random"
 }

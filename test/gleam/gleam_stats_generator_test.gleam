@@ -1,4 +1,3 @@
-// import gleam/should
 import gleam/pair
 import gleam/list
 import gleam_stats/generators
@@ -18,6 +17,8 @@ pub fn seed_pcg32_test() {
   // seed: 5. The 3000 value should be 586352375
   [#(1000, 1464584865), #(2000, 120012735), #(3000, 586352375)]
   |> check_pcg_randints(5, 1)
+  // [#(1000, 10)]
+  // |> check_pcg_randints(5, 1)
   // seed: 50. The 1000 value should be 1209697506
   // seed: 50. The 2000 value should be 2383515560
   // seed: 50. The 3000 value should be 2186603191
@@ -35,6 +36,8 @@ fn check_pcg_randints(tuples: List(#(Int, Int)), seed: Int, seq: Int) {
   |> list.map(fn(x: #(Int, Int)) {
     let number = pair.first(x)
     let value = pair.second(x)
+    // let out =
+    //   generators.seed_pcg32(seed, seq)
     assert Ok(out) =
       generators.seed_pcg32(seed, seq)
       |> generators.take_randints(number)

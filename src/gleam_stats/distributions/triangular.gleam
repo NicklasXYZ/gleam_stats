@@ -9,11 +9,14 @@
 ////   * [`triangular_cdf`](#triangular_cdf)
 ////   * [`triangular_random`](#triangular_random)
 
-import gleam/list
 import gleam/iterator.{Iterator}
-import gleam/float
-import gleam/pair
-import gleam_stats/distributions/uniform
+import gleam_stats/math
+
+if erlang {
+  import gleam/list
+  import gleam/pair
+  import gleam_stats/distributions/uniform
+}
 
 fn check_triangular_parameters(
   a: Float,
@@ -102,11 +105,13 @@ pub fn triangular_variance(
     Error(string) ->
       string
       |> Error
-    _ ->
-      {
-        float.power(a, 2.0) +. float.power(b, 2.0) +. float.power(c, 2.0) -. a *. b -. a *. c -. b *. c
-      } /. 18.
+    _ -> {
+      assert Ok(v1) = math.pow(a, 2.0)
+      assert Ok(v2) = math.pow(b, 2.0)
+      assert Ok(v3) = math.pow(c, 2.0)
+      { v1 +. v2 +. v3 -. a *. b -. a *. c -. b *. c } /. 18.
       |> Ok
+    }
   }
 }
 
@@ -164,38 +169,59 @@ pub fn triangular_pdf(
   b: Float,
   c: Float,
 ) -> Result(Float, String) {
-  case check_triangular_parameters(a, b, c) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case x <. a {
-        True ->
-          0.0
-          |> Ok
-        False ->
-          case a <=. x && x <. c {
-            True ->
-              2.0 *. { x -. a } /. { { b -. a } *. { c -. a } }
-              |> Ok
-            False ->
-              case x == c {
-                True ->
-                  2.0 /. { b -. a }
-                  |> Ok
-                False ->
-                  case c <. x && x <=. b {
-                    True ->
-                      2.0 *. { b -. x } /. { { b -. a } *. { b -. c } }
-                      |> Ok
-                    False ->
-                      0.0
-                      |> Ok
-                  }
-              }
-          }
-      }
+  do_triangular_pdf(x, a, b, c)
+}
+
+if erlang {
+  fn do_triangular_pdf(
+    x: Float,
+    a: Float,
+    b: Float,
+    c: Float,
+  ) -> Result(Float, String) {
+    case check_triangular_parameters(a, b, c) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case x <. a {
+          True ->
+            0.0
+            |> Ok
+          False ->
+            case a <=. x && x <. c {
+              True ->
+                2.0 *. { x -. a } /. { { b -. a } *. { c -. a } }
+                |> Ok
+              False ->
+                case x == c {
+                  True ->
+                    2.0 /. { b -. a }
+                    |> Ok
+                  False ->
+                    case c <. x && x <=. b {
+                      True ->
+                        2.0 *. { b -. x } /. { { b -. a } *. { b -. c } }
+                        |> Ok
+                      False ->
+                        0.0
+                        |> Ok
+                    }
+                }
+            }
+        }
+    }
   }
+}
+
+if javascript {
+  external fn do_triangular_pdf(
+    Float,
+    Float,
+    Float,
+    Float,
+  ) -> Result(Float, String) =
+    "../../triangular.mjs" "triangular_pdf"
 }
 
 /// <div style="text-align: right;">
@@ -251,34 +277,57 @@ pub fn triangular_cdf(
   b: Float,
   c: Float,
 ) -> Result(Float, String) {
-  case check_triangular_parameters(a, b, c) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case x <=. a {
-        True ->
-          0.0
-          |> Ok
-        False ->
-          case a <. x && x <=. c {
-            True ->
-              float.power(x -. a, 2.0) /. { { b -. a } *. { c -. a } }
-              |> Ok
-            False ->
-              case c <. x && x <. b {
-                True ->
-                  1.0 -. float.power(b -. x, 2.0) /. {
-                    { b -. a } *. { b -. c }
-                  }
-                  |> Ok
-                False ->
-                  1.0
-                  |> Ok
+  do_triangular_cdf(x, a, b, c)
+}
+
+if erlang {
+  fn do_triangular_cdf(
+    x: Float,
+    a: Float,
+    b: Float,
+    c: Float,
+  ) -> Result(Float, String) {
+    case check_triangular_parameters(a, b, c) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case x <=. a {
+          True ->
+            0.0
+            |> Ok
+          False ->
+            case a <. x && x <=. c {
+              True -> {
+                assert Ok(v) = math.pow(x -. a, 2.0)
+                v /. { { b -. a } *. { c -. a } }
+                |> Ok
               }
-          }
-      }
+              False ->
+                case c <. x && x <. b {
+                  True -> {
+                    assert Ok(v) = math.pow(b -. x, 2.0)
+                    1.0 -. v /. { { b -. a } *. { b -. c } }
+                    |> Ok
+                  }
+                  False ->
+                    1.0
+                    |> Ok
+                }
+            }
+        }
+    }
   }
+}
+
+if javascript {
+  external fn do_triangular_cdf(
+    Float,
+    Float,
+    Float,
+    Float,
+  ) -> Result(Float, String) =
+    "../../triangular.mjs" "triangular_cdf"
 }
 
 /// <div style="text-align: right;">
@@ -310,7 +359,7 @@ pub fn triangular_cdf(
 ///       // The mode of the distribution
 ///       let c: Float = 0.5
 ///       assert Ok(out) =
-///         generators.seed_pcg32(seed)
+///         generators.seed_pcg32(seed, seq)
 ///         |> triangular.triangular_random(a, b, c, 5_000)
 ///       let rands: List(Float) = pair.first(out)
 ///       let stream: Iterator(Int) = pair.second(out)
@@ -330,33 +379,62 @@ pub fn triangular_random(
   c: Float,
   m: Int,
 ) -> Result(#(List(Float), Iterator(Int)), String) {
-  case check_triangular_parameters(a, b, c) {
-    Error(string) -> Error(string)
-    _ ->
-      case m > 0 {
-        False -> Error("Invalid input arugment: m < 0. Valid input is m > 0.")
-        True -> {
-          let eval: Float = { c -. a } /. { b -. a }
-          // Take out 'm' integers from the stream of pseudo-random numbers and generate 
-          // uniform random numbers.
-          assert Ok(out) = uniform.uniform_random(stream, 0., 1., m)
-          // Transform the 'm' continuous uniform random numbers to triangular distributed
-          // random numbers.
-          let numbers: List(Float) =
-            pair.first(out)
-            |> list.map(fn(x: Float) -> Float {
-              case x <. eval {
-                True -> a +. float.power(x *. { b -. a } *. { b -. c }, 0.5)
-                False ->
-                  b -. float.power({ 1. -. x } *. { b -. a } *. { b -. c }, 0.5)
-              }
-            })
-          // Then return a tuple consisting of a list of continuous triangular random numbers
-          // and the stream of pseudo-random numbers where the 'm' integers have been dropped
-          // from the stream.
-          #(numbers, pair.second(out))
-          |> Ok
+  do_triangular_random(stream, a, b, c, m)
+}
+
+if erlang {
+  fn do_triangular_random(
+    stream: Iterator(Int),
+    a: Float,
+    b: Float,
+    c: Float,
+    m: Int,
+  ) -> Result(#(List(Float), Iterator(Int)), String) {
+    case check_triangular_parameters(a, b, c) {
+      Error(string) -> Error(string)
+      _ ->
+        case m > 0 {
+          False -> Error("Invalid input arugment: m < 0. Valid input is m > 0.")
+          True -> {
+            let eval: Float = { c -. a } /. { b -. a }
+            // Take out 'm' integers from the stream of pseudo-random numbers and generate 
+            // uniform random numbers.
+            assert Ok(out) = uniform.uniform_random(stream, 0., 1., m)
+            // Transform the 'm' continuous uniform random numbers to triangular distributed
+            // random numbers.
+            let numbers: List(Float) =
+              pair.first(out)
+              |> list.map(fn(x: Float) -> Float {
+                case x <. eval {
+                  True -> {
+                    assert Ok(v) = math.pow(x *. { b -. a } *. { b -. c }, 0.5)
+                    a +. v
+                  }
+                  False -> {
+                    assert Ok(v) =
+                      math.pow({ 1. -. x } *. { b -. a } *. { b -. c }, 0.5)
+                    b -. v
+                  }
+                }
+              })
+            // Then return a tuple consisting of a list of continuous triangular random numbers
+            // and the stream of pseudo-random numbers where the 'm' integers have been dropped
+            // from the stream.
+            #(numbers, pair.second(out))
+            |> Ok
+          }
         }
-      }
+    }
   }
+}
+
+if javascript {
+  external fn do_triangular_random(
+    Iterator(Int),
+    Float,
+    Float,
+    Float,
+    Int,
+  ) -> Result(#(List(Float), Iterator(Int)), String) =
+    "../../triangular.mjs" "triangular_random"
 }

@@ -8,8 +8,7 @@
 ////   * [`bools`](#bools)
 
 import gleam/list
-import gleam/iterator.{Iterator}
-import gleam/io
+import gleam/iterator
 import gleam/pair
 import gleam_stats/distributions/bernoulli
 import gleam_stats/distributions/uniform
@@ -45,8 +44,8 @@ import gleam_stats/distributions/uniform
 ///
 pub fn shuffle(
   list: List(a),
-  stream: Iterator(Int),
-) -> #(List(a), Iterator(Int)) {
+  stream: iterator.Iterator(Int),
+) -> #(List(a), iterator.Iterator(Int)) {
   let length = list.length(list)
   assert Ok(out) = bernoulli.bernoulli_random(stream, 0.5, length)
   let shuffled_list = do_shuffle(list, length, pair.first(out))
@@ -57,13 +56,11 @@ fn shuffle_list(a: List(a), b: List(a), c: List(Int)) -> List(a) {
   case a, b, c {
     [], _, _ -> b
     _, [], _ -> a
-    [ax, ..ar], [bx, ..br], [cx, ..cr] -> {
-      io.debug(cx)
+    [ax, ..ar], [bx, ..br], [cx, ..cr] ->
       case cx {
         1 -> [ax, ..shuffle_list(ar, b, cr)]
         0 -> [bx, ..shuffle_list(a, br, cr)]
       }
-    }
   }
 }
 
@@ -116,8 +113,8 @@ fn do_shuffle(list: List(a), list_length: Int, c: List(Int)) -> List(a) {
 ///
 pub fn bools(
   m: Int,
-  stream: Iterator(Int),
-) -> Result(#(List(Bool), Iterator(Int)), String) {
+  stream: iterator.Iterator(Int),
+) -> Result(#(List(Bool), iterator.Iterator(Int)), String) {
   case m > 0 {
     False ->
       "Invalid input arugment: m < 0. Valid input is m > 0."

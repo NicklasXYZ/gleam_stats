@@ -18,7 +18,7 @@ const rtol: Float = 0.025
 const atol: Float = 0.025
 
 // Number of random numbers to generate 
-const n: Int = 25_000
+const m: Int = 4_000
 
 pub fn example_shuffle_test() {
   let stream = generators.seed_pcg32(5, 1)
@@ -33,7 +33,7 @@ pub fn example_shuffle_test() {
 
 pub fn example_bools_test() {
   let stream = generators.seed_pcg32(5, 1)
-  assert Ok(out) = random.bools(n, stream)
+  assert Ok(out) = random.bools(m, stream)
   let bools: List(Bool) = pair.first(out)
   let count: Int =
     bools

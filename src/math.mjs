@@ -58,8 +58,8 @@ export function floor(float) {
     return Math.floor(float)
 }
 
-export function pow(float) {
-    return Math.pow(float)
+export function pow(base, exponent) {
+    return Math.pow(base, exponent)
 }
 
 export function log(float) {

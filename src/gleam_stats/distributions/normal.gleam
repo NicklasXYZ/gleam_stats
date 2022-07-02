@@ -9,12 +9,14 @@
 ////   * [`normal_cdf`](#normal_cdf)
 ////   * [`normal_random`](#normal_random)
 
-import gleam/list
 import gleam/iterator.{Iterator}
-import gleam/float
-import gleam/pair
-import gleam_stats/math.{cos, erf, exp, log, pi, sin}
-import gleam_stats/distributions/uniform
+import gleam_stats/math
+
+if erlang {
+  import gleam/pair
+  import gleam/list
+  import gleam_stats/distributions/uniform
+}
 
 fn check_normal_parameters(mu: Float, sigma: Float) -> Result(Bool, String) {
   case sigma >. 0.0 {
@@ -79,9 +81,11 @@ pub fn normal_variance(mu: Float, sigma: Float) -> Result(Float, String) {
     Error(string) ->
       string
       |> Error
-    _ ->
-      float.power(sigma, 2.)
+    _ -> {
+      assert Ok(v) = math.pow(sigma, 2.0)
+      v
       |> Ok
+    }
   }
 }
 
@@ -123,19 +127,32 @@ pub fn normal_variance(mu: Float, sigma: Float) -> Result(Float, String) {
 /// </div>
 ///
 pub fn normal_pdf(x: Float, mu: Float, sigma: Float) -> Result(Float, String) {
-  case check_normal_parameters(mu, sigma) {
-    Error(string) ->
-      string
-      |> Error
-    _ -> {
-      let numexp: Float =
-        float.power(x -. mu, 2.0) /. { 2.0 *. float.power(sigma, 2.0) }
-      let denominator: Float = sigma *. float.power(2.0 *. pi(), 0.5)
-      let numerator: Float = exp(numexp *. -1.0)
-      numerator /. denominator
-      |> Ok
+  do_normal_pdf(x, mu, sigma)
+}
+
+if erlang {
+  fn do_normal_pdf(x: Float, mu: Float, sigma: Float) -> Result(Float, String) {
+    case check_normal_parameters(mu, sigma) {
+      Error(string) ->
+        string
+        |> Error
+      _ -> {
+        assert Ok(v1) = math.pow(x -. mu, 2.0)
+        assert Ok(v2) = math.pow(sigma, 2.0)
+        let numexp: Float = v1 /. { 2.0 *. v2 }
+        assert Ok(v3) = math.pow(2.0 *. math.pi(), 0.5)
+        let denominator: Float = sigma *. v3
+        let numerator: Float = math.exp(numexp *. -1.0)
+        numerator /. denominator
+        |> Ok
+      }
     }
   }
+}
+
+if javascript {
+  external fn do_normal_pdf(Float, Float, Float) -> Result(Float, String) =
+    "../../normal.mjs" "normal_pdf"
 }
 
 /// <div style="text-align: right;">
@@ -178,24 +195,39 @@ pub fn normal_pdf(x: Float, mu: Float, sigma: Float) -> Result(Float, String) {
 /// </div>
 ///
 pub fn normal_cdf(x: Float, mu: Float, sigma: Float) -> Result(Float, String) {
-  case check_normal_parameters(mu, sigma) {
-    Error(string) ->
-      string
-      |> Error
-    _ -> {
-      let denominator: Float = sigma *. float.power(2.0, 0.5)
-      0.5 *. { 1.0 +. erf({ x -. mu } /. denominator) }
-      |> Ok
+  do_normal_cdf(x, mu, sigma)
+}
+
+if erlang {
+  fn do_normal_cdf(x: Float, mu: Float, sigma: Float) -> Result(Float, String) {
+    case check_normal_parameters(mu, sigma) {
+      Error(string) ->
+        string
+        |> Error
+      _ -> {
+        assert Ok(v) = math.pow(2.0, 0.5)
+        let denominator: Float = sigma *. v
+        0.5 *. { 1.0 +. math.erf({ x -. mu } /. denominator) }
+        |> Ok
+      }
     }
+  }
+
+  // Use Box-Muller transform to sample from the normal distribution,
+  // given standard uniform distributed random numbers.
+  fn box_muller(u1: Float, u2: Float) -> List(Float) {
+    assert Ok(u) = math.log(u1)
+    assert Ok(x) = math.pow(-2.0 *. u, 0.5)
+    [
+      x *. math.cos(2.0 *. math.pi() *. u2),
+      x *. math.sin(2.0 *. math.pi() *. u2),
+    ]
   }
 }
 
-// Use Box-Muller transform to sample from the normal distribution,
-// given standard uniform distributed random numbers.
-fn box_muller(u1: Float, u2: Float) -> List(Float) {
-  assert Ok(u) = log(u1)
-  assert Ok(x) = float.square_root(-2.0 *. u)
-  [x *. cos(2.0 *. pi() *. u2), x *. sin(2.0 *. pi() *. u2)]
+if javascript {
+  external fn do_normal_cdf(Float, Float, Float) -> Result(Float, String) =
+    "../../normal.mjs" "normal_cdf"
 }
 
 /// <div style="text-align: right;">
@@ -241,45 +273,66 @@ pub fn normal_random(
   sigma: Float,
   m: Int,
 ) -> Result(#(List(Float), Iterator(Int)), String) {
-  case check_normal_parameters(mu, sigma) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case m > 0 {
-        False -> Error("Invalid input arugment: m < 0. Valid input is m > 0.")
-        True -> {
-          // Take out 'm_even' integers from the stream of pseudo-random numbers 
-          // and generate uniform random numbers.
-          let m_even: Int = m + m % 2
-          assert Ok(out) = uniform.uniform_random(stream, 0., 1., m_even)
-          // Transform the 'm_even' continuous uniform random numbers to normal 
-          // distributed random numbers
-          let numbers: List(Float) =
-            pair.first(out)
-            |> list.sized_chunk(2)
-            |> list.map(fn(x: List(Float)) -> List(Float) {
-              case x {
-                [u1, u2] ->
-                  case box_muller(u1, u2) {
-                    [z1, z2] -> [sigma *. z1 +. mu, sigma *. z2 +. mu]
-                  }
+  do_normal_random(stream, mu, sigma, m)
+}
+
+if erlang {
+  fn do_normal_random(
+    stream: Iterator(Int),
+    mu: Float,
+    sigma: Float,
+    m: Int,
+  ) -> Result(#(List(Float), Iterator(Int)), String) {
+    case check_normal_parameters(mu, sigma) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case m > 0 {
+          False -> Error("Invalid input arugment: m < 0. Valid input is m > 0.")
+          True -> {
+            // Take out 'm_even' integers from the stream of pseudo-random numbers 
+            // and generate uniform random numbers.
+            let m_even: Int = m + m % 2
+            assert Ok(out) = uniform.uniform_random(stream, 0., 1., m_even)
+            // Transform the 'm_even' continuous uniform random numbers to normal 
+            // distributed random numbers
+            let numbers: List(Float) =
+              pair.first(out)
+              |> list.sized_chunk(2)
+              |> list.map(fn(x: List(Float)) -> List(Float) {
+                case x {
+                  [u1, u2] ->
+                    case box_muller(u1, u2) {
+                      [z1, z2] -> [sigma *. z1 +. mu, sigma *. z2 +. mu]
+                    }
+                }
+              })
+              |> list.flatten()
+              |> fn(x: List(Float)) -> List(Float) {
+                // Make sure the returned list has length 'm'
+                case m == list.length(x) {
+                  True -> x
+                  False -> list.drop(x, 1)
+                }
               }
-            })
-            |> list.flatten()
-            |> fn(x: List(Float)) -> List(Float) {
-              // Make sure the returned list has length 'm'
-              case m == list.length(x) {
-                True -> x
-                False -> list.drop(x, 1)
-              }
-            }
-          // Then return a tuple consisting of a list of continuous normal random 
-          // numbers and the stream of pseudo-random numbers where the 'm' integers 
-          // have been dropped from the stream.
-          #(numbers, pair.second(out))
-          |> Ok
+            // Then return a tuple consisting of a list of continuous normal random 
+            // numbers and the stream of pseudo-random numbers where the 'm' integers 
+            // have been dropped from the stream.
+            #(numbers, pair.second(out))
+            |> Ok
+          }
         }
-      }
+    }
   }
+}
+
+if javascript {
+  external fn do_normal_random(
+    Iterator(Int),
+    Float,
+    Float,
+    Int,
+  ) -> Result(#(List(Float), Iterator(Int)), String) =
+    "../../normal.mjs" "normal_random"
 }

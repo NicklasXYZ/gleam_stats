@@ -9,12 +9,14 @@
 ////   * [`exponential_cdf`](#exponential_cdf)
 ////   * [`exponential_random`](#exponential_random)
 
-import gleam/list
 import gleam/iterator.{Iterator}
-import gleam/float
-import gleam/pair
-import gleam_stats/math.{exp, log}
-import gleam_stats/distributions/uniform
+import gleam_stats/math
+
+if erlang {
+  import gleam/pair
+  import gleam/list
+  import gleam_stats/distributions/uniform
+}
 
 fn check_exponential_parameters(lambda: Float) {
   case lambda >. 0.0 {
@@ -77,9 +79,11 @@ pub fn exponential_variance(lambda: Float) -> Result(Float, String) {
     Error(string) ->
       string
       |> Error
-    _ ->
-      1.0 /. float.power(lambda, 2.0)
+    _ -> {
+      assert Ok(v) = math.pow(lambda, 2.0)
+      1.0 /. v
       |> Ok
+    }
   }
 }
 
@@ -123,20 +127,31 @@ pub fn exponential_variance(lambda: Float) -> Result(Float, String) {
 /// </div>
 ///
 pub fn exponential_pdf(x: Float, lambda: Float) -> Result(Float, String) {
-  case check_exponential_parameters(lambda) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case x >=. 0.0 {
-        True ->
-          lambda *. exp(-1.0 *. lambda *. x)
-          |> Ok
-        False ->
-          0.0
-          |> Ok
-      }
+  do_exponential_pdf(x, lambda)
+}
+
+if erlang {
+  fn do_exponential_pdf(x: Float, lambda: Float) -> Result(Float, String) {
+    case check_exponential_parameters(lambda) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case x >=. 0.0 {
+          True ->
+            lambda *. math.exp(-1.0 *. lambda *. x)
+            |> Ok
+          False ->
+            0.0
+            |> Ok
+        }
+    }
   }
+}
+
+if javascript {
+  external fn do_exponential_pdf(Float, Float) -> Result(Float, String) =
+    "../../exponential.mjs" "exponential_pdf"
 }
 
 /// <div style="text-align: right;">
@@ -180,20 +195,31 @@ pub fn exponential_pdf(x: Float, lambda: Float) -> Result(Float, String) {
 /// </div>
 ///
 pub fn exponential_cdf(x: Float, lambda: Float) -> Result(Float, String) {
-  case check_exponential_parameters(lambda) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case x >=. 0.0 {
-        True ->
-          1.0 -. exp(-1.0 *. lambda *. x)
-          |> Ok
-        False ->
-          0.0
-          |> Ok
-      }
+  do_exponential_cdf(x, lambda)
+}
+
+if erlang {
+  fn do_exponential_cdf(x: Float, lambda: Float) -> Result(Float, String) {
+    case check_exponential_parameters(lambda) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case x >=. 0.0 {
+          True ->
+            1.0 -. math.exp(-1.0 *. lambda *. x)
+            |> Ok
+          False ->
+            0.0
+            |> Ok
+        }
+    }
   }
+}
+
+if javascript {
+  external fn do_exponential_cdf(Float, Float) -> Result(Float, String) =
+    "../../exponential.mjs" "exponential_cdf"
 }
 
 /// <div style="text-align: right;">
@@ -237,31 +263,50 @@ pub fn exponential_random(
   lambda: Float,
   m: Int,
 ) -> Result(#(List(Float), Iterator(Int)), String) {
-  case check_exponential_parameters(lambda) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case m > 0 {
-        False -> Error("Invalid input arugment: m < 0. Valid input is m > 0.")
-        True -> {
-          // Take out 'm' integers from the stream of pseudo-random numbers and generate 
-          // uniform random numbers.
-          assert Ok(out) = uniform.uniform_random(stream, 0., 1., m)
-          // Transform the 'm' continuous uniform random numbers to exponential distributed
-          // random numbers.
-          let numbers: List(Float) =
-            pair.first(out)
-            |> list.map(fn(x: Float) -> Float {
-              assert Ok(x1) = log(x)
-              1. /. { -1. *. lambda } *. x1
-            })
-          // Then return a tuple consisting of a list of exponential random numbers
-          // and the stream of pseudo-random numbers where the 'm' integers have been dropped
-          // from the stream.
-          #(numbers, pair.second(out))
-          |> Ok
+  do_exponential_random(stream, lambda, m)
+}
+
+if erlang {
+  fn do_exponential_random(
+    stream: Iterator(Int),
+    lambda: Float,
+    m: Int,
+  ) -> Result(#(List(Float), Iterator(Int)), String) {
+    case check_exponential_parameters(lambda) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case m > 0 {
+          False -> Error("Invalid input arugment: m < 0. Valid input is m > 0.")
+          True -> {
+            // Take out 'm' integers from the stream of pseudo-random numbers and generate 
+            // uniform random numbers.
+            assert Ok(out) = uniform.uniform_random(stream, 0., 1., m)
+            // Transform the 'm' continuous uniform random numbers to exponential distributed
+            // random numbers.
+            let numbers: List(Float) =
+              pair.first(out)
+              |> list.map(fn(x: Float) -> Float {
+                assert Ok(x1) = math.log(x)
+                1. /. { -1. *. lambda } *. x1
+              })
+            // Then return a tuple consisting of a list of exponential random numbers
+            // and the stream of pseudo-random numbers where the 'm' integers have been dropped
+            // from the stream.
+            #(numbers, pair.second(out))
+            |> Ok
+          }
         }
-      }
+    }
   }
+}
+
+if javascript {
+  external fn do_exponential_random(
+    Iterator(Int),
+    Float,
+    Int,
+  ) -> Result(#(List(Float), Iterator(Int)), String) =
+    "../../exponential.mjs" "exponential_random"
 }

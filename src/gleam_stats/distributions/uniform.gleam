@@ -9,12 +9,15 @@
 ////   * [`uniform_cdf`](#uniform_cdf)
 ////   * [`uniform_random`](#uniform_random)
 
-import gleam/list
 import gleam/iterator.{Iterator}
-import gleam/float
-import gleam/int
-import gleam/pair
-import gleam_stats/generators.{mask_32, take_randints}
+import gleam_stats/math
+
+if erlang {
+  import gleam/int
+  import gleam/list
+  import gleam_stats/generators.{mask_32, take_randints}
+  import gleam/pair
+}
 
 fn check_uniform_parameters(a: Float, b: Float) -> Result(Bool, String) {
   case a <=. b {
@@ -77,9 +80,11 @@ pub fn uniform_variance(a: Float, b: Float) -> Result(Float, String) {
     Error(string) ->
       string
       |> Error
-    _ ->
-      float.power(b -. a, 2.) /. 12.
+    _ -> {
+      assert Ok(v) = math.pow(b -. a, 2.)
+      v /. 12.
       |> Ok
+    }
   }
 }
 
@@ -128,20 +133,31 @@ pub fn uniform_variance(a: Float, b: Float) -> Result(Float, String) {
 /// </div>
 ///
 pub fn uniform_pdf(x: Float, a: Float, b: Float) -> Result(Float, String) {
-  case check_uniform_parameters(a, b) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case x >=. a && x <=. b {
-        True ->
-          1.0 /. { b -. a }
-          |> Ok
-        False ->
-          0.0
-          |> Ok
-      }
+  do_uniform_pdf(x, a, b)
+}
+
+if erlang {
+  fn do_uniform_pdf(x: Float, a: Float, b: Float) -> Result(Float, String) {
+    case check_uniform_parameters(a, b) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case x >=. a && x <=. b {
+          True ->
+            1.0 /. { b -. a }
+            |> Ok
+          False ->
+            0.0
+            |> Ok
+        }
+    }
   }
+}
+
+if javascript {
+  external fn do_uniform_pdf(Float, Float, Float) -> Result(Float, String) =
+    "../../uniform.mjs" "uniform_pdf"
 }
 
 /// <div style="text-align: right;">
@@ -190,32 +206,47 @@ pub fn uniform_pdf(x: Float, a: Float, b: Float) -> Result(Float, String) {
 /// </div>
 ///
 pub fn uniform_cdf(x: Float, a: Float, b: Float) -> Result(Float, String) {
-  case check_uniform_parameters(a, b) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      // Check if x falls into interval (-inf, a)
-      case x <. a {
-        True ->
-          0.0
-          |> Ok
-        False ->
-          // Check if x falls into interval [a, b]
-          case x >=. a && x <=. b {
-            True ->
-              { x -. a } /. { b -. a }
-              |> Ok
-            // Finally, if we arrive here x must fall into interval (b, inf)
-            False ->
-              case x >. b {
-                _ ->
-                  1.0
-                  |> Ok
-              }
-          }
-      }
+  do_uniform_cdf(x, a, b)
+}
+
+if erlang {
+  fn do_uniform_cdf(x: Float, a: Float, b: Float) -> Result(Float, String) {
+    case check_uniform_parameters(a, b) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        // Check if x falls into interval (-inf, a)
+        case x <. a {
+          True ->
+            0.0
+            |> Ok
+          False ->
+            // Check if x falls into interval [a, b]
+            case x >=. a && x <=. b {
+              True ->
+                { x -. a } /. { b -. a }
+                |> Ok
+              // Finally, if we arrive here x must fall into interval (b, inf)
+              False ->
+                case x >. b {
+                  _ ->
+                    1.0
+                    |> Ok
+                }
+            }
+        }
+    }
   }
+}
+
+if javascript {
+  external fn do_uniform_cdf(
+    x: Float,
+    a: Float,
+    b: Float,
+  ) -> Result(Float, String) =
+    "../../uniform.mjs" "uniform_cdf"
 }
 
 /// <div style="text-align: right;">
@@ -242,7 +273,7 @@ pub fn uniform_cdf(x: Float, a: Float, b: Float) -> Result(Float, String) {
 ///       // Max value
 ///       let b: Float = 1.
 ///       assert Ok(out) =
-///         generators.seed_pcg32(seed)
+///         generators.seed_pcg32(seed, seq)
 ///         |> uniform.uniform_random(a, b, 5_000)
 ///       let rands: List(Float) = pair.first(out)
 ///       let stream: Iterator(Int) = pair.second(out)
@@ -261,28 +292,49 @@ pub fn uniform_random(
   b: Float,
   m: Int,
 ) -> Result(#(List(Float), Iterator(Int)), String) {
-  case check_uniform_parameters(a, b) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case m > 0 {
-        False -> Error("Invalid input arugment: m < 0. Valid input is m > 0.")
-        True -> {
-          // Take out 'm' integers from the stream of pseudo-random numbers.
-          assert Ok(out) = take_randints(stream, m)
-          // Transform the 'm' integers to continuous uniform random numbers in an interval.
-          let numbers: List(Float) =
-            pair.first(out)
-            |> list.map(fn(x) {
-              a +. int.to_float(x) *. { b -. a } /. int.to_float(mask_32)
-            })
-          // Then return a tuple consisting of a list of continuous uniform random numbers
-          // and the stream of pseudo-random numbers where the 'm' integers have been dropped
-          // from the stream.
-          #(numbers, pair.second(out))
-          |> Ok
+  do_uniform_random(stream, a, b, m)
+}
+
+if erlang {
+  fn do_uniform_random(
+    stream: Iterator(Int),
+    a: Float,
+    b: Float,
+    m: Int,
+  ) -> Result(#(List(Float), Iterator(Int)), String) {
+    case check_uniform_parameters(a, b) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case m > 0 {
+          False -> Error("Invalid input arugment: m < 0. Valid input is m > 0.")
+          True -> {
+            // Take out 'm' integers from the stream of pseudo-random numbers.
+            assert Ok(out) = take_randints(stream, m)
+            // Transform the 'm' integers to continuous uniform random numbers in an interval.
+            let numbers: List(Float) =
+              pair.first(out)
+              |> list.map(fn(x) {
+                a +. int.to_float(x) *. { b -. a } /. int.to_float(mask_32)
+              })
+            // Then return a tuple consisting of a list of continuous uniform random numbers
+            // and the stream of pseudo-random numbers where the 'm' integers have been dropped
+            // from the stream.
+            #(numbers, pair.second(out))
+            |> Ok
+          }
         }
-      }
+    }
   }
+}
+
+if javascript {
+  external fn do_uniform_random(
+    Iterator(Int),
+    Float,
+    Float,
+    Int,
+  ) -> Result(#(List(Float), Iterator(Int)), String) =
+    "../../uniform.mjs" "uniform_random"
 }

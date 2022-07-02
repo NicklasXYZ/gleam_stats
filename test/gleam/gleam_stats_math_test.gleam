@@ -1,17 +1,17 @@
 //// Small examples ALSO used in the docs...
 
-// import gleam/should
 import gleam_stats/math
 import gleam_stats/stats
 import gleeunit
 import gleeunit/should
 import gleam/result
+import gleam/io
 
 pub fn main() {
   gleeunit.main()
 }
 
-pub fn example_round_test() {
+pub fn math_round_test() {
   math.round(0.4444, 2)
   |> should.equal(0.44)
 
@@ -25,7 +25,7 @@ pub fn example_round_test() {
   |> should.equal(0.46)
 }
 
-pub fn example_factorial_test() {
+pub fn math_factorial_test() {
   // Invalid input gives an error
   math.factorial(-1)
   |> should.be_error()
@@ -47,7 +47,7 @@ pub fn example_factorial_test() {
   |> should.equal(Ok(24))
 }
 
-pub fn example_combination_test() {
+pub fn math_combination_test() {
   // Invalid input gives an error
   // Error on: n = -1 < 0 
   math.combination(-1, 1)
@@ -62,9 +62,15 @@ pub fn example_combination_test() {
 
   math.combination(4, 2)
   |> should.equal(Ok(6))
+
+  math.combination(7, 5)
+  |> should.equal(Ok(21))
+  // NOTE: Tests with the 'combination' function that produce values that 
+  // exceed precision of the JavaScript 'Number' primitive will result in
+  // errors 
 }
 
-pub fn example_permutation_test() {
+pub fn math_permutation_test() {
   // Invalid input gives an error
   // Error on: n = -1 < 0 
   math.permutation(-1, 1)
@@ -81,7 +87,7 @@ pub fn example_permutation_test() {
   |> should.equal(Ok(12))
 }
 
-pub fn example_gammainc_test() {
+pub fn math_gammainc_test() {
   // Invalid input gives an error
   // 1st arg is invalid 
   math.gammainc(-1.0, 1.0)
@@ -441,4 +447,83 @@ pub fn to_degrees_test() {
 
   math.to_degrees(2. *. math.pi())
   |> should.equal(360.)
+}
+
+pub fn math_ceil_test() {
+  math.ceil(0.1)
+  |> should.equal(1.0)
+
+  math.ceil(0.9)
+  |> should.equal(1.0)
+}
+
+pub fn math_floor_test() {
+  math.floor(0.1)
+  |> should.equal(0.0)
+
+  math.floor(0.9)
+  |> should.equal(0.0)
+}
+
+pub fn math_pow_test() {
+  math.pow(2.0, 2.0)
+  |> should.equal(Ok(4.0))
+
+  math.pow(-5.0, 3.0)
+  |> should.equal(Ok(-125.0))
+
+  math.pow(10.5, 0.0)
+  |> should.equal(Ok(1.0))
+
+  math.pow(16.0, 0.5)
+  |> should.equal(Ok(4.0))
+
+  math.pow(2.0, -1.0)
+  |> should.equal(Ok(0.5))
+
+  math.pow(2.0, -1.0)
+  |> should.equal(Ok(0.5))
+
+  // math.pow(-1.0, 0.5) is equivalent to float.square_root(-1.0)
+  // and should return an error as an imaginary number would otherwise
+  // have to be returned 
+  math.pow(-1.0, 0.5)
+  |> should.be_error()
+
+  // Check another case with a negative base and fractional exponent
+  math.pow(-1.5, 1.5)
+  |> should.be_error()
+
+  // math.pow(0.0, -1.0) is equivalent to 1. /. 0 and is expected
+  // to be an error
+  math.pow(0.0, -1.0)
+  |> should.be_error()
+
+  // Check that a negative base and exponent is fine as long as the 
+  // exponent is not fractional
+  math.pow(-2.0, -1.0)
+  |> should.equal(Ok(-0.5))
+}
+
+pub fn math_sign_test() {
+  math.sign(100.0)
+  |> should.equal(1.0)
+
+  math.sign(0.0)
+  |> should.equal(0.0)
+
+  math.sign(-100.0)
+  |> should.equal(-1.0)
+}
+
+pub fn math_beta_test() {
+  io.debug("TODO: Implement tests for 'math.beta'.")
+}
+
+pub fn math_erf_test() {
+  io.debug("TODO: Implement tests for 'math.erf'.")
+}
+
+pub fn math_gamma_test() {
+  io.debug("TODO: Implement tests for 'math.gamma'.")
 }

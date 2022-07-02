@@ -9,13 +9,15 @@
 ////   * [`binomial_cdf`](#binomial_cdf)
 ////   * [`binomial_random`](#binomial_random)
 
-import gleam/list
 import gleam/iterator.{Iterator}
-import gleam/float
 import gleam/int
-import gleam/pair
-import gleam_stats/math
-import gleam_stats/distributions/bernoulli
+
+if erlang {
+  import gleam/list
+  import gleam/pair
+  import gleam_stats/math
+  import gleam_stats/distributions/bernoulli
+}
 
 fn check_binomial_parameters(n: Int, p: Float) -> Result(Bool, String) {
   case n >= 0 {
@@ -134,25 +136,35 @@ pub fn binomial_variance(n: Int, p: Float) -> Result(Float, String) {
 /// </div>
 ///
 pub fn binomial_pmf(x: Int, n: Int, p: Float) -> Result(Float, String) {
-  case check_binomial_parameters(n, p) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case x >= 0 && x <= n {
-        True -> {
-          assert Ok(c) = math.combination(n, x)
-          int.to_float(c) *. float.power(p, int.to_float(x)) *. float.power(
-            1.0 -. p,
-            int.to_float(n - x),
-          )
-          |> Ok
+  do_binomial_pmf(x, n, p)
+}
+
+if erlang {
+  fn do_binomial_pmf(x: Int, n: Int, p: Float) -> Result(Float, String) {
+    case check_binomial_parameters(n, p) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case x >= 0 && x <= n {
+          True -> {
+            assert Ok(c) = math.combination(n, x)
+            assert Ok(v1) = math.pow(p, int.to_float(x))
+            assert Ok(v2) = math.pow(1.0 -. p, int.to_float(n - x))
+            int.to_float(c) *. v1 *. v2
+            |> Ok
+          }
+          _ ->
+            0.0
+            |> Ok
         }
-        _ ->
-          0.0
-          |> Ok
-      }
+    }
   }
+}
+
+if javascript {
+  external fn do_binomial_pmf(Int, Int, Float) -> Result(Float, String) =
+    "../../binomial.mjs" "binomial_pmf"
 }
 
 /// <div style="text-align: right;">
@@ -197,39 +209,48 @@ pub fn binomial_pmf(x: Int, n: Int, p: Float) -> Result(Float, String) {
 /// </div>
 ///
 pub fn binomial_cdf(x: Int, n: Int, p: Float) -> Result(Float, String) {
-  // TODO: Make it possible to estimate the cdf via the normal distribution (faster for large n)
-  // TODO: Make it possible to estimate cdf via the poisson distribution (faster large n and small p)
-  case check_binomial_parameters(n, p) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case x < 0 {
-        True ->
-          0.0
-          |> Ok
-        False ->
-          case x >= 0 && x < n {
-            True ->
-              list.range(0, x + 1)
-              |> list.fold(
-                0.0,
-                fn(acc: Float, i: Int) {
-                  let v: Float = int.to_float(i)
-                  assert Ok(c) = math.combination(n, i)
-                  acc +. int.to_float(c) *. float.power(p, v) *. float.power(
-                    1.0 -. p,
-                    int.to_float(n - i),
-                  )
-                },
-              )
-              |> Ok
-            False ->
-              1.0
-              |> Ok
-          }
-      }
+  do_binomial_cdf(x, n, p)
+}
+
+if erlang {
+  fn do_binomial_cdf(x: Int, n: Int, p: Float) -> Result(Float, String) {
+    // TODO: Make it possible to estimate the cdf via the normal distribution (faster for large n)
+    // TODO: Make it possible to estimate cdf via the poisson distribution (faster large n and small p)
+    case check_binomial_parameters(n, p) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case x < 0 {
+          True ->
+            0.0
+            |> Ok
+          False ->
+            case x >= 0 && x < n {
+              True ->
+                list.range(0, x + 1)
+                |> list.fold(
+                  0.0,
+                  fn(acc: Float, i: Int) {
+                    assert Ok(c) = math.combination(n, i)
+                    assert Ok(v1) = math.pow(p, int.to_float(i))
+                    assert Ok(v2) = math.pow(1.0 -. p, int.to_float(n - i))
+                    acc +. int.to_float(c) *. v1 *. v2
+                  },
+                )
+                |> Ok
+              False ->
+                1.0
+                |> Ok
+            }
+        }
+    }
   }
+}
+
+if javascript {
+  external fn do_binomial_cdf(Int, Int, Float) -> Result(Float, String) =
+    "../../binomial.mjs" "binomial_cdf"
 }
 
 /// <div style="text-align: right;">
@@ -257,7 +278,7 @@ pub fn binomial_cdf(x: Int, n: Int, p: Float) -> Result(Float, String) {
 ///       let n: Float = 40.
 ///       let p: Float = 0.5
 ///       assert Ok(out) =
-///         generators.seed_pcg32(seed)
+///         generators.seed_pcg32(seed, seq)
 ///         |> binomial.binomial_random(n, p, 5_000)
 ///       let rands: List(Float) = pair.first(out)
 ///       let stream: Iterator(Int) = pair.second(out)
@@ -276,34 +297,55 @@ pub fn binomial_random(
   p: Float,
   m: Int,
 ) -> Result(#(List(Int), Iterator(Int)), String) {
-  case check_binomial_parameters(n, p) {
-    Error(string) ->
-      string
-      |> Error
-    _ ->
-      case m > 0 {
-        False ->
-          "Invalid input arugment: m < 0. Valid input is m > 0."
-          |> Error
-        True -> {
-          // Take out 'm' integers from the stream of pseudo-random numbers and generate 
-          // uniform random numbers.
-          assert Ok(out) = bernoulli.bernoulli_random(stream, p, n * m)
-          // Transform each batch of 'm' bernoulli distributed random numbers to a binomial
-          // distributed random number
-          let numbers: List(Int) =
-            pair.first(out)
-            |> list.window(n)
-            |> list.map(fn(x: List(Int)) -> Int {
-              x
-              |> list.fold(0, fn(a: Int, b: Int) -> Int { a + b })
-            })
-          // Then return a tuple consisting of a list of binomial random numbers
-          // and the stream of pseudo-random numbers where the 'm' integers have been dropped
-          // from the stream.
-          #(numbers, pair.second(out))
-          |> Ok
+  do_binomial_random(stream, n, p, m)
+}
+
+if erlang {
+  fn do_binomial_random(
+    stream: Iterator(Int),
+    n: Int,
+    p: Float,
+    m: Int,
+  ) -> Result(#(List(Int), Iterator(Int)), String) {
+    case check_binomial_parameters(n, p) {
+      Error(string) ->
+        string
+        |> Error
+      _ ->
+        case m > 0 {
+          False ->
+            "Invalid input arugment: m < 0. Valid input is m > 0."
+            |> Error
+          True -> {
+            // Take out 'm' integers from the stream of pseudo-random numbers and generate 
+            // uniform random numbers.
+            assert Ok(out) = bernoulli.bernoulli_random(stream, p, n * m)
+            // Transform each batch of 'm' bernoulli distributed random numbers to a binomial
+            // distributed random number
+            let numbers: List(Int) =
+              pair.first(out)
+              |> list.window(n)
+              |> list.map(fn(x: List(Int)) -> Int {
+                x
+                |> list.fold(0, fn(a: Int, b: Int) -> Int { a + b })
+              })
+            // Then return a tuple consisting of a list of binomial random numbers
+            // and the stream of pseudo-random numbers where the 'm' integers have been dropped
+            // from the stream.
+            #(numbers, pair.second(out))
+            |> Ok
+          }
         }
-      }
+    }
   }
+}
+
+if javascript {
+  external fn do_binomial_random(
+    Iterator(Int),
+    Int,
+    Float,
+    Int,
+  ) -> Result(#(List(Int), Iterator(Int)), String) =
+    "../../binomial.mjs" "binomial_random"
 }
