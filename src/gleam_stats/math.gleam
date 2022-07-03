@@ -80,7 +80,7 @@ import gleam/float
 /// \\]
 ///
 /// The function takes a number $$x$$ in its domain $$\[-1, 1\]$$ as input and returns a
-/// numeric value $y$ that lies in the range $$\[0, \pi \]$$ (an angle in radians). 
+/// numeric value $$y$$ that lies in the range $$\[0, \pi \]$$ (an angle in radians). 
 /// If the input value is outside the domain of the function an error is returned.
 ///
 /// <details>
