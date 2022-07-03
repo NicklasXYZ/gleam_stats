@@ -34,6 +34,6 @@ To align the Gleam and Javascript implementation of the library, the JavaScript 
 # Run the tests
 gleam test
 
-# Build docs (requires python library 'lxml'):
-gleam docs build && cd utils && python inject.py && cd ..
+# Build and run docs locally
+gleam docs build && python -m http.server
 ```
