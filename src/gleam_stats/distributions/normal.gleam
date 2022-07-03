@@ -139,7 +139,8 @@ pub fn normal_variance(mu: Float, sigma: Float) -> Result(Float, String) {
 ///       let sigma: Float = 1.
 ///       // For illustrational purposes, evaluate the pdf at the 
 ///       // point -100.0
-///       normal.normal_pdf(-100.0, mu, sigma) |> should.equal(Ok(0.0))
+///       normal.normal_pdf(-100.0, mu, sigma) 
+///       |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///
@@ -207,7 +208,8 @@ if javascript {
 ///       let sigma: Float = 1.
 ///       // For illustrational purposes, evaluate the cdf at the 
 ///       // point -100.0
-///       normal.normal_cdf(-100.0, mu, sigma) |> should.equal(Ok(0.0))
+///       normal.normal_cdf(-100.0, mu, sigma) 
+///       |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///
@@ -268,7 +270,7 @@ if javascript {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gleam_stats/generator
+///     import gleam_stats/generators
 ///     import gleam_stats/distributions/normal
 ///
 ///     pub fn example() {

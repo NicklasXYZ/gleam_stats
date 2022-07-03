@@ -285,7 +285,7 @@ if javascript {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gleam_stats/generator
+///     import gleam_stats/generators
 ///     import gleam_stats/distributions/uniform
 ///
 ///     pub fn example() {

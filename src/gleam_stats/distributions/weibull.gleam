@@ -134,7 +134,8 @@ pub fn weibull_variance(lambda: Float, k: Float) -> Result(Float, String) {
 ///       let k: Float = 5.
 ///       // For illustrational purposes, evaluate the pdf at the 
 ///       // point -100.0
-///       weibull.weibull_pdf(-100.0, lambda, k) |> should.equal(Ok(0.0))
+///       weibull.weibull_pdf(-100.0, lambda, k) 
+///       |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///
@@ -196,7 +197,8 @@ if javascript {
 ///       let k: Float = 5.
 ///       // For illustrational purposes, evaluate the cdf at the 
 ///       // point -100.0
-///       weibull.weibull_cdf(-100.0, lambda, k) |> should.equal(Ok(0.0))
+///       weibull.weibull_cdf(-100.0, lambda, k) 
+///       |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///
@@ -255,7 +257,7 @@ if javascript {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gleam_stats/generator
+///     import gleam_stats/generators
 ///     import gleam_stats/distributions/weibull
 ///
 ///     pub fn example() {

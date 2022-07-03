@@ -139,7 +139,8 @@ pub fn exponential_variance(lambda: Float) -> Result(Float, String) {
 ///       let lambda: Float = 1.
 ///       // For illustrational purposes, evaluate the pdf at the 
 ///       // point -100.0
-///       exponential.exponential_pdf(-100.0, lambda) |> should.equal(Ok(0.0))
+///       exponential.exponential_pdf(-100.0, lambda) 
+///       |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///
@@ -207,7 +208,8 @@ if javascript {
 ///       let lambda: Float = 1.
 ///       // For illustrational purposes, evaluate the cdf at the 
 ///       // point -100.0
-///       exponential.exponential_cdf(-100.0, lambda) |> should.equal(Ok(0.0))
+///       exponential.exponential_cdf(-100.0, lambda) 
+///       |> should.equal(Ok(0.0))
 ///     }
 /// </details>
 ///
@@ -260,7 +262,7 @@ if javascript {
 ///     <summary>Example:</summary>
 ///
 ///     import gleam/iterator.{Iterator}
-///     import gleam_stats/generator
+///     import gleam_stats/generators
 ///     import gleam_stats/distributions/exponential
 ///
 ///     pub fn example() {
