@@ -49,7 +49,7 @@ pub fn math_factorial_test() {
 
 pub fn math_combination_test() {
   // Invalid input gives an error
-  // Error on: n = -1 < 0 
+  // Error on: n = -1 < 0
   math.combination(-1, 1)
   |> should.be_error()
 
@@ -65,14 +65,14 @@ pub fn math_combination_test() {
 
   math.combination(7, 5)
   |> should.equal(Ok(21))
-  // NOTE: Tests with the 'combination' function that produce values that 
+  // NOTE: Tests with the 'combination' function that produce values that
   // exceed precision of the JavaScript 'Number' primitive will result in
-  // errors 
+  // errors
 }
 
 pub fn math_permutation_test() {
   // Invalid input gives an error
-  // Error on: n = -1 < 0 
+  // Error on: n = -1 < 0
   math.permutation(-1, 1)
   |> should.be_error()
 
@@ -89,11 +89,11 @@ pub fn math_permutation_test() {
 
 pub fn math_gammainc_test() {
   // Invalid input gives an error
-  // 1st arg is invalid 
+  // 1st arg is invalid
   math.gammainc(-1.0, 1.0)
   |> should.be_error()
 
-  // 2nd arg is invalid 
+  // 2nd arg is invalid
   math.gammainc(1.0, -1.0)
   |> should.be_error()
 
@@ -120,7 +120,7 @@ pub fn math_gammainc_test() {
 }
 
 pub fn math_sin_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.sin(0.0)
   |> should.equal(0.0)
@@ -135,7 +135,7 @@ pub fn math_sin_test() {
 }
 
 pub fn math_asin_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.asin(0.0)
   |> should.equal(Ok(0.0))
@@ -147,7 +147,7 @@ pub fn math_asin_test() {
   |> should.be_true()
 
   // Check that we get an error when the function is evaluated
-  // outside its domain 
+  // outside its domain
   math.asin(1.1)
   |> should.be_error()
 
@@ -156,7 +156,7 @@ pub fn math_asin_test() {
 }
 
 pub fn math_sinh_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.sinh(0.0)
   |> should.equal(0.0)
@@ -166,13 +166,13 @@ pub fn math_sinh_test() {
   |> stats.isclose(0.521095, 0.0, tol)
   |> should.be_true()
   // An (overflow) error might occur when given an input
-  // value that will result in a too large output value 
+  // value that will result in a too large output value
   // e.g. math.sinh(1000.0) but this is a property of the
-  // runtime. 
+  // runtime.
 }
 
 pub fn math_asinh_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.asinh(0.0)
   |> should.equal(0.0)
@@ -184,7 +184,7 @@ pub fn math_asinh_test() {
 }
 
 pub fn math_cos_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.cos(0.0)
   |> should.equal(1.0)
@@ -199,7 +199,7 @@ pub fn math_cos_test() {
 }
 
 pub fn math_acos_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.acos(1.0)
   |> should.equal(Ok(0.0))
@@ -211,7 +211,7 @@ pub fn math_acos_test() {
   |> should.be_true()
 
   // Check that we get an error when the function is evaluated
-  // outside its domain 
+  // outside its domain
   math.acos(1.1)
   |> should.be_error()
 
@@ -220,7 +220,7 @@ pub fn math_acos_test() {
 }
 
 pub fn math_cosh_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.cosh(0.0)
   |> should.equal(1.0)
@@ -230,13 +230,13 @@ pub fn math_cosh_test() {
   |> stats.isclose(1.127625, 0.0, tol)
   |> should.be_true()
   // An (overflow) error might occur when given an input
-  // value that will result in a too large output value 
+  // value that will result in a too large output value
   // e.g. math.cosh(1000.0) but this is a property of the
-  // runtime.  
+  // runtime.
 }
 
 pub fn math_acosh_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.acosh(1.0)
   |> should.equal(Ok(0.0))
@@ -248,13 +248,13 @@ pub fn math_acosh_test() {
   |> should.be_true()
 
   // Check that we get an error when the function is evaluated
-  // outside its domain 
+  // outside its domain
   math.acosh(0.0)
   |> should.be_error()
 }
 
 pub fn math_tan_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.tan(0.0)
   |> should.equal(0.0)
@@ -266,7 +266,7 @@ pub fn math_tan_test() {
 }
 
 pub fn math_atan_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.atan(0.0)
   |> should.equal(0.0)
@@ -278,7 +278,7 @@ pub fn math_atan_test() {
 }
 
 pub fn math_tanh_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.tanh(0.0)
   |> should.equal(0.0)
@@ -296,7 +296,7 @@ pub fn math_tanh_test() {
 }
 
 pub fn math_atanh_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.atanh(0.0)
   |> should.equal(Ok(0.0))
@@ -308,7 +308,7 @@ pub fn math_atanh_test() {
   |> should.be_true()
 
   // Check that we get an error when the function is evaluated
-  // outside its domain 
+  // outside its domain
   math.atanh(1.0)
   |> should.be_error()
 
@@ -323,7 +323,7 @@ pub fn math_atanh_test() {
 }
 
 pub fn math_atan2_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.atan2(0.0, 0.0)
   |> should.equal(0.0)
@@ -336,7 +336,7 @@ pub fn math_atan2_test() {
   math.atan2(1.0, 0.5)
   |> should.equal(math.atan(1.0 /. 0.5))
 
-  // Check atan2(y=2.0, x=-1.5) 
+  // Check atan2(y=2.0, x=-1.5)
   // Should be equal to pi + atan(y / x) for any x < 0 and y >= 0
   math.atan2(2.0, -1.5)
   |> should.equal(math.pi() +. math.atan(2.0 /. -1.5))
@@ -346,7 +346,7 @@ pub fn math_atan2_test() {
   math.atan2(-2.0, -1.5)
   |> should.equal(math.atan(-2.0 /. -1.5) -. math.pi())
 
-  // Check atan2(y=1.5, x=0.0) 
+  // Check atan2(y=1.5, x=0.0)
   // Should be equal to pi/2 for x = 0 and any y > 0
   math.atan2(1.5, 0.0)
   |> should.equal(math.pi() /. 2.)
@@ -358,7 +358,7 @@ pub fn math_atan2_test() {
 }
 
 pub fn math_exp_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.exp(0.0)
   |> should.equal(1.0)
@@ -368,13 +368,13 @@ pub fn math_exp_test() {
   |> stats.isclose(1.648721, 0.0, tol)
   |> should.be_true()
   // An (overflow) error might occur when given an input
-  // value that will result in a too large output value 
+  // value that will result in a too large output value
   // e.g. math.exp(1000.0) but this is a property of the
-  // runtime.  
+  // runtime.
 }
 
 pub fn math_log_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.log(1.0)
   |> should.equal(Ok(0.0))
@@ -386,13 +386,13 @@ pub fn math_log_test() {
   |> should.be_true()
 
   // Check that we get an error when the function is evaluated
-  // outside its domain 
+  // outside its domain
   math.log(-1.0)
   |> should.be_error()
 }
 
 pub fn math_log2_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.log2(1.0)
   |> should.equal(Ok(0.0))
@@ -407,13 +407,13 @@ pub fn math_log2_test() {
   |> should.be_true()
 
   // Check that we get an error when the function is evaluated
-  // outside its domain 
+  // outside its domain
   math.log2(-1.0)
   |> should.be_error()
 }
 
 pub fn math_log10_test() {
-  // Check that the function agrees, at some arbitrary input 
+  // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.log10(1.0)
   |> should.equal(Ok(0.0))
@@ -428,7 +428,7 @@ pub fn math_log10_test() {
   |> should.be_true()
 
   // Check that we get an error when the function is evaluated
-  // outside its domain 
+  // outside its domain
   math.log10(-1.0)
   |> should.be_error()
 }
@@ -486,7 +486,7 @@ pub fn math_pow_test() {
 
   // math.pow(-1.0, 0.5) is equivalent to float.square_root(-1.0)
   // and should return an error as an imaginary number would otherwise
-  // have to be returned 
+  // have to be returned
   math.pow(-1.0, 0.5)
   |> should.be_error()
 
@@ -499,7 +499,7 @@ pub fn math_pow_test() {
   math.pow(0.0, -1.0)
   |> should.be_error()
 
-  // Check that a negative base and exponent is fine as long as the 
+  // Check that a negative base and exponent is fine as long as the
   // exponent is not fractional
   math.pow(-2.0, -1.0)
   |> should.equal(Ok(-0.5))
@@ -526,4 +526,56 @@ pub fn math_erf_test() {
 
 pub fn math_gamma_test() {
   io.debug("TODO: Implement tests for 'math.gamma'.")
+}
+
+pub fn absolute_int_difference_test() {
+  math.absolute_int_difference(0, 0)
+  |> should.equal(0)
+
+  math.absolute_int_difference(1, 2)
+  |> should.equal(1)
+
+  math.absolute_int_difference(2, 1)
+  |> should.equal(1)
+
+  math.absolute_int_difference(-1, 0)
+  |> should.equal(1)
+
+  math.absolute_int_difference(0, -1)
+  |> should.equal(1)
+
+  math.absolute_int_difference(10, 20)
+  |> should.equal(10)
+
+  math.absolute_int_difference(-10, -20)
+  |> should.equal(10)
+
+  math.absolute_int_difference(-10, 10)
+  |> should.equal(20)
+}
+
+pub fn absolute_float_difference_test() {
+  math.absolute_float_difference(0.0, 0.0)
+  |> should.equal(0.0)
+
+  math.absolute_float_difference(1.0, 2.0)
+  |> should.equal(1.0)
+
+  math.absolute_float_difference(2.0, 1.0)
+  |> should.equal(1.0)
+
+  math.absolute_float_difference(-1.0, 0.0)
+  |> should.equal(1.0)
+
+  math.absolute_float_difference(0.0, -1.0)
+  |> should.equal(1.0)
+
+  math.absolute_float_difference(10.0, 20.0)
+  |> should.equal(10.0)
+
+  math.absolute_float_difference(-10.0, -20.0)
+  |> should.equal(10.0)
+
+  math.absolute_float_difference(-10.5, 10.5)
+  |> should.equal(21.0)
 }
