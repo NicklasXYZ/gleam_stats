@@ -120,15 +120,17 @@ pub fn math_gammainc_test() {
 }
 
 pub fn math_sin_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.sin(0.0)
-  |> should.equal(0.0)
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
   math.sin(0.5 *. math.pi())
-  |> should.equal(1.0)
+  |> stats.isclose(1.0, 0.0, tol)
+  |> should.be_true()
 
-  assert Ok(tol) = math.pow(-10., -6.)
   math.sin(0.5)
   |> stats.isclose(0.479425, 0.0, tol)
   |> should.be_true()
@@ -156,12 +158,13 @@ pub fn math_asin_test() {
 }
 
 pub fn math_sinh_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.sinh(0.0)
-  |> should.equal(0.0)
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
-  assert Ok(tol) = math.pow(-10., -6.)
   math.sinh(0.5)
   |> stats.isclose(0.521095, 0.0, tol)
   |> should.be_true()
@@ -172,39 +175,44 @@ pub fn math_sinh_test() {
 }
 
 pub fn math_asinh_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.asinh(0.0)
-  |> should.equal(0.0)
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
-  assert Ok(tol) = math.pow(-10., -6.)
   math.asinh(0.5)
   |> stats.isclose(0.481211, 0.0, tol)
   |> should.be_true()
 }
 
 pub fn math_cos_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.cos(0.0)
-  |> should.equal(1.0)
+  |> stats.isclose(1.0, 0.0, tol)
+  |> should.be_true()
 
   math.cos(math.pi())
-  |> should.equal(-1.0)
+  |> stats.isclose(-1.0, 0.0, tol)
+  |> should.be_true()
 
-  assert Ok(tol) = math.pow(-10., -6.)
   math.cos(0.5)
   |> stats.isclose(0.877582, 0.0, tol)
   |> should.be_true()
 }
 
 pub fn math_acos_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
-  math.acos(1.0)
-  |> should.equal(Ok(0.0))
+  assert Ok(result) = math.acos(1.0)
+  result
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
-  assert Ok(tol) = math.pow(-10., -6.)
   assert Ok(result) = math.acos(0.5)
   result
   |> stats.isclose(1.047197, 0.0, tol)
@@ -220,12 +228,13 @@ pub fn math_acos_test() {
 }
 
 pub fn math_cosh_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.cosh(0.0)
-  |> should.equal(1.0)
+  |> stats.isclose(1.0, 0.0, tol)
+  |> should.be_true()
 
-  assert Ok(tol) = math.pow(-10., -6.)
   math.cosh(0.5)
   |> stats.isclose(1.127625, 0.0, tol)
   |> should.be_true()
@@ -236,12 +245,14 @@ pub fn math_cosh_test() {
 }
 
 pub fn math_acosh_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
-  math.acosh(1.0)
-  |> should.equal(Ok(0.0))
+  assert Ok(result) = math.acosh(1.0)
+  result
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
-  assert Ok(tol) = math.pow(-10., -6.)
   assert Ok(result) = math.acosh(5.)
   result
   |> stats.isclose(2.292431, 0.0, tol)
@@ -254,54 +265,61 @@ pub fn math_acosh_test() {
 }
 
 pub fn math_tan_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.tan(0.0)
-  |> should.equal(0.0)
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
-  assert Ok(tol) = math.pow(-10., -6.)
   math.tan(0.5)
   |> stats.isclose(0.546302, 0.0, tol)
   |> should.be_true()
 }
 
 pub fn math_atan_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.atan(0.0)
-  |> should.equal(0.0)
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
-  assert Ok(tol) = math.pow(-10., -6.)
   math.atan(0.5)
   |> stats.isclose(0.463647, 0.0, tol)
   |> should.be_true()
 }
 
 pub fn math_tanh_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.tanh(0.0)
-  |> should.equal(0.0)
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
   math.tanh(25.0)
-  |> should.equal(1.0)
+  |> stats.isclose(1.0, 0.0, tol)
+  |> should.be_true()
 
   math.tanh(-25.0)
-  |> should.equal(-1.0)
+  |> stats.isclose(-1.0, 0.0, tol)
+  |> should.be_true()
 
-  assert Ok(tol) = math.pow(-10., -6.)
   math.tanh(0.5)
   |> stats.isclose(0.462117, 0.0, tol)
   |> should.be_true()
 }
 
 pub fn math_atanh_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
-  math.atanh(0.0)
-  |> should.equal(Ok(0.0))
+  assert Ok(result) = math.atanh(0.0)
+  result
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
-  assert Ok(tol) = math.pow(-10., -6.)
   assert Ok(result) = math.atanh(0.5)
   result
   |> stats.isclose(0.549306, 0.0, tol)
@@ -323,47 +341,61 @@ pub fn math_atanh_test() {
 }
 
 pub fn math_atan2_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.atan2(0.0, 0.0)
-  |> should.equal(0.0)
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
   math.atan2(0.0, 1.0)
-  |> should.equal(0.0)
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
   // Check atan2(y=1.0, x=0.5)
   // Should be equal to atan(y / x) for any x > 0 and any y
+  let result = math.atan(1.0 /. 0.5)
   math.atan2(1.0, 0.5)
-  |> should.equal(math.atan(1.0 /. 0.5))
+  |> stats.isclose(result, 0.0, tol)
+  |> should.be_true()
 
   // Check atan2(y=2.0, x=-1.5)
   // Should be equal to pi + atan(y / x) for any x < 0 and y >= 0
+  let result = math.pi() +. math.atan(2.0 /. -1.5)
   math.atan2(2.0, -1.5)
-  |> should.equal(math.pi() +. math.atan(2.0 /. -1.5))
+  |> stats.isclose(result, 0.0, tol)
+  |> should.be_true()
 
   // Check atan2(y=-2.0, x=-1.5)
   // Should be equal to atan(y / x) - pi for any x < 0 and y < 0
+  let result = math.atan(-2.0 /. -1.5) -. math.pi()
   math.atan2(-2.0, -1.5)
-  |> should.equal(math.atan(-2.0 /. -1.5) -. math.pi())
+  |> stats.isclose(result, 0.0, tol)
+  |> should.be_true()
 
   // Check atan2(y=1.5, x=0.0)
   // Should be equal to pi/2 for x = 0 and any y > 0
+  let result = math.pi() /. 2.
   math.atan2(1.5, 0.0)
-  |> should.equal(math.pi() /. 2.)
+  |> stats.isclose(result, 0.0, tol)
+  |> should.be_true()
 
   // Check atan2(y=-1.5, x=0.0)
   // Should be equal to -pi/2 for x = 0 and any y < 0
+  let result = -1. *. math.pi() /. 2.
   math.atan2(-1.5, 0.0)
-  |> should.equal(-1. *. math.pi() /. 2.)
+  |> stats.isclose(result, 0.0, tol)
+  |> should.be_true()
 }
 
 pub fn math_exp_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
   math.exp(0.0)
-  |> should.equal(1.0)
+  |> stats.isclose(1.0, 0.0, tol)
+  |> should.be_true()
 
-  assert Ok(tol) = math.pow(-10., -6.)
   math.exp(0.5)
   |> stats.isclose(1.648721, 0.0, tol)
   |> should.be_true()
@@ -413,15 +445,19 @@ pub fn math_log2_test() {
 }
 
 pub fn math_log10_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   // Check that the function agrees, at some arbitrary input
   // points, with known function values
-  math.log10(1.0)
-  |> should.equal(Ok(0.0))
+  assert Ok(result) = math.log10(1.0)
+  result
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
-  math.log10(10.0)
-  |> should.equal(Ok(1.0))
+  assert Ok(result) = math.log10(10.0)
+  result
+  |> stats.isclose(1.0, 0.0, tol)
+  |> should.be_true()
 
-  assert Ok(tol) = math.pow(-10., -6.)
   assert Ok(result) = math.log10(50.)
   result
   |> stats.isclose(1.698970, 0.0, tol)
@@ -434,19 +470,25 @@ pub fn math_log10_test() {
 }
 
 pub fn to_radians_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   math.to_radians(0.0)
-  |> should.equal(0.0)
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
   math.to_radians(360.)
-  |> should.equal(2. *. math.pi())
+  |> stats.isclose(2. *. math.pi(), 0.0, tol)
+  |> should.be_true()
 }
 
 pub fn to_degrees_test() {
+  assert Ok(tol) = math.pow(-10., -6.)
   math.to_degrees(0.0)
-  |> should.equal(0.0)
+  |> stats.isclose(0.0, 0.0, tol)
+  |> should.be_true()
 
   math.to_degrees(2. *. math.pi())
-  |> should.equal(360.)
+  |> stats.isclose(360., 0.0, tol)
+  |> should.be_true()
 }
 
 pub fn math_ceil_test() {
