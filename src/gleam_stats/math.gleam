@@ -73,14 +73,14 @@ import gleam/float
 ///     </a>
 /// </div>
 ///
-/// The inverse cosine function: 
+/// The inverse cosine function:
 ///
 /// \\[
 /// \forall x \in \[-1, 1\],   \\; \cos^{-1}{(x)} = y \in \[0, \pi \]
 /// \\]
 ///
 /// The function takes a number $$x$$ in its domain $$\[-1, 1\]$$ as input and returns a
-/// numeric value $$y$$ that lies in the range $$\[0, \pi \]$$ (an angle in radians). 
+/// numeric value $$y$$ that lies in the range $$\[0, \pi \]$$ (an angle in radians).
 /// If the input value is outside the domain of the function an error is returned.
 ///
 /// <details>
@@ -134,14 +134,14 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse hyperbolic cosine function: 
+/// The inverse hyperbolic cosine function:
 ///
 /// \\[
 /// \forall x \in [1, +\infty\),   \\; \cosh^{-1}{(x)} = y \in \[0, +\infty\)
 /// \\]
 ///
 /// The function takes a number $$x$$ in its domain $$\[1, +\infty\)$$ as input and returns
-/// a numeric value $$y$$ that lies in the range $$\[0, +\infty\)$$ (an angle in radians). 
+/// a numeric value $$y$$ that lies in the range $$\[0, +\infty\)$$ (an angle in radians).
 /// If the input value is outside the domain of the function an error is returned.
 ///
 /// <details>
@@ -192,14 +192,14 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The inverse sine function: 
+/// The inverse sine function:
 ///
 /// \\[
 /// \forall x \in \[-1, 1\],   \\; \sin^{-1}{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
 /// The function takes a number $$x$$ in its domain $$\[-1, 1\]$$ as input and returns a numeric
-/// value $$y$$ that lies in the range $$\[-\frac{\pi}{2}, \frac{\pi}{2}\]$$ (an angle in radians). 
+/// value $$y$$ that lies in the range $$\[-\frac{\pi}{2}, \frac{\pi}{2}\]$$ (an angle in radians).
 /// If the input value is outside the domain of the function an error is returned.
 ///
 /// <details>
@@ -259,7 +259,7 @@ if javascript {
 /// \forall x \in \(-\infty, \infty\),   \\; \sinh^{-1}{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
-/// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input and returns 
+/// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input and returns
 /// a numeric value $$y$$ that lies in the range $$\(-\infty, +\infty\)$$ (an angle in radians).
 ///
 /// <details>
@@ -306,7 +306,7 @@ if javascript {
 /// \forall x \in \(-\infty, \infty\),   \\; \tan^{-1}{(x)} = y \in \[-\frac{\pi}{2}, \frac{\pi}{2}\]
 /// \\]
 ///
-/// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input and returns 
+/// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input and returns
 /// a numeric value $$y$$ that lies in the range $$\[-\frac{\pi}{2}, \frac{\pi}{2}\]$$ (an angle in radians).
 ///
 /// <details>
@@ -361,9 +361,9 @@ if javascript {
 /// \end{cases}
 /// \\]
 ///
-/// The function returns the angle in radians from the x-axis to the line containing the 
+/// The function returns the angle in radians from the x-axis to the line containing the
 /// origin $$\(0, 0\)$$ and a point given as input with coordinates $$\(x, y\)$$. The numeric value
-/// returned by $$\text{atan2}(y, x)$$ is in the range $$\[-\pi, \pi\]$$. 
+/// returned by $$\text{atan2}(y, x)$$ is in the range $$\[-\pi, \pi\]$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -382,7 +382,7 @@ if javascript {
 ///         <small>Back to top ↑</small>
 ///     </a>
 /// </div>
-/// 
+///
 pub fn atan2(y: Float, x: Float) -> Float {
   do_atan2(y, x)
 }
@@ -409,7 +409,7 @@ if javascript {
 /// \forall x \in \(-1, 1\),   \\; \tanh^{-1}{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
-/// The function takes a number $$x$$ in its domain $$\(-1, 1\)$$ as input and returns 
+/// The function takes a number $$x$$ in its domain $$\(-1, 1\)$$ as input and returns
 /// a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$ (an angle in radians).
 /// If the input value is outside the domain of the function an error is returned.
 ///
@@ -464,7 +464,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The ceiling function.  
+/// The ceiling function.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -513,7 +513,7 @@ if javascript {
 /// \forall x \in \(-\infty, +\infty\),   \\; \cos{(x)} = y \in \[-1, 1\]
 /// \\]
 ///
-/// The function takes a number $$x$$ in its domain $$\(-\infty, \infty\)$$ (an angle in radians) 
+/// The function takes a number $$x$$ in its domain $$\(-\infty, \infty\)$$ (an angle in radians)
 /// as input and returns a numeric value $$y$$ that lies in the range $$\[-1, 1\]$$.
 ///
 /// <details>
@@ -605,13 +605,13 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The exponential function: 
+/// The exponential function:
 ///
 /// \\[
 /// \forall x \in \(-\infty, \infty\),   \\; e^{(x)} = y \in \(0, +\infty\)
 /// \\]
 ///
-/// If the input value is too large an overflow error might occur. 
+/// If the input value is too large an overflow error might occur.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -651,7 +651,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The floor function. 
+/// The floor function.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -700,7 +700,7 @@ if javascript {
 /// \forall x \in \(0, \infty\),   \\; \log_{e}{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
-/// The function takes a number $$x$$ in its domain $$\(0, \infty\)$$ as input and returns 
+/// The function takes a number $$x$$ in its domain $$\(0, \infty\)$$ as input and returns
 /// a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$.
 /// If the input value is outside the domain of the function an error is returned.
 ///
@@ -762,7 +762,7 @@ if javascript {
 /// \forall x \in \(0, \infty),   \\; \log_{10}{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
-/// The function takes a number $$x$$ in its domain $$\(0, \infty\)$$ as input and returns 
+/// The function takes a number $$x$$ in its domain $$\(0, \infty\)$$ as input and returns
 /// a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$.
 /// If the input value is outside the domain of the function an error is returned.
 ///
@@ -823,7 +823,7 @@ if javascript {
 /// \forall x \in \(0, \infty),   \\; \log_{2}{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
-/// The function takes a number $$x$$ in its domain $$\(0, \infty\)$$ as input and returns 
+/// The function takes a number $$x$$ in its domain $$\(0, \infty\)$$ as input and returns
 /// a numeric value $$y$$ that lies in the range $$\(-\infty, \infty\)$$.
 /// If the input value is outside the domain of the function an error is returned.
 ///
@@ -878,13 +878,13 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The exponentiation function: $$y = x^{a}$$. 
+/// The exponentiation function: $$y = x^{a}$$.
 ///
 /// Note that the function is not defined if:
-/// 1. The base is negative ($$x < 0$$) and the exponent is fractional 
-///    ($$a = \frac{n}{m}$$ is an irrreducible fraction). An error will be returned 
+/// 1. The base is negative ($$x < 0$$) and the exponent is fractional
+///    ($$a = \frac{n}{m}$$ is an irrreducible fraction). An error will be returned
 ///    as an imaginary number will otherwise have to be returned.
-/// 2. The base is zero ($$x = 0$$) and the exponent is negative ($$a < 0$$) then the 
+/// 2. The base is zero ($$x = 0$$) and the exponent is negative ($$a < 0$$) then the
 ///    expression is equivalent to the exponent $$y$$ divided by $$0$$ and an
 ///    error will have to be returned as the expression is otherwise undefined.
 ///
@@ -915,9 +915,9 @@ if javascript {
 pub fn pow(x: Float, y: Float) -> Result(Float, String) {
   let fractional: Bool = ceil(y) -. y >. 0.
   // In the following check:
-  // 1. If the base (x) is negative and the exponent (y) is fractional 
+  // 1. If the base (x) is negative and the exponent (y) is fractional
   //    then return an error as it will otherwise be an imaginary number
-  // 2. If the base (x) is 0 and the exponent (y) is negative then the 
+  // 2. If the base (x) is 0 and the exponent (y) is negative then the
   //    expression is equivalent to the exponent (y) divided by 0 and an
   //    error should be returned
   case x <. 0. && fractional || x == 0. && y <. 0. {
@@ -946,7 +946,7 @@ if javascript {
 ///     </a>
 /// </div>
 ///
-/// The sign function which returns the sign of the input, indicating 
+/// The sign function which returns the sign of the input, indicating
 /// whether it is positive, negative, or zero.
 ///
 /// <div style="text-align: right;">
@@ -989,7 +989,7 @@ if javascript {
 /// \forall x \in \(-\infty, +\infty\),   \\; \sin{(x)} = y \in \[-1, 1\]
 /// \\]
 ///
-/// The function takes a number $$x$$ in its domain $$\(-\infty, \infty\)$$ (an angle in radians) 
+/// The function takes a number $$x$$ in its domain $$\(-\infty, \infty\)$$ (an angle in radians)
 /// as input and returns a numeric value $$y$$ that lies in the range $$\[-1, 1\]$$.
 ///
 /// <details>
@@ -1039,9 +1039,9 @@ if javascript {
 /// \forall x \in \(-\infty, +\infty\),   \\; \sinh{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
-/// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input 
-/// (an angle in radians) and returns a numeric value $$y$$ that lies in the range 
-/// $$\(-\infty, +\infty\)$$. If the input value is too large an overflow error might 
+/// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input
+/// (an angle in radians) and returns a numeric value $$y$$ that lies in the range
+/// $$\(-\infty, +\infty\)$$. If the input value is too large an overflow error might
 /// occur.
 ///
 /// <details>
@@ -1088,9 +1088,9 @@ if javascript {
 /// \forall x \in \(-\infty, +\infty\),   \\; \tan{(x)} = y \in \(-\infty, +\infty\)
 /// \\]
 ///
-/// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input 
-/// (an angle in radians) and returns a numeric value $$y$$ that lies in the range 
-/// $$\(-\infty, +\infty\)$$. 
+/// The function takes a number $$x$$ in its domain $$\(-\infty, +\infty\)$$ as input
+/// (an angle in radians) and returns a numeric value $$y$$ that lies in the range
+/// $$\(-\infty, +\infty\)$$.
 ///
 /// <details>
 ///     <summary>Example:</summary>
@@ -1255,7 +1255,7 @@ pub fn to_radians(x: Float) -> Float {
 /// \\]
 ///
 /// The beta function is evaluated through the use of the gamma function.
-/// 
+///
 /// <div style="text-align: right;">
 ///     <a href="#">
 ///         <small>Back to top ↑</small>
@@ -1272,7 +1272,7 @@ pub fn beta(x: Float, y: Float) -> Float {
 ///     </a>
 /// </div>
 ///
-/// The error function. 
+/// The error function.
 ///
 /// <div style="text-align: right;">
 ///     <a href="#">
@@ -1308,12 +1308,12 @@ pub fn erf(x: Float) -> Float {
 ///     </a>
 /// </div>
 ///
-/// The gamma function over the real numbers. The function is essentially equal to the 
+/// The gamma function over the real numbers. The function is essentially equal to the
 /// factorial for any positive integer argument: $$\Gamma(n) = (n - 1)!$$
 ///
 /// The implemented gamma function is approximated through Lanczos approximation
 /// using the same coefficients used by the GNU Scientific Library.
-/// 
+///
 /// <div style="text-align: right;">
 ///     <a href="#">
 ///         <small>Back to top ↑</small>
@@ -1366,7 +1366,7 @@ fn gamma_lanczos(x: Float) -> Float {
 ///
 /// The implemented incomplete gamma function is evaluated through a power series
 /// expansion.
-/// 
+///
 /// <div style="text-align: right;">
 ///     <a href="#">
 ///         <small>Back to top ↑</small>
@@ -1405,7 +1405,7 @@ fn gammainc_sum(a: Float, x: Float, t: Float, s: Float, n: Float) -> Float {
 /// </div>
 ///
 /// The function rounds a floating point number to a specific decimal precision.
-/// 
+///
 /// <details>
 ///     <summary>Example:</summary>
 ///
@@ -1413,16 +1413,16 @@ fn gammainc_sum(a: Float, x: Float, t: Float, s: Float, n: Float) -> Float {
 ///     import gleam_stats/math
 ///
 ///     pub fn example() {
-///       math.round(0.4444, 2) 
+///       math.round(0.4444, 2)
 ///       |> should.equal(0.44)
 ///
-///       math.round(0.4445, 2) 
+///       math.round(0.4445, 2)
 ///       |> should.equal(0.44)
 ///
-///       math.round(0.4455, 2) 
+///       math.round(0.4455, 2)
 ///       |> should.equal(0.45)
 ///
-///       math.round(0.4555, 2) 
+///       math.round(0.4555, 2)
 ///       |> should.equal(0.46)
 ///     }
 /// </details>
@@ -1461,17 +1461,17 @@ pub fn round(x: Float, precision: Int) -> Float {
 ///
 ///     pub fn example() {
 ///       // Invalid input gives an error
-///       // Error on: n = -1 < 0 
+///       // Error on: n = -1 < 0
 ///       math.combination(-1, 1)
 ///       |> should.be_error()
-///     
+///
 ///       // Valid input returns a result
 ///       math.combination(4, 0)
 ///       |> should.equal(Ok(1))
-///     
+///
 ///       math.combination(4, 4)
 ///       |> should.equal(Ok(1))
-///     
+///
 ///       math.combination(4, 2)
 ///       |> should.equal(Ok(6))
 ///     }
@@ -1534,7 +1534,7 @@ pub fn combination(n: Int, k: Int) -> Result(Int, String) {
 ///       // Invalid input gives an error
 ///       math.factorial(-1)
 ///       |> should.be_error()
-///     
+///
 ///       // Valid input returns a result
 ///       math.factorial(0)
 ///       |> should.equal(Ok(1))
@@ -1548,7 +1548,7 @@ pub fn combination(n: Int, k: Int) -> Result(Int, String) {
 ///       |> should.equal(Ok(24))
 ///     }
 /// </details>
-/// 
+///
 /// <div style="text-align: right;">
 ///     <a href="#">
 ///         <small>Back to top ↑</small>
@@ -1597,17 +1597,17 @@ pub fn factorial(n) -> Result(Int, String) {
 ///
 ///     pub fn example() {
 ///       // Invalid input gives an error
-///       // Error on: n = -1 < 0 
+///       // Error on: n = -1 < 0
 ///       math.permutation(-1, 1)
 ///       |> should.be_error()
-///     
+///
 ///       // Valid input returns a result
 ///       math.permutation(4, 0)
 ///       |> should.equal(Ok(1))
-///     
+///
 ///       math.permutation(4, 4)
 ///       |> should.equal(Ok(1))
-///     
+///
 ///       math.permutation(4, 2)
 ///       |> should.equal(Ok(12))
 ///     }
@@ -1689,4 +1689,40 @@ if javascript {
 ///
 pub fn tau() -> Float {
   2. *. pi()
+}
+
+/// Returns the absolute difference of the inputs as a positive Int.
+///
+/// ## Examples
+///
+/// ```gleam
+/// > absolute_int_difference(-10, 10)
+/// > 20
+/// ```
+///
+/// ```gleam
+/// > absolute_int_difference(0, -2)
+/// 2
+///
+pub fn absolute_int_difference(a: Int, b: Int) -> Int {
+  a - b
+  |> int.absolute_value()
+}
+
+/// Returns the absolute difference of the inputs as a positive Float.
+///
+/// ## Examples
+///
+/// ```gleam
+/// > absolute_float_difference(-10, 10)
+/// > 20
+/// ```
+///
+/// ```gleam
+/// > absolute_float_difference(0, -2)
+/// 2
+///
+pub fn absolute_float_difference(a: Float, b: Float) -> Float {
+  a -. b
+  |> float.absolute_value()
 }
